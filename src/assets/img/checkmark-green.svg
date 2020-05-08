@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 58 (101010) - https://sketch.com -->
+    <title>BF316328-96C5-453C-A073-2047FD0D4F65</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <circle id="circle-path" cx="8.75" cy="8.75" r="8.75"></circle>
+        <polygon id="checkmark-path" points="7.5 12.1875 4.375 9.0625 5.36875 8.125 7.5 10.21875 12.13125 5.625 13.125 6.6125"></polygon>
+    </defs>
+    <g id="Design-systems" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Form-elements" transform="translate(-630.000000, -911.000000)">
+            <g id="checkmark-green" transform="translate(630.000000, 911.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#circle-path"></use>
+                </mask>
+                <use id="icon-color" fill="#529C4E" xlink:href="#circle-path"></use>
+                <mask id="mask-4" fill="white">
+                    <use xlink:href="#checkmark-path"></use>
+                </mask>
+                <use id="icon-color" fill="#FFFFFF" xlink:href="#checkmark-path"></use>
+            </g>
+        </g>
+    </g>
+</svg>

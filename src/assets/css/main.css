@@ -1,0 +1,339 @@
+:root {
+  --purple: #1e135b;
+  --lightPurple: #271f6b;
+  --palePurple: #f8f8fa;
+  --gold: #f7ba00;
+}
+
+@font-face {
+  font-family: "GT Walsheim";
+  src: url("../fonts/GT-Walsheim-Pro-Regular.OTF");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "GT Walsheim";
+  src: url("../fonts/GT-Walsheim-Pro-Medium.OTF");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "GT Walsheim";
+  src: url("../fonts/GT-Walsheim-Pro-Light.OTF");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "GT Walsheim";
+  src: url("../fonts/GT-Walsheim-Pro-Ultra-Light.OTF");
+  font-weight: 200;
+}
+@font-face {
+  font-family: "GT Walsheim";
+  src: url("../fonts/GT-Walsheim-Pro-Thin.OTF");
+  font-weight: 100;
+}
+@font-face {
+  font-family: "GT Walsheim";
+  src: url("../fonts/GT-Walsheim-Pro-Bold.OTF");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "GT Walsheim";
+  src: url("../fonts/GT-Walsheim-Pro-Ultra-Bold.OTF");
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: "GT Walsheim";
+  src: url("../fonts/GT-Walsheim-Pro-Black.OTF");
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: "Karla";
+  src: url("../fonts/Karla-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Karla";
+  src: url("../fonts/Karla-Bold.ttf");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Karla";
+  src: url("../fonts/Karla-BoldItalic.ttf");
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Karla";
+  src: url("../fonts/Karla-Italic.ttf");
+  font-style: italic;
+}
+
+html,
+body {
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: "Karla", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif !important;
+  color: #000;
+  letter-spacing: -0.5px;
+}
+
+button,
+input {
+  font-family: "Karla", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "GT Walsheim", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  letter-spacing: 0;
+}
+
+h1,
+h2 {
+  font-weight: bold;
+}
+
+h3,
+h4 {
+  font-weight: 500;
+}
+
+h5,
+h6 {
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 48px;
+}
+
+h2 {
+  font-size: 40px;
+}
+
+@media only screen and (max-width: 1080px) {
+  h1 {
+    font-size: 40px;
+  }
+  h2 {
+    font-size: 30px;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: var(--purple);
+  font-weight: bold;
+}
+
+p {
+  line-height: 1.5;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+select {
+  box-shadow: none !important;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.form-input,
+.react-datepicker__input-container > input {
+  font-family: "GT Walsheim";
+  font-weight: 400;
+  background: #ffffff 0% 0% no-repeat padding-box !important;
+  border: 1px solid #dddddd !important;
+  border-radius: 7px !important;
+  padding: 16px !important;
+  width: 100% !important;
+  max-width: 400px !important;
+  font-size: 14px !important;
+  line-height: 0 !important;
+  height: auto !important;
+  margin: 0;
+}
+
+.react-datepicker {
+  font-family: "GT Walsheim" !important;
+  border: none !important;
+  box-shadow: 0px 10px 60px #1e0f5b1d;
+}
+
+.react-datepicker * {
+  font-family: "GT Walsheim" !important;
+}
+
+.react-datepicker__year-read-view--down-arrow,
+.react-datepicker__month-read-view--down-arrow,
+.react-datepicker__month-year-read-view--down-arrow {
+  margin-left: 50px !important;
+  margin-right: 10px !important;
+  top: 3px !important;
+}
+
+.react-datepicker__input-container > input::placeholder {
+  line-height: 1.2;
+  font-family: "GT Walsheim";
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.react-datepicker__tab-loop {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header {
+  color: var(--purple) !important;
+  margin-bottom: 20px;
+}
+
+.react-datepicker__day-names {
+  margin-top: 20px;
+}
+
+.react-datepicker__header {
+  padding-top: 15px !important;
+  background-color: #fff !important;
+  color: #000 !important;
+  border-bottom: 2px solid #f4f4f4 !important;
+}
+
+.react-datepicker__navigation--next {
+  border-left-color: #fff !important;
+}
+
+.react-datepicker__navigation--previous {
+  border-right-color: #fff !important;
+}
+
+.react-datepicker-popper[data-placement^="top"]
+  .react-datepicker__triangle::before {
+  border-top-color: #fff !important;
+  box-shadow: 0px 10px 60px #1e0f5b1d;
+}
+
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__month-text--keyboard-selected,
+.react-datepicker__quarter-text--keyboard-selected {
+  background-color: var(--purple) !important;
+}
+
+.form-input.full-width {
+  max-width: 100% !important;
+}
+
+.react-tel-input .flag-dropdown {
+  margin: 0 !important;
+  width: 100px;
+  background-color: #dddddd;
+}
+
+.react-tel-input .selected-flag .arrow {
+  left: 70px !important;
+}
+
+.react-tel-input .form-control {
+  padding-left: 120px !important;
+}
+
+.react-tel-input .form-control::placeholder {
+  line-height: 1.2;
+  font-family: "GT Walsheim";
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.react-tel-input .selected-flag {
+  margin: auto !important;
+  margin-left: 12px !important;
+  padding: 0 !important;
+}
+
+.react-tel-input .selected-flag .country-code {
+  color: #000;
+  font-family: "GT Walsheim";
+  position: absolute;
+  left: 27px;
+  top: 14px;
+}
+
+.react-tel-input .flag-dropdown:hover .selected-flag,
+.react-tel-input .flag-dropdown:focus .selected-flag {
+  background-color: initial !important;
+}
+
+.react-tel-input .country-list .country.highlight {
+  font-family: "Karla", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+.Toastify__toast-container.toast__container,
+.Toastify__toast.toast__toast,
+.Toastify__toast-body.toast__body {
+  padding: 0px;
+  margin: auto;
+  border-radius: 3px;
+}
+
+.Toastify__toast-container.toast__container {
+  width: 100%;
+  max-width: 400px;
+  top: 3em;
+  left: 0;
+  right: 0;
+}
+
+.Toastify__toast.toast__toast {
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px 0 rgba(69, 69, 69, 0.2);
+}
+
+.Toastify__toast.toast__toast {
+  min-height: auto;
+}
+
+@media only screen and (max-width: 512px) {
+  .Toastify__toast-container.toast__container {
+    width: 100%;
+    max-width: 400px;
+    top: 10px;
+    left: 0;
+    right: 0;
+  }
+}

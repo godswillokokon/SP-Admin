@@ -1,42 +1,49 @@
-/*!
-
-=========================================================
-* Paper Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom";
-import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
-import LoginPage from "./views/login";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import LoaderBox from "components/LoaderBox";
 import "bootstrap/dist/css/bootstrap.css";
 import "assets/scss/paper-dashboard.scss?v=1.1.0";
 import "assets/demo/demo.css";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./assets/css/reset.css";
+import "./assets/css/main.css";
+import { store, persistor } from "./store";
 
-import AdminLayout from "layouts/Admin.jsx";
+const ToastConfig = {
+	className: "toast__container",
+	toastClassName: "toast__toast",
+	bodyClassName: "toast__body",
+	hideProgressBar: true,
+	closeButton: false,
+	position: toast.POSITION.TOP_CENTER,
+};
 
-const hist = createBrowserHistory();
+// configure global toaster
+toast.configure(ToastConfig);
+const AdminLayout = lazy(() => import("layouts/Admin"));
+const LoginPage = lazy(() => import("views/auth"));
 
 ReactDOM.render(
-  <Router history={hist}>
-    <Switch>
-      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-      <Route path="/" component={LoginPage} />
-      <Redirect to="/" />
-    </Switch>
-  </Router>,
-  document.getElementById("root")
+	<Suspense fallback={<LoaderBox />}>
+		<Provider store={store}>
+			<PersistGate persistor={persistor}>
+				<BrowserRouter>
+					<Switch>
+						<Route
+							path="/admin"
+							render={(props) => <AdminLayout {...props} />}
+						/>
+						<Route path="/" component={LoginPage} />
+						<Redirect to="/" />
+					</Switch>
+				</BrowserRouter>
+			</PersistGate>
+		</Provider>
+	</Suspense>,
+	document.getElementById("root")
 );
