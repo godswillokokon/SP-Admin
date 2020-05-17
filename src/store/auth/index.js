@@ -25,7 +25,6 @@ export const authReducer = (state = initialState, action) => {
         error: null,
         data: {
           token: action.payload.data.access_token,
-          user: action.payload.data.user,
         },
       };
     }
