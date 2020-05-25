@@ -21,7 +21,7 @@ export default () => {
   useEffect(() => {
     dispatch(fetchUserProfile());
   }, [dispatch]);
-  console.log(user);
+
   return (
     <>
       <div className="content">

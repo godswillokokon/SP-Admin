@@ -32,6 +32,30 @@ export const userReducer = (state = initialState, action) => {
         error: parseError(action.payload),
       };
     }
+    // fetch for all user
+
+    // case userActionTypes.FETCH_ALL_USERS.pending: {
+    //   return {
+    //     ...state,
+    //     loading: true,
+    //     error: false,
+    //   };
+    // }
+    // case userActionTypes.FETCH_ALL_USERS.fulfilled: {
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     error: false,
+    //     data: { ...state.data, ...action.payload.data.users },
+    //   };
+    // }
+    // case userActionTypes.FETCH_ALL_USERS.rejected: {
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     error: parseError(action.payload),
+    //   };
+    // }
 
     default:
       return state;
