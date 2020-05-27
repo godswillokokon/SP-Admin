@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllUsers } from "../../store/allUsers/actions";
+import { fetchAllUsers, deleteUser } from "../../store/allUsers/actions";
+import Loader from "../../components/Loader";
+import { CenterLoader } from "./style";
 import {
   Button,
   Card,
@@ -8,22 +10,30 @@ import {
   CardBody,
   CardTitle,
   Table,
-  Row,
   ButtonGroup,
   Pagination,
   PaginationItem,
   PaginationLink,
 } from "reactstrap";
+import { toastSuccess } from "utils/Toast";
 
 export default () => {
   const users = useSelector((state) => state.allUsers.data);
   const loading = useSelector((state) => state.allUsers.loading);
+
   const actionLoading = useSelector((state) => state.allUsers.actionLoading);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchAllUsers());
-  }, [dispatch]);
+  }, [dispatch, users]);
 
+  const handleDeleteUser = (id) => {
+    dispatch(deleteUser(id)).then(() => {
+      dispatch(fetchAllUsers());
+      console.log(users);
+      toastSuccess("User Activated Successfully");
+    });
+  };
   return (
     <>
       <div className="content">
@@ -53,14 +63,20 @@ export default () => {
                         <td>{value.name}</td>
                         <td>{value.email}</td>
                         <td>{value.phone}</td>
-                        <td>{value.verified == 0 ? "No" : "Yes"}</td>
+                        <td>{value.verified === 0 ? "No" : "Yes"}</td>
                         <td>{cdate}</td>
                         <td className="">
                           <ButtonGroup size="sm">
                             <Button size="sm" color="primary">
-                              Update
+                              View
                             </Button>
-                            <Button size="sm" color="danger">
+                            <Button
+                              size="sm"
+                              color="danger"
+                              onClick={() => {
+                                handleDeleteUser(value.id);
+                              }}
+                            >
                               Delete
                             </Button>
                           </ButtonGroup>
@@ -69,7 +85,9 @@ export default () => {
                     );
                   })
                 ) : (
-                  <div>skdi</div>
+                  <CenterLoader>
+                    <Loader color="#FCAD0A" size={30} />
+                  </CenterLoader>
                 )}
               </tbody>
             </Table>
@@ -102,38 +120,3 @@ export default () => {
     </>
   );
 };
-
-const data = [
-  {
-    email: "godswillokokoneffiong@testing.com",
-    name: "Godswill okokon effion",
-  },
-  {
-    email: "godswillokokoneffiong@testing.com",
-    name: "Godswill okokon effion",
-  },
-  {
-    email: "godswillokokoneffiong@testing.com",
-    name: "Godswill okokon effion",
-  },
-  {
-    email: "godswillokokoneffiong@testing.com",
-    name: "Godswill okokon effion",
-  },
-  {
-    email: "godswillokokoneffiong@testing.com",
-    name: "Godswill okokon effion",
-  },
-  {
-    email: "godswillokokoneffiong@testing.com",
-    name: "Godswill okokon effion",
-  },
-  {
-    email: "godswillokokoneffiong@testing.com",
-    name: "Godswill okokon effion",
-  },
-  {
-    email: "godswillokokoneffiong@testing.com",
-    name: "Godswill okokon effion",
-  },
-];

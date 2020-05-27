@@ -22,10 +22,34 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: false,
-        data: { ...state.data, ...action.payload.data.users },
+        data: { ...action.payload.data.users },
       };
     }
     case userActionTypes.FETCH_ALL_USER.rejected: {
+      return {
+        ...state,
+        loading: false,
+        error: parseError(action.payload),
+      };
+    }
+
+    // delele user
+
+    case userActionTypes.DELETE_USER.pending: {
+      return {
+        ...state,
+        loading: true,
+        error: false,
+      };
+    }
+    case userActionTypes.DELETE_USER.fulfilled: {
+      return {
+        ...state,
+        loading: false,
+        error: false,
+      };
+    }
+    case userActionTypes.DELETE_USER.rejected: {
       return {
         ...state,
         loading: false,
