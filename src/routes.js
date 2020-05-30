@@ -1,6 +1,7 @@
 import Dashboard from "views/dashboard";
 import Property from "views/property";
-import UserPage from "views/profile";
+import ProfilePage from "views/profile";
+import UserPage from "views/users";
 // import UpgradeToPro from "views/Upgrade.jsx";
 
 var routes = [
@@ -19,10 +20,17 @@ var routes = [
     layout: "/admin",
   },
   {
+    path: "/user",
+    name: "All User",
+    icon: "nc-icon nc-user-run",
+    component: UserPage,
+    layout: "/admin",
+  },
+  {
     path: "/user-page",
     name: "User Profile",
     icon: "nc-icon nc-single-02",
-    component: UserPage,
+    component: ProfilePage,
     layout: "/admin",
   },
   // {
