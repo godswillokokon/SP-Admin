@@ -26,7 +26,6 @@ export default function () {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
     dispatch(login(values)).then(() => {
       history.push({
         pathname: "/admin/dashboard",
@@ -64,6 +63,7 @@ export default function () {
             id="email"
             name="email"
             label="email"
+            fullWidth
             value={form.values.email}
             onChange={form.handleChange}
             errorText={form.errors.email}

@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
-import CaretDownIcon from "assets/img/caret-down.svg";
 
-const InputBlock = styled.input`
+const TextAreaBlock = styled.textarea`
   font-family: "GT Walsheim";
   font-weight: 400;
   background: #ffffff;
@@ -12,9 +11,6 @@ const InputBlock = styled.input`
   width: 100%;
   max-width: 400px;
   font-size: 14px;
-  &[type="password"] {
-    color: #222 !important;
-  }
   &::placeholder {
     color: black;
     font-weight: 200;
@@ -30,6 +26,11 @@ const InputBlock = styled.input`
     css`
       max-width: 100%;
     `}
+    ${(props) =>
+      props.noResize &&
+      css`
+        resize: none;
+      `}
   ${(props) =>
     props.error &&
     css`
@@ -52,7 +53,6 @@ const InputBlock = styled.input`
         border-left: none;
         border-top: none;
         border-right: none;
-        height: 100px;
         &:focus {
           border-left: none;
           border-top: none;
@@ -60,19 +60,9 @@ const InputBlock = styled.input`
           border-bottom: 2px solid #0daba8;
         }
       `}
-  ${(props) =>
-    props.big &&
-    css`
-      height: 60px;
-    `}
-  ${(props) =>
-    props.round &&
-    css`
-      border-radius: 30px;
-    `}
 `;
 
-InputBlock.Container = styled.div`
+TextAreaBlock.Container = styled.div`
   display: block;
   position: relative;
   box-sizing: border-box;
@@ -97,7 +87,7 @@ InputBlock.Container = styled.div`
     `}
 `;
 
-InputBlock.ErrorText = styled.span`
+TextAreaBlock.ErrorText = styled.span`
   display: block;
   font-size: 15px;
   color: firebrick;
@@ -106,7 +96,7 @@ InputBlock.ErrorText = styled.span`
   margin-top: 10px;
 `;
 
-InputBlock.Label = styled.label`
+TextAreaBlock.Label = styled.label`
   font-family: "GT Walsheim";
   display: block;
   color: #000;
@@ -120,56 +110,4 @@ InputBlock.Label = styled.label`
     `}
 `;
 
-InputBlock.Select = styled.select`
-  font-family: "GT Walsheim";
-  font-weight: 400;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  outline: none;
-  background: url(${CaretDownIcon}) no-repeat #fff;
-  background-position: 95% 50%;
-  background-size: 10px, 10px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  padding: 16px;
-  width: 100%;
-  max-width: 400px;
-  font-size: 14px;
-  height: 60px;
-  &::placeholder {
-    color: #B9B9B9;
-    font-weight: 200;
-  }
-  ${(props) =>
-    props.fullWidth &&
-    css`
-      max-width: 100%;
-    `}
-      ${(props) =>
-        props.round &&
-        css`
-          border-radius: 30px;
-        `}
-  ${(props) =>
-    props.error &&
-    css`
-      background-color: #ffe3e3;
-      border: 2px solid #e12d39;
-      color: #e12d39;
-    `}
-  ${(props) =>
-    props.borderless &&
-    css`
-      background-color: #f2f2f2;
-      border: none;
-    `}
-  ${(props) =>
-    props.big &&
-    css`
-      height: 60px;
-    `}
-
-`;
-
-export default InputBlock;
+export default TextAreaBlock;

@@ -255,6 +255,9 @@ select {
 .form-input.full-width {
   max-width: 100% !important;
 }
+form {
+  width: inherit;
+}
 
 .react-tel-input .flag-dropdown {
   margin: 0 !important;

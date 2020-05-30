@@ -1,0 +1,24 @@
+[
+	{
+		"name": "Resedential",
+		"options": [
+			{ "name": "Bungalow" },
+			{ "name": "Duplex" },
+			{ "name": "Terrace" },
+			{ "name": "Penthouse" }
+		]
+	},
+	{
+		"name": "Commercial",
+		"options": [
+			{ "name": "Warehouse" },
+			{ "name": "Tank Form" },
+			{ "name": "Filling Station" },
+			{ "name": "Multi Family Rental Apartment" },
+			{ "name": "Hotels" },
+			{ "name": "School" },
+			{ "name": "Factories" },
+			{ "name": "General" }
+		]
+	}
+]

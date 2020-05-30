@@ -20,12 +20,10 @@ const Login = styled.div`
   }
 `;
 Login.Form = styled.div`
-  width: 50%;
   display: flex;
   flex-direction: column;
-  margin-left: 10rem;
   color: #a0a0a0;
-
+  margin: auto;
   h2 {
     font-size: 20px;
     margin: 0;

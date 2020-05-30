@@ -10,11 +10,7 @@ const Sidebar = (props) => {
     return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   };
   return (
-    <div
-      className="sidebar"
-      data-color={props.bgColor}
-      data-active-color={props.activeColor}
-    >
+    <div className="sidebar">
       <div className="logo">
         <a
           href="https://www.creative-tim.com"
@@ -30,6 +26,7 @@ const Sidebar = (props) => {
         >
           SPREAD PROPERTIES
         </a>
+        <div></div>
       </div>
       <div className="sidebar-wrapper" ref={sidebar}>
         <Nav>

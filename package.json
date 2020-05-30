@@ -1,8 +1,8 @@
 {
-  "name": "paper-dashboard-react",
+  "name": "spread-properties-admin",
   "version": "1.1.0",
   "private": true,
-  "homepage": "https://demos.creative-tim.com/paper-dashboard-react/#/dashboard",
+  "homepage": "",
   "dependencies": {
     "axios": "0.19.2",
     "bootstrap": "4.3.1",
@@ -15,8 +15,10 @@
     "react": "16.8.6",
     "react-chartjs-2": "2.7.6",
     "react-dom": "16.8.6",
+    "react-dropzone": "11.0.1",
     "react-google-maps": "9.4.5",
     "react-loading": "2.0.3",
+    "react-loading-skeleton": "2.0.1",
     "react-notification-alert": "0.0.12",
     "react-redux": "7.2.0",
     "react-router": "5.0.0",

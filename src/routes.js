@@ -13,7 +13,7 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/property",
+    path: "/properties",
     name: "Property",
     icon: "nc-icon nc-bell-55",
     component: Property,
@@ -27,7 +27,7 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/user-page",
+    path: "/profile",
     name: "User Profile",
     icon: "nc-icon nc-single-02",
     component: ProfilePage,
