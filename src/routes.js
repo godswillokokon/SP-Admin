@@ -12,7 +12,7 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/property",
+    path: "/properties",
     name: "Property",
     icon: "nc-icon nc-bell-55",
     component: Property,

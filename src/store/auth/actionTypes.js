@@ -1,4 +1,4 @@
-import actionTypes from "../../utils/actionTypes";
+import actionTypes from "utils/actionTypes";
 
 export default {
 	LOGIN: actionTypes("LOGIN"),

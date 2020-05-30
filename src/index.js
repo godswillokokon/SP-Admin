@@ -4,13 +4,11 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import LoaderBox from "components/LoaderBox";
 import "bootstrap/dist/css/bootstrap.css";
 import "assets/scss/paper-dashboard.scss?v=1.1.0";
-import "assets/demo/demo.css";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./assets/css/reset.css";
 import "./assets/css/main.css";
 import { store, persistor } from "./store";
 
