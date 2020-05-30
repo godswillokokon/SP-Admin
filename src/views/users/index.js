@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllUsers, deleteUser } from "../../store/allUsers/actions";
-import Loader from "../../components/Loader";
+import { fetchAllUsers, deleteUser } from "store/allUsers/actions";
+import Loader from "components/Loader";
 import { CenterLoader } from "./style";
 import {
   Button,
@@ -19,9 +19,8 @@ import { toastSuccess } from "utils/Toast";
 
 export default () => {
   const users = useSelector((state) => state.allUsers.data);
-  const loading = useSelector((state) => state.allUsers.loading);
-
-  const actionLoading = useSelector((state) => state.allUsers.actionLoading);
+  // const loading = useSelector((state) => state.allUsers.loading);
+  // const actionLoading = useSelector((state) => state.allUsers.actionLoading);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchAllUsers());
@@ -57,13 +56,13 @@ export default () => {
               <tbody>
                 {users !== null ? (
                   Object.entries(users).map(([key, value]) => {
-                    const cdate = new Date(value.created_at).toDateString();
+                    const cdate = new Date(value?.created_at).toDateString();
                     return (
                       <tr key={key}>
-                        <td>{value.name}</td>
-                        <td>{value.email}</td>
-                        <td>{value.phone}</td>
-                        <td>{value.verified === 0 ? "No" : "Yes"}</td>
+                        <td>{value?.name}</td>
+                        <td>{value?.email}</td>
+                        <td>{value?.phone}</td>
+                        <td>{value?.verified === 0 ? "No" : "Yes"}</td>
                         <td>{cdate}</td>
                         <td className="">
                           <ButtonGroup size="sm">
@@ -74,7 +73,7 @@ export default () => {
                               size="sm"
                               color="danger"
                               onClick={() => {
-                                handleDeleteUser(value.id);
+                                handleDeleteUser(value?.id);
                               }}
                             >
                               Delete

@@ -39,9 +39,9 @@ export default () => {
                       className="avatar border-gray"
                       src={require("assets/img/mike.jpg")}
                     />
-                    <h5 className="title">{user.name}</h5>
+                    <h5 className="title">{user?.name}</h5>
                   </a>
-                  <p className="description">{user.email}</p>
+                  <p className="description">{user?.email}</p>
                 </div>
               </CardBody>
             </Card>
@@ -58,7 +58,7 @@ export default () => {
                       <FormGroup>
                         <label>Name</label>
                         <Input
-                          defaultValue={user.name}
+                          defaultValue={user?.name}
                           placeholder="Company"
                           type="text"
                         />
@@ -68,7 +68,7 @@ export default () => {
                       <FormGroup>
                         <label>Email</label>
                         <Input
-                          defaultValue={user.email}
+                          defaultValue={user?.email}
                           placeholder="Last Name"
                           type="email"
                           disabled
@@ -81,7 +81,7 @@ export default () => {
                       <FormGroup>
                         <label>Address</label>
                         <Input
-                          defaultValue={user.address}
+                          defaultValue={user?.address}
                           placeholder="Home Address"
                           type="text"
                           disabled
@@ -94,7 +94,7 @@ export default () => {
                       <FormGroup>
                         <label>Phone Number</label>
                         <Input
-                          defaultValue={user.phone}
+                          defaultValue={user?.phone}
                           placeholder="City"
                           type="text"
                         />
@@ -104,7 +104,7 @@ export default () => {
                       <FormGroup>
                         <label>Role</label>
                         <Input
-                          defaultValue={user.privileges}
+                          defaultValue={user?.privileges}
                           placeholder="Country"
                           type="text"
                           disabled
