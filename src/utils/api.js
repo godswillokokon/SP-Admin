@@ -20,7 +20,7 @@ request.interceptors.request.use((config) => {
     headers: {
       ...config.headers,
       Authorization: `Bearer ${data.token}`,
-      "content-type": "multipart/form-data",
+      "content-type": "application/json",
     },
   };
   return newConfig;
