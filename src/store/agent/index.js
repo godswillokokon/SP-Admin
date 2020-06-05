@@ -31,6 +31,30 @@ export const agentReducer = (state = initialState, action) => {
         error: parseError(action.payload),
       };
     }
+    // fetching of all agents
+
+    case agentActionTypes.FETCH_AGENT.pending: {
+      return {
+        ...state,
+        actionLoading: true,
+        error: false,
+      };
+    }
+    case agentActionTypes.FETCH_AGENT.fulfilled: {
+      return {
+        ...state,
+        actionLoading: false,
+        error: false,
+        data: { ...action.payload.data.agents },
+      };
+    }
+    case agentActionTypes.FETCH_AGENT.rejected: {
+      return {
+        ...state,
+        actionLoading: false,
+        error: parseError(action.payload),
+      };
+    }
     default:
       return state;
   }

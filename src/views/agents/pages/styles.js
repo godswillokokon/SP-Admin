@@ -30,3 +30,7 @@ export const AddAgentContainer = styled.div`
     margin-left: 0;
   }
 `;
+export const ButtonGroupContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
