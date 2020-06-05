@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllUsers, deleteUser } from "store/allUsers/actions";
-import Loader from "components/Loader";
-import { CenterLoader } from "./style";
+
 import {
   Button,
   Card,
@@ -84,9 +83,7 @@ export default () => {
                     );
                   })
                 ) : (
-                  <CenterLoader>
-                    <Loader color="#FCAD0A" size={30} />
-                  </CenterLoader>
+                  <div>No Data</div>
                 )}
               </tbody>
             </Table>

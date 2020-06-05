@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Content from "../../styles/Content";
 import Button from "components/Button";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Table,
-  ButtonGroup,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-} from "reactstrap";
+import { Card, CardBody, Table } from "reactstrap";
 import { useRouteMatch } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllAgent } from "store/agent/actions";
+import { ButtonGroupContainer } from "./styles";
 
 export default () => {
   const match = useRouteMatch();
+  const dispatch = useDispatch();
+  const agents = useSelector((state) => state.agent.data);
+
+  useEffect(() => {
+    dispatch(fetchAllAgent());
+  }, [dispatch]);
+
+  console.log(agents);
   return (
     <Content>
       <Content.TitleHeader>
@@ -39,11 +40,34 @@ export default () => {
                 <th>Name</th>
                 <th>Email Address</th>
                 <th>Phone Number</th>
-                <th>Verified</th>
-                <th>Date of Registration</th>
+                <th>Date of Creation</th>
                 <th className="">Actions</th>
               </tr>
             </thead>
+            <tbody>
+              {agents !== null ? (
+                Object.entries(agents).map(([key, value]) => {
+                  const cdate = new Date(value?.created_at).toDateString();
+                  return (
+                    <tr key={key}>
+                      <td>{value?.name}</td>
+                      <td>{value?.email}</td>
+                      <td>{value?.phone}</td>
+                      <td>{cdate}</td>
+                      <td>
+                        <ButtonGroupContainer>
+                          <Button small danger>
+                            Delete
+                          </Button>
+                        </ButtonGroupContainer>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <div>No data</div>
+              )}
+            </tbody>
           </Table>
         </CardBody>
       </Card>

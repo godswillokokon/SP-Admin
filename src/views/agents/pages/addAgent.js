@@ -35,7 +35,7 @@ export default () => {
     if (!values.phone) {
       errors.phone = "Phone Number is required";
     }
-    if (values.password != values.password_confirmation) {
+    if (values.password !== values.password_confirmation) {
       errors.password_confirmation = "Password mismatch";
     }
 
@@ -51,9 +51,7 @@ export default () => {
       phone: "",
     },
     onSubmit: (values) => {
-      console.log(values);
       dispatch(createAgent(values)).then((res) => {
-        console.log("ssk");
         if (res) {
           toastSuccess(`Agent ${values.name} was created successfully`);
           history.push({
