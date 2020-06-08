@@ -1,20 +1,20 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllUsers, deleteUser } from "store/allUsers/actions";
+import Button from "components/Button";
 
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
   CardTitle,
   Table,
-  ButtonGroup,
   Pagination,
   PaginationItem,
   PaginationLink,
 } from "reactstrap";
 import { toastSuccess } from "utils/Toast";
+import { ButtonGroupContainer } from "views/agents/pages/styles";
 
 export default () => {
   const users = useSelector((state) => state.allUsers.data);
@@ -64,20 +64,20 @@ export default () => {
                         <td>{value?.verified === 0 ? "No" : "Yes"}</td>
                         <td>{cdate}</td>
                         <td className="">
-                          <ButtonGroup size="sm">
-                            <Button size="sm" color="primary">
+                          <ButtonGroupContainer>
+                            <Button small primary>
                               View
                             </Button>
                             <Button
-                              size="sm"
-                              color="danger"
+                              small
+                              danger
                               onClick={() => {
                                 handleDeleteUser(value?.id);
                               }}
                             >
                               Delete
                             </Button>
-                          </ButtonGroup>
+                          </ButtonGroupContainer>
                         </td>
                       </tr>
                     );
