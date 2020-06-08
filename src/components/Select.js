@@ -42,7 +42,7 @@ const Select = ({
         {optgroup.map((option, index) => (
           <optgroup key={index} label={option.name}>
             {option?.options.map((item, index) => (
-              <option key={index} value={item.name.toLowerCase()}>
+              <option key={index} value={item.name}>
                 {item.name}
               </option>
             ))}

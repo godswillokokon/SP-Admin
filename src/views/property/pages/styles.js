@@ -85,7 +85,8 @@ export const PropertyCard = styled.div`
 				border: 1px solid #dee2e6;
 				border-radius: 0.25rem;
 				max-width: 100%;
-				height: auto;
+				width: 294px;
+				height: 187px;
 			}
 			.price {
 				font-size: 1em;
