@@ -2,7 +2,7 @@ import React from "react";
 import PropertiesRoutes from "./routes";
 
 const Property = () => {
-	return <PropertiesRoutes />;
+  return <PropertiesRoutes />;
 };
 
 export default Property;

@@ -2,6 +2,7 @@ import Dashboard from "views/dashboard";
 import Property from "views/property";
 import ProfilePage from "views/profile";
 import UserPage from "views/users";
+import AgentPage from "views/agents";
 // import UpgradeToPro from "views/Upgrade.jsx";
 
 var routes = [
@@ -17,6 +18,13 @@ var routes = [
     name: "Property",
     icon: "nc-icon nc-bell-55",
     component: Property,
+    layout: "/admin",
+  },
+  {
+    path: "/agent",
+    name: "Agents",
+    icon: "nc-icon nc-user-run",
+    component: AgentPage,
     layout: "/admin",
   },
   {

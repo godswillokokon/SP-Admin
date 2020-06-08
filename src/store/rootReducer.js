@@ -4,6 +4,7 @@ import propertyReducer from "./property";
 import userReducer from "./users";
 import allUserReducer from "./allUsers";
 import categoryReducer from "./categories";
+import agentReducer from "./agent";
 
 export default combineReducers({
 	auth: authReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
 	user: userReducer,
 	allUsers: allUserReducer,
 	categories: categoryReducer,
+	agent: agentReducer,
 });
