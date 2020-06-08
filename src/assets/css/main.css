@@ -316,9 +316,9 @@ form {
 
 .Toastify__toast-container.toast__container {
   width: 100%;
+  margin: 0 auto;
   max-width: 400px;
   top: 3em;
-  left: 0;
   right: 0;
 }
 
