@@ -4,9 +4,18 @@ import Button from "components/Button";
 import { PropertiesContainer } from "./styles";
 import Property from "./components/property";
 import { useRouteMatch } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getHouses } from "store/property/actions";
 
 const Properties = () => {
+	const dispatch = useDispatch();
+	const houses = useSelector((state) => state.properties.data);
 	const match = useRouteMatch();
+
+	React.useEffect(() => {
+		dispatch(getHouses());
+	}, [dispatch]);
+
 	return (
 		<Content>
 			<Content.TitleHeader>
@@ -23,12 +32,11 @@ const Properties = () => {
 				</Content.HeaderButton>
 			</Content.TitleHeader>
 			<PropertiesContainer>
-				<Property />
-				<Property />
-				<Property />
-				<Property />
-				<Property />
-				<Property />
+				{houses !== null
+					? houses.houses.map((value, key) => (
+							<Property key={key} value={value} />
+					  ))
+					: ""}
 			</PropertiesContainer>
 		</Content>
 	);

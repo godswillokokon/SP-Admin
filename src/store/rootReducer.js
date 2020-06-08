@@ -3,10 +3,12 @@ import authReducer from "./auth";
 import propertyReducer from "./property";
 import userReducer from "./users";
 import allUserReducer from "./allUsers";
+import categoryReducer from "./categories";
 
 export default combineReducers({
 	auth: authReducer,
 	properties: propertyReducer,
 	user: userReducer,
 	allUsers: allUserReducer,
+	categories: categoryReducer,
 });

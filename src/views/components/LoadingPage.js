@@ -5,7 +5,7 @@ import FadeIn from "styles/FadeIn";
 
 const Container = styled.div`
   span {
-    margin-bottom: 30px;
+    margin-top: 100px;
   }
 `;
 

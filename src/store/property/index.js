@@ -31,6 +31,28 @@ export const propertyReducer = (state = initialState, action) => {
         error: parseError(action.payload),
       };
     }
+    case propertyActionTypes.GET_HOUSE.pending: {
+      return {
+        ...state,
+        loading: true,
+        error: false,
+      };
+    }
+    case propertyActionTypes.GET_HOUSE.fulfilled: {
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        data: { ...action.payload.data },
+      };
+    }
+    case propertyActionTypes.GET_HOUSE.rejected: {
+      return {
+        ...state,
+        loading: false,
+        error: parseError(action.payload),
+      };
+    }
     default:
       return state;
   }

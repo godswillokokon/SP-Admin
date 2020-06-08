@@ -9,12 +9,12 @@ import CheckBox from "components/CheckBox";
 import ImagesUploader from "components/ImageUploader";
 import Button from "components/Button";
 import States from "data/states.json";
-import HouseCategories from "data/houseCategories.json";
 import LandCategories from "data/landCategories.json";
 import VideoPicker from "components/VideoPicker";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { createHouse } from "store/property/actions";
+import { getHouseCategories } from "store/categories/actions";
 import { toastSuccess } from "utils/Toast";
 
 const Properties = () => {
@@ -23,9 +23,36 @@ const Properties = () => {
 	const [category, setCategory] = useState();
 	const [subCategory, setSubCategory] = useState();
 	const [ammenities, setAmmenities] = useState([]);
+	const [houseCategories, setHouseCategories] = useState([]);
 	const [propertyType, setPropertyType] = useState();
 	const { actionLoading } = useSelector((state) => state.properties);
+	const categories = useSelector((state) => state.categories.data);
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		let newArr = [];
+		categories &&
+			categories.house_categories.map((item, index) => {
+				const newObj = {
+					name: item.house_category,
+					options: item.sub_category.map((item, index) => {
+						const newInnerObj = {
+							id: item.id,
+							name: item.subcategory_name,
+						};
+						return newInnerObj;
+					}),
+				};
+				newArr.push(newObj);
+				return newObj;
+			});
+		setHouseCategories(newArr);
+	}, [categories]);
+
+	useEffect(() => {
+		dispatch(getHouseCategories());
+	}, [dispatch]);
+
 	useEffect(() => {
 		if (state) {
 			const LGA = States.filter((eachState) => {
@@ -127,7 +154,7 @@ const Properties = () => {
 				</div>
 			</Content.TitleHeader>
 			<AddPropertyContainer>
-				<form onSubmit={form.handleSubmit} encType="multipart/form-data">
+				<form onSubmit={form.handleSubmit}>
 					<div className="basic-info">
 						<Radio
 							label="House Property"
@@ -158,7 +185,7 @@ const Properties = () => {
 							round
 							fullWidth
 							label="HOUSE CATEGORIES"
-							optgroup={HouseCategories}
+							optgroup={houseCategories}
 							onChange={(e) => {
 								form.setFieldValue("house_subcategory", e.target.value);
 								setSubCategory(e.target.value);
@@ -460,8 +487,9 @@ const Properties = () => {
 						}}
 					/>
 					<ImagesUploader
-						onChange={(value) => {
-							form.setFieldValue("image_file", value);
+						onChange={(values) => {
+							console.log(values);
+							form.setFieldValue("image_file", values);
 						}}
 					/>
 					<Button type="submit" loading={actionLoading}>
