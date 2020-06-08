@@ -6,3 +6,7 @@ export const CenterLoader = styled.div`
   justify-content: center;
   align-items: center;
 `;
+export const ButtonGroupContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
