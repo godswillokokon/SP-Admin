@@ -28,7 +28,7 @@ export default () => {
         </div>
         <Content.HeaderButton>
           <Button url={`${match.path}/new`} round>
-            Add Property
+            Add Agent
           </Button>
         </Content.HeaderButton>
       </Content.TitleHeader>
