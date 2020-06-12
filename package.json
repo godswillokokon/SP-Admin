@@ -17,6 +17,7 @@
     "react-chartjs-2": "2.7.6",
     "react-dom": "16.8.6",
     "react-dropzone": "11.0.1",
+    "react-google-location": "1.2.2",
     "react-google-maps": "9.4.5",
     "react-loading": "2.0.3",
     "react-loading-skeleton": "2.0.1",

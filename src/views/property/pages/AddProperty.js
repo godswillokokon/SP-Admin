@@ -16,11 +16,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { createHouse } from "store/property/actions";
 import { getHouseCategories } from "store/categories/actions";
 import { toastSuccess } from "utils/Toast";
+import { GoogleComponent } from "react-google-location";
 
 const Properties = () => {
 	const [lga, setLga] = useState();
 	const [state, setState] = useState();
 	const [category, setCategory] = useState();
+	const [place, setPlace] = useState();
 	const [subCategory, setSubCategory] = useState();
 	const [ammenities, setAmmenities] = useState([]);
 	const [houseCategories, setHouseCategories] = useState([]);
@@ -28,6 +30,7 @@ const Properties = () => {
 	const { actionLoading } = useSelector((state) => state.properties);
 	const categories = useSelector((state) => state.categories.data);
 	const dispatch = useDispatch();
+	const API_KEY = "AIzaSyAIG1DU3FMktCyOZkjuVZvz8CrS8f-6cB8";
 
 	useEffect(() => {
 		let newArr = [];
@@ -77,6 +80,8 @@ const Properties = () => {
 			}
 		}
 	}, [subCategory]);
+
+	console.log(place);
 
 	const validate = (values) => {
 		const errors = {};
@@ -427,6 +432,19 @@ const Properties = () => {
 							errorText={form.touched.lga ? form.errors.lga : undefined}
 							onFocus={onInputFocus("lga")}
 							disabled={!lga}
+						/>
+					</div>
+					<div className="basic-info">
+						<GoogleComponent
+							apiKey={API_KEY}
+							language={"en"}
+							country={"country:in|country:ng"}
+							coordinates={true}
+							locationBoxStyle={"custom-style"}
+							locationListStyle={"custom-style-list"}
+							onChange={(e) => {
+								setPlace(e);
+							}}
 						/>
 					</div>
 					<div className="basic-info">
