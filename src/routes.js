@@ -3,6 +3,7 @@ import Property from "views/property";
 import ProfilePage from "views/profile";
 import UserPage from "views/users";
 import AgentPage from "views/agents";
+import CareerPage from "views/careers";
 // import UpgradeToPro from "views/Upgrade.jsx";
 
 var routes = [
@@ -35,12 +36,20 @@ var routes = [
     layout: "/admin",
   },
   {
+    path: "/career",
+    name: "Career",
+    icon: "nc-icon nc-user-run",
+    component: CareerPage,
+    layout: "/admin",
+  },
+  {
     path: "/profile",
     name: "User Profile",
     icon: "nc-icon nc-single-02",
     component: ProfilePage,
     layout: "/admin",
   },
+
   // {
   //   pro: true,
   //   path: "/upgrade",

@@ -32,123 +32,123 @@ const Properties = () => {
 	const dispatch = useDispatch();
 	const API_KEY = "AIzaSyAIG1DU3FMktCyOZkjuVZvz8CrS8f-6cB8";
 
-	useEffect(() => {
-		let newArr = [];
-		categories &&
-			categories.house_categories.map((item, index) => {
-				const newObj = {
-					name: item.house_category,
-					options: item.sub_category.map((item, index) => {
-						const newInnerObj = {
-							id: item.id,
-							name: item.subcategory_name,
-						};
-						return newInnerObj;
-					}),
-				};
-				newArr.push(newObj);
-				return newObj;
-			});
-		setHouseCategories(newArr);
-	}, [categories]);
+  useEffect(() => {
+    let newArr = [];
+    categories &&
+      categories.house_categories.map((item, index) => {
+        const newObj = {
+          name: item.house_category,
+          options: item.sub_category.map((item, index) => {
+            const newInnerObj = {
+              id: item.id,
+              name: item.subcategory_name,
+            };
+            return newInnerObj;
+          }),
+        };
+        newArr.push(newObj);
+        return newObj;
+      });
+    setHouseCategories(newArr);
+  }, [categories]);
 
-	useEffect(() => {
-		dispatch(getHouseCategories());
-	}, [dispatch]);
+  useEffect(() => {
+    dispatch(getHouseCategories());
+  }, [dispatch]);
 
-	useEffect(() => {
-		if (state) {
-			const LGA = States.filter((eachState) => {
-				if (eachState.name === state) {
-					return true;
-				} else {
-					return false;
-				}
-			});
-			setLga(LGA[0].locals);
-		}
-	}, [state]);
+  useEffect(() => {
+    if (state) {
+      const LGA = States.filter((eachState) => {
+        if (eachState.name === state) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      setLga(LGA[0].locals);
+    }
+  }, [state]);
 
-	useEffect(() => {
-		const select = document.getElementsByName("house_subcategory")[0];
-		const optgroups = select.getElementsByTagName("option");
-		for (var i = 0; i < optgroups.length; i++) {
-			if (optgroups[i]?.getAttribute("value")?.toString() === subCategory) {
-				var maincategory = optgroups[i].parentElement.getAttribute("label");
-				setCategory(maincategory?.toLowerCase());
-				return;
-			}
-		}
-	}, [subCategory]);
+  useEffect(() => {
+    const select = document.getElementsByName("house_subcategory")[0];
+    const optgroups = select.getElementsByTagName("option");
+    for (var i = 0; i < optgroups.length; i++) {
+      if (optgroups[i]?.getAttribute("value")?.toString() === subCategory) {
+        var maincategory = optgroups[i].parentElement.getAttribute("label");
+        setCategory(maincategory?.toLowerCase());
+        return;
+      }
+    }
+  }, [subCategory]);
 
 	console.log(place);
 
 	const validate = (values) => {
 		const errors = {};
 
-		if (!values.name) {
-			errors.name = "Property name is required";
-		}
-		if (!values.location) {
-			errors.location = "Property location is required";
-		}
-		if (!values.price) {
-			errors.minVolume = "Property price is required";
-		}
-		if (!values.state) {
-			errors.maxVolume = "Property state is required";
-		}
-		if (!values.transaction) {
-			errors.maxVolume = "Property transaction is required";
-		}
-		if (!values.status) {
-			errors.status = "Property Status is required";
-		}
-		if (!values.overview) {
-			errors.overview = "Property overview is required";
-		}
-		return errors;
-	};
+    if (!values.name) {
+      errors.name = "Property name is required";
+    }
+    if (!values.location) {
+      errors.location = "Property location is required";
+    }
+    if (!values.price) {
+      errors.minVolume = "Property price is required";
+    }
+    if (!values.state) {
+      errors.maxVolume = "Property state is required";
+    }
+    if (!values.transaction) {
+      errors.maxVolume = "Property transaction is required";
+    }
+    if (!values.status) {
+      errors.status = "Property Status is required";
+    }
+    if (!values.overview) {
+      errors.overview = "Property overview is required";
+    }
+    return errors;
+  };
 
-	const form = useFormik({
-		initialValues: {
-			name: "",
-			house_category: "",
-			house_subcategory: "",
-			location: "",
-			lga: "",
-			state: "",
-			is_reserved: "",
-			payment_type: "",
-			price: "",
-			status: "",
-			year_built: "",
-			image_file: "",
-			overview: "",
-			coordinates: "",
-			amenities: "",
-			transaction: "",
-			video_url: "",
-			car_park: "",
-			bathrooms: "",
-			rooms: "",
-		},
-		onSubmit: (values) => {
-			values.amenities = ammenities;
-			values.house_category = category;
-			values.coordinates = "17N 45W 8E 0S";
-			console.log(values);
-			dispatch(createHouse(values)).then((res) => {
-				if (res) {
-					console.log(res);
-					toastSuccess("Property Created Successfully");
-				}
-			});
-		},
-		validate,
-		validateOnChange: true,
-	});
-	const onInputFocus = (name) => () => form.setFieldError(name, undefined);
+  const form = useFormik({
+    initialValues: {
+      name: "",
+      house_category: "",
+      house_subcategory: "",
+      location: "",
+      lga: "",
+      state: "",
+      is_reserved: "",
+      payment_type: "",
+      price: "",
+      status: "",
+      year_built: "",
+      image_file: "",
+      overview: "",
+      coordinates: "",
+      amenities: "",
+      transaction: "",
+      video_url: "",
+      car_park: "",
+      bathrooms: "",
+      rooms: "",
+    },
+    onSubmit: (values) => {
+      values.amenities = ammenities;
+      values.house_category = category;
+      values.coordinates = "17N 45W 8E 0S";
+      console.log(values);
+      dispatch(createHouse(values)).then((res) => {
+        if (res) {
+          console.log(res);
+          toastSuccess("Property Created Successfully");
+        }
+      });
+    },
+    validate,
+    validateOnChange: true,
+  });
+  const onInputFocus = (name) => () => form.setFieldError(name, undefined);
 
 	return (
 		<Content>
@@ -522,16 +522,16 @@ const Properties = () => {
 export default Properties;
 
 const Ammenities = [
-	"Swimming Pool",
-	"Terrace",
-	"Air Conditioning",
-	"Internet",
-	"Balcony",
-	"Cable TV",
-	"Computer",
-	"DishWasher",
-	"Near Church",
-	"Near Estate",
+  "Swimming Pool",
+  "Terrace",
+  "Air Conditioning",
+  "Internet",
+  "Balcony",
+  "Cable TV",
+  "Computer",
+  "DishWasher",
+  "Near Church",
+  "Near Estate",
 ];
 
 const PaymentTypes = [{ name: "save for property" }, { name: "outright" }];
