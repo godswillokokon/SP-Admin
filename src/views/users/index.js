@@ -15,6 +15,7 @@ import {
 } from "reactstrap";
 import { toastSuccess } from "utils/Toast";
 import { ButtonGroupContainer } from "views/agents/pages/styles";
+import LoadingPage from "views/components/LoadingPage";
 
 export default () => {
   const users = useSelector((state) => state.allUsers.data);
@@ -41,20 +42,20 @@ export default () => {
             <p className="card-category">List of users using registered</p>
           </CardHeader>
           <CardBody>
-            <Table responsive>
-              <thead className="text-primary">
-                <tr>
-                  <th>Name</th>
-                  <th>Email Address</th>
-                  <th>Phone Number</th>
-                  <th>Verified</th>
-                  <th>Date of Registration</th>
-                  <th className="">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users !== null ? (
-                  Object.entries(users).map(([key, value]) => {
+            {users !== null ? (
+              <Table responsive>
+                <thead className="text-primary">
+                  <tr>
+                    <th>Name</th>
+                    <th>Email Address</th>
+                    <th>Phone Number</th>
+                    <th>Verified</th>
+                    <th>Date of Registration</th>
+                    <th className="">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(users).map(([key, value]) => {
                     const cdate = new Date(value?.created_at).toDateString();
                     return (
                       <tr key={key}>
@@ -81,12 +82,13 @@ export default () => {
                         </td>
                       </tr>
                     );
-                  })
-                ) : (
-                  <div>No Data</div>
-                )}
-              </tbody>
-            </Table>
+                  })}
+                </tbody>
+              </Table>
+            ) : (
+              <LoadingPage />
+            )}
+
             <Pagination size="sm" aria-label="Page navigation example">
               <PaginationItem>
                 <PaginationLink first href="#" />
