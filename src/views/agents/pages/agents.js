@@ -6,6 +6,7 @@ import { useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllAgent } from "store/agent/actions";
 import { ButtonGroupContainer } from "./styles";
+import LoadingPage from "views/components/LoadingPage";
 
 export default () => {
   const match = useRouteMatch();
@@ -34,19 +35,19 @@ export default () => {
       </Content.TitleHeader>
       <Card className="card-user">
         <CardBody>
-          <Table responsive>
-            <thead className="text-primary">
-              <tr>
-                <th>Name</th>
-                <th>Email Address</th>
-                <th>Phone Number</th>
-                <th>Date of Creation</th>
-                <th className="">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {agents !== null ? (
-                Object.entries(agents).map(([key, value]) => {
+          {agents !== null ? (
+            <Table responsive>
+              <thead className="text-primary">
+                <tr>
+                  <th>Name</th>
+                  <th>Email Address</th>
+                  <th>Phone Number</th>
+                  <th>Date of Creation</th>
+                  <th className="">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(agents).map(([key, value]) => {
                   const cdate = new Date(value?.created_at).toDateString();
                   return (
                     <tr key={key}>
@@ -63,12 +64,12 @@ export default () => {
                       </td>
                     </tr>
                   );
-                })
-              ) : (
-                <div>No data</div>
-              )}
-            </tbody>
-          </Table>
+                })}
+              </tbody>
+            </Table>
+          ) : (
+            <LoadingPage />
+          )}
         </CardBody>
       </Card>
     </Content>
