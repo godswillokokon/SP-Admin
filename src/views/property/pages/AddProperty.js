@@ -16,13 +16,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { createHouse } from "store/property/actions";
 import { getHouseCategories } from "store/categories/actions";
 import { toastSuccess } from "utils/Toast";
-import { GoogleComponent } from "react-google-location";
+import Geocode from "react-geocode";
+import Autocomplete from "react-google-autocomplete";
+import { getCity, getState, getCountry } from "utils/Helpers";
 
 const Properties = () => {
 	const [lga, setLga] = useState();
 	const [state, setState] = useState();
+	const [country, setCountry] = useState();
+	const [city, setCity] = useState();
+	const [addressArray, setAddressArray] = useState();
 	const [category, setCategory] = useState();
-	const [place, setPlace] = useState();
 	const [subCategory, setSubCategory] = useState();
 	const [ammenities, setAmmenities] = useState([]);
 	const [houseCategories, setHouseCategories] = useState([]);
@@ -30,125 +34,163 @@ const Properties = () => {
 	const { actionLoading } = useSelector((state) => state.properties);
 	const categories = useSelector((state) => state.categories.data);
 	const dispatch = useDispatch();
-	const API_KEY = "AIzaSyAIG1DU3FMktCyOZkjuVZvz8CrS8f-6cB8";
+	const [location, setLocation] = useState();
+	const [latlng, setLatLng] = useState();
 
-  useEffect(() => {
-    let newArr = [];
-    categories &&
-      categories.house_categories.map((item, index) => {
-        const newObj = {
-          name: item.house_category,
-          options: item.sub_category.map((item, index) => {
-            const newInnerObj = {
-              id: item.id,
-              name: item.subcategory_name,
-            };
-            return newInnerObj;
-          }),
-        };
-        newArr.push(newObj);
-        return newObj;
-      });
-    setHouseCategories(newArr);
-  }, [categories]);
+	Geocode.setApiKey(process.env.REACT_APP_API_KEY);
+	Geocode.setRegion("ng");
+	Geocode.enableDebug();
 
-  useEffect(() => {
-    dispatch(getHouseCategories());
-  }, [dispatch]);
+	useEffect(() => {
+		if (addressArray) {
+			let city = getCity(addressArray);
+			let state = getState(addressArray);
+			let country = getCountry(addressArray);
+			setState(state);
+			setCountry(country);
+			setCity(city);
+		}
+	}, [addressArray]);
 
-  useEffect(() => {
-    if (state) {
-      const LGA = States.filter((eachState) => {
-        if (eachState.name === state) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-      setLga(LGA[0].locals);
-    }
-  }, [state]);
+	useEffect(() => {
+		Geocode.fromAddress(location).then(
+			(response) => {
+				const geoCode = response.results[0].geometry.location;
+				const addressArray = response.results[0].address_components;
+				setAddressArray(addressArray);
+				setLatLng(geoCode);
+			},
+			(error) => {
+				console.error(error);
+			}
+		);
+	}, [location]);
 
-  useEffect(() => {
-    const select = document.getElementsByName("house_subcategory")[0];
-    const optgroups = select.getElementsByTagName("option");
-    for (var i = 0; i < optgroups.length; i++) {
-      if (optgroups[i]?.getAttribute("value")?.toString() === subCategory) {
-        var maincategory = optgroups[i].parentElement.getAttribute("label");
-        setCategory(maincategory?.toLowerCase());
-        return;
-      }
-    }
-  }, [subCategory]);
+	useEffect(() => {
+		let newArr = [];
+		categories &&
+			categories.house_categories.map((item, index) => {
+				const newObj = {
+					name: item.house_category,
+					options: item.sub_category.map((item, index) => {
+						const newInnerObj = {
+							id: item.id,
+							name: item.subcategory_name,
+						};
+						return newInnerObj;
+					}),
+				};
+				newArr.push(newObj);
+				return newObj;
+			});
+		setHouseCategories(newArr);
+	}, [categories]);
 
-	console.log(place);
+	useEffect(() => {
+		dispatch(getHouseCategories());
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (state && country === "Nigeria") {
+			const LGA = States.filter((eachState) => {
+				if (eachState.name === state) {
+					return true;
+				} else {
+					return false;
+				}
+			});
+			setLga(LGA[0].locals);
+		} else {
+			return;
+		}
+	}, [state, country]);
+
+	useEffect(() => {
+		const select = document.getElementsByName("house_subcategory")[0];
+		const optgroups = select.getElementsByTagName("option");
+		for (var i = 0; i < optgroups.length; i++) {
+			if (optgroups[i]?.getAttribute("value")?.toString() === subCategory) {
+				var maincategory = optgroups[i].parentElement.getAttribute("label");
+				setCategory(maincategory?.toLowerCase());
+				return;
+			}
+		}
+	}, [subCategory]);
 
 	const validate = (values) => {
 		const errors = {};
 
-    if (!values.name) {
-      errors.name = "Property name is required";
-    }
-    if (!values.location) {
-      errors.location = "Property location is required";
-    }
-    if (!values.price) {
-      errors.minVolume = "Property price is required";
-    }
-    if (!values.state) {
-      errors.maxVolume = "Property state is required";
-    }
-    if (!values.transaction) {
-      errors.maxVolume = "Property transaction is required";
-    }
-    if (!values.status) {
-      errors.status = "Property Status is required";
-    }
-    if (!values.overview) {
-      errors.overview = "Property overview is required";
-    }
-    return errors;
-  };
+		if (!values.name) {
+			errors.name = "Property name is required";
+		}
+		if (!values.location) {
+			errors.location = "Property location is required";
+		}
+		if (!values.price) {
+			errors.price = "Property price is required";
+		}
+		// if (!values.state) {
+		// 	errors.state = "Property state is required";
+		// }
+		// if (!values.lga) {
+		// 	errors.lga = "Property local government area is required";
+		// }
+		if (!values.payment_type) {
+			errors.payment_type = "Property payment type is required";
+		}
+		if (!values.transaction) {
+			errors.transaction = "Property transaction is required";
+		}
+		if (!values.status) {
+			errors.status = "Property Status is required";
+		}
+		if (!values.overview) {
+			errors.overview = "Property overview is required";
+		}
+		return errors;
+	};
 
-  const form = useFormik({
-    initialValues: {
-      name: "",
-      house_category: "",
-      house_subcategory: "",
-      location: "",
-      lga: "",
-      state: "",
-      is_reserved: "",
-      payment_type: "",
-      price: "",
-      status: "",
-      year_built: "",
-      image_file: "",
-      overview: "",
-      coordinates: "",
-      amenities: "",
-      transaction: "",
-      video_url: "",
-      car_park: "",
-      bathrooms: "",
-      rooms: "",
-    },
-    onSubmit: (values) => {
-      values.amenities = ammenities;
-      values.house_category = category;
-      values.coordinates = "17N 45W 8E 0S";
-      console.log(values);
-      dispatch(createHouse(values)).then((res) => {
-        if (res) {
-          console.log(res);
-          toastSuccess("Property Created Successfully");
-        }
-      });
-    },
-    validate,
-    validateOnChange: true,
-  });
-  const onInputFocus = (name) => () => form.setFieldError(name, undefined);
+	const form = useFormik({
+		initialValues: {
+			name: "",
+			house_category: "",
+			house_subcategory: "",
+			location: "",
+			lga: "",
+			state: "",
+			is_reserved: "",
+			payment_type: "",
+			price: "",
+			status: "",
+			year_built: "",
+			image_file: "",
+			overview: "",
+			coordinates: "",
+			amenities: "",
+			transaction: "",
+			video_url: "",
+			car_park: "",
+			bathrooms: "",
+			rooms: "",
+		},
+		onSubmit: (values) => {
+			values.amenities = ammenities;
+			values.house_category = category;
+			values.coordinates = latlng;
+			values.state = state;
+			values.lga = city;
+			console.log(values);
+			// dispatch(createHouse(values)).then((res) => {
+			// 	if (res) {
+			// 		console.log(res);
+			// 		toastSuccess("Property Created Successfully");
+			// 	}
+			// });
+		},
+		validate,
+		validateOnChange: true,
+	});
+	const onInputFocus = (name) => () => form.setFieldError(name, undefined);
 
 	return (
 		<Content>
@@ -223,7 +265,7 @@ const Properties = () => {
 						/>
 					</div>
 					<div className="header">
-						<h6>Basic Info</h6>
+						<h6>Property Information</h6>
 					</div>
 					<div className="basic-info">
 						<Input
@@ -240,25 +282,6 @@ const Properties = () => {
 							errorText={form.touched.name ? form.errors.name : undefined}
 							onFocus={onInputFocus("name")}
 						/>
-						<Input
-							name="location"
-							id="location"
-							round
-							fullWidth
-							placeholder="Property Location"
-							onChange={(e) => {
-								form.setFieldValue("location", e.target.value);
-							}}
-							value={form.values.location}
-							error={!!form.errors.location && form.touched.location}
-							errorText={
-								form.touched.location ? form.errors.location : undefined
-							}
-							onFocus={onInputFocus("location")}
-						/>
-					</div>
-					<div className="header">
-						<h6>Property Information</h6>
 					</div>
 					<div className="basic-info">
 						<Radio
@@ -401,6 +424,35 @@ const Properties = () => {
 						/>
 					</div>
 					<div className="basic-info">
+						<Autocomplete
+							name="location"
+							id="location"
+							placeholder="Property Location"
+							style={{
+								width: "100%",
+								fontFamily: "GT Walsheim",
+								fontWeight: "400",
+								background: "#ffffff",
+								border: "1px solid #dddddd",
+								boxSizing: "border-box",
+								padding: "16px",
+								maxWidth: "400px",
+								fontSize: "14px",
+								borderRadius: "30px",
+							}}
+							onBlur={(e) => {
+								form.setFieldValue("location", e.target.value);
+								setLocation(e.target.value);
+							}}
+							onPlaceSelected={(place) => {
+								setLocation(place.formatted_address);
+								form.setFieldValue("location", place.formatted_address);
+							}}
+							types={["geocode"]}
+							componentRestrictions={{ country: "ng" }}
+						/>
+					</div>
+					<div className="basic-info">
 						<Select
 							name="state"
 							id="state"
@@ -412,7 +464,7 @@ const Properties = () => {
 								setState(e.target.value);
 								form.setFieldValue("state", e.target.value);
 							}}
-							value={form.values.state}
+							value={form.values.state || state}
 							error={!!form.errors.state && form.touched.state}
 							errorText={form.touched.state ? form.errors.state : undefined}
 							onFocus={onInputFocus("state")}
@@ -425,26 +477,14 @@ const Properties = () => {
 							options={lga}
 							label="LOCAL GOVERNMENT AREA"
 							onChange={(e) => {
+								setCity(e.target.value);
 								form.setFieldValue("lga", e.target.value);
 							}}
-							value={form.values.lga}
+							value={form.values.lga || city}
 							error={!!form.errors.lga && form.touched.lga}
 							errorText={form.touched.lga ? form.errors.lga : undefined}
 							onFocus={onInputFocus("lga")}
 							disabled={!lga}
-						/>
-					</div>
-					<div className="basic-info">
-						<GoogleComponent
-							apiKey={API_KEY}
-							language={"en"}
-							country={"country:in|country:ng"}
-							coordinates={true}
-							locationBoxStyle={"custom-style"}
-							locationListStyle={"custom-style-list"}
-							onChange={(e) => {
-								setPlace(e);
-							}}
 						/>
 					</div>
 					<div className="basic-info">
@@ -522,16 +562,15 @@ const Properties = () => {
 export default Properties;
 
 const Ammenities = [
-  "Swimming Pool",
-  "Terrace",
-  "Air Conditioning",
-  "Internet",
-  "Balcony",
-  "Cable TV",
-  "Computer",
-  "DishWasher",
-  "Near Church",
-  "Near Estate",
+	"Swimming Pool",
+	"Terrace",
+	"Air Conditioning",
+	"Internet",
+	"Balcony",
+	"Cable TV",
+	"DishWasher",
+	"Washing Machine",
+	"Solar",
 ];
 
 const PaymentTypes = [{ name: "save for property" }, { name: "outright" }];
