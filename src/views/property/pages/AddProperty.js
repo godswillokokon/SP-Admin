@@ -8,7 +8,6 @@ import Select from "components/Select";
 import CheckBox from "components/CheckBox";
 import ImagesUploader from "components/ImageUploader";
 import Button from "components/Button";
-import States from "data/states.json";
 import LandCategories from "data/landCategories.json";
 import VideoPicker from "components/VideoPicker";
 import { useFormik } from "formik";
@@ -18,12 +17,10 @@ import { getHouseCategories } from "store/categories/actions";
 import { toastSuccess } from "utils/Toast";
 import Geocode from "react-geocode";
 import Autocomplete from "react-google-autocomplete";
-import { getCity, getState, getCountry } from "utils/Helpers";
+import { getCity, getState } from "utils/Helpers";
 
 const Properties = () => {
-	const [lga, setLga] = useState();
 	const [state, setState] = useState();
-	const [country, setCountry] = useState();
 	const [city, setCity] = useState();
 	const [addressArray, setAddressArray] = useState();
 	const [category, setCategory] = useState();
@@ -45,9 +42,7 @@ const Properties = () => {
 		if (addressArray) {
 			let city = getCity(addressArray);
 			let state = getState(addressArray);
-			let country = getCountry(addressArray);
 			setState(state);
-			setCountry(country);
 			setCity(city);
 		}
 	}, [addressArray]);
@@ -91,21 +86,6 @@ const Properties = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		if (state && country === "Nigeria") {
-			const LGA = States.filter((eachState) => {
-				if (eachState.name === state) {
-					return true;
-				} else {
-					return false;
-				}
-			});
-			setLga(LGA[0].locals);
-		} else {
-			return;
-		}
-	}, [state, country]);
-
-	useEffect(() => {
 		const select = document.getElementsByName("house_subcategory")[0];
 		const optgroups = select.getElementsByTagName("option");
 		for (var i = 0; i < optgroups.length; i++) {
@@ -129,12 +109,9 @@ const Properties = () => {
 		if (!values.price) {
 			errors.price = "Property price is required";
 		}
-		// if (!values.state) {
-		// 	errors.state = "Property state is required";
-		// }
-		// if (!values.lga) {
-		// 	errors.lga = "Property local government area is required";
-		// }
+		if (!values.contact) {
+			errors.contact = "Owners contact is required";
+		}
 		if (!values.payment_type) {
 			errors.payment_type = "Property payment type is required";
 		}
@@ -165,7 +142,13 @@ const Properties = () => {
 			year_built: "",
 			image_file: "",
 			overview: "",
-			coordinates: "",
+			lat: "",
+			lng: "",
+			contact: "",
+			dimension: "",
+			home_area: "",
+			material: "",
+			reference: "",
 			amenities: "",
 			transaction: "",
 			video_url: "",
@@ -176,16 +159,16 @@ const Properties = () => {
 		onSubmit: (values) => {
 			values.amenities = ammenities;
 			values.house_category = category;
-			values.coordinates = latlng;
+			values.lng = latlng.lng;
+			values.lat = latlng.lat;
 			values.state = state;
 			values.lga = city;
-			console.log(values);
-			// dispatch(createHouse(values)).then((res) => {
-			// 	if (res) {
-			// 		console.log(res);
-			// 		toastSuccess("Property Created Successfully");
-			// 	}
-			// });
+			dispatch(createHouse(values)).then((res) => {
+				if (res) {
+					console.log(res);
+					toastSuccess("Property Created Successfully");
+				}
+			});
 		},
 		validate,
 		validateOnChange: true,
@@ -424,6 +407,56 @@ const Properties = () => {
 						/>
 					</div>
 					<div className="basic-info">
+						<Input
+							name="dimension"
+							id="dimension"
+							round
+							fullWidth
+							placeholder="House Dimension"
+							onChange={(e) => {
+								form.setFieldValue("dimension", e.target.value);
+							}}
+							value={form.values.dimension}
+							error={!!form.errors.dimension && form.touched.dimension}
+							errorText={
+								form.touched.dimension ? form.errors.dimension : undefined
+							}
+							onFocus={onInputFocus("dimension")}
+						/>
+						<Input
+							name="home_area"
+							id="home_area"
+							round
+							fullWidth
+							placeholder="House Area"
+							onChange={(e) => {
+								form.setFieldValue("home_area", e.target.value);
+							}}
+							value={form.values.home_area}
+							error={!!form.errors.home_area && form.touched.home_area}
+							errorText={
+								form.touched.home_area ? form.errors.home_area : undefined
+							}
+							onFocus={onInputFocus("home_area")}
+						/>
+						<Input
+							name="material"
+							id="material"
+							round
+							fullWidth
+							placeholder="Material used in building"
+							onChange={(e) => {
+								form.setFieldValue("material", e.target.value);
+							}}
+							value={form.values.material}
+							error={!!form.errors.material && form.touched.material}
+							errorText={
+								form.touched.material ? form.errors.material : undefined
+							}
+							onFocus={onInputFocus("material")}
+						/>
+					</div>
+					<div className="basic-info">
 						<Autocomplete
 							name="location"
 							id="location"
@@ -453,38 +486,29 @@ const Properties = () => {
 						/>
 					</div>
 					<div className="basic-info">
-						<Select
+						<Input
 							name="state"
 							id="state"
 							round
 							fullWidth
-							label="STATE"
-							options={States}
-							onChange={(e) => {
-								setState(e.target.value);
-								form.setFieldValue("state", e.target.value);
-							}}
+							placeholder="State"
 							value={form.values.state || state}
 							error={!!form.errors.state && form.touched.state}
 							errorText={form.touched.state ? form.errors.state : undefined}
 							onFocus={onInputFocus("state")}
+							disabled
 						/>
-						<Select
+						<Input
 							name="lga"
 							id="lga"
 							round
 							fullWidth
-							options={lga}
-							label="LOCAL GOVERNMENT AREA"
-							onChange={(e) => {
-								setCity(e.target.value);
-								form.setFieldValue("lga", e.target.value);
-							}}
+							placeholder="lga"
 							value={form.values.lga || city}
 							error={!!form.errors.lga && form.touched.lga}
 							errorText={form.touched.lga ? form.errors.lga : undefined}
 							onFocus={onInputFocus("lga")}
-							disabled={!lga}
+							disabled
 						/>
 					</div>
 					<div className="basic-info">
@@ -546,10 +570,44 @@ const Properties = () => {
 					/>
 					<ImagesUploader
 						onChange={(values) => {
-							console.log(values);
 							form.setFieldValue("image_file", values);
 						}}
 					/>
+					<div className="header">
+						<h6>contact info</h6>
+					</div>
+					<div className="basic-info">
+						<Input
+							name="contact"
+							id="contact"
+							round
+							fullWidth
+							placeholder="Owners Contact"
+							onChange={(e) => {
+								form.setFieldValue("contact", e.target.value);
+							}}
+							value={form.values.contact}
+							error={!!form.errors.contact && form.touched.contact}
+							errorText={form.touched.contact ? form.errors.contact : undefined}
+							onFocus={onInputFocus("contact")}
+						/>
+						<Input
+							name="reference"
+							id="reference"
+							round
+							fullWidth
+							placeholder="Reference"
+							onChange={(e) => {
+								form.setFieldValue("reference", e.target.value);
+							}}
+							value={form.values.reference}
+							error={!!form.errors.reference && form.touched.reference}
+							errorText={
+								form.touched.reference ? form.errors.reference : undefined
+							}
+							onFocus={onInputFocus("reference")}
+						/>
+					</div>
 					<Button type="submit" loading={actionLoading}>
 						Submit
 					</Button>
