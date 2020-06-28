@@ -45,7 +45,7 @@ export const careerReducer = (state = initialState, action) => {
         ...state,
         actionLoading: false,
         error: false,
-        data: { ...action.payload.data.career },
+        data: { ...action.payload.data },
       };
     }
     case careerActionTypes.FETCH_CAREER.rejected: {

@@ -6,7 +6,6 @@ import Feat3 from "assets/img/f3.png";
 import Feat4 from "assets/img/f4.png";
 
 const Property = ({ onAction, value }) => {
-  console.log(value);
   return (
     <PropertyCard onClick={onAction}>
       <div className="content">

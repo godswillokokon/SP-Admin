@@ -16,6 +16,7 @@ const ButtonBlock = styled.button`
   justify-content: center;
   padding: 0 30px;
   font-weight: 500;
+  margin-right: 5px;
   ${(props) =>
     props.bold &&
     css`
