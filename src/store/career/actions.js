@@ -10,6 +10,6 @@ export const createCareer = ({ ...data }) => (dispatch) => {
   });
 };
 export const fetchAllCareer = () => (dispatch) => {
-  const payload = api.get("/api/career");
+  const payload = api.get("/api/careers");
   return dispatch({ type: careerActionTypes.FETCH_CAREER.default, payload });
 };
