@@ -3,17 +3,24 @@ import Content from "views/styles/Content";
 import { Card, CardBody } from "reactstrap";
 import Input from "components/Input";
 import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
 import TextArea from "components/TextArea";
 import { AddCareerContainer } from "./styles";
 import ImagesUploader from "components/ImageUploader";
 import Button from "components/Button";
+import { useHistory } from "react-router-dom";
+import { toastSuccess } from "utils/Toast";
+import { createCareer } from "store/career/actions";
 
 export default () => {
+  const { actionLoading } = useSelector((state) => state.career);
+  const dispatch = useDispatch();
+  const history = useHistory();
   const validate = (values) => {
     const errors = {};
 
-    if (!values.name) {
-      errors.name = "Property name is required";
+    if (!values.career_name) {
+      errors.career_name = "Property name is required";
     }
     if (!values.description) {
       errors.description = "description field is required";
@@ -24,19 +31,19 @@ export default () => {
 
   const form = useFormik({
     initialValues: {
-      name: "",
+      career_name: "",
       description: "",
       image: "",
     },
     onSubmit: (values) => {
-      // dispatch(createAgent(values)).then((res) => {
-      //   if (res) {
-      //     toastSuccess(`Agent ${values.name} was created successfully`);
-      //     history.push({
-      //       pathname: "/admin/agent",
-      //     });
-      //   }
-      // });
+      dispatch(createCareer(values)).then((res) => {
+        if (res) {
+          toastSuccess(`${values.career_name} was created successfully`);
+          history.push({
+            pathname: "/admin/career",
+          });
+        }
+      });
     },
     validate,
     validateOnChange: true,
@@ -53,24 +60,28 @@ export default () => {
       <AddCareerContainer>
         <Card>
           <CardBody>
-            <form>
+            <form autoComplete="off" onSubmit={form.handleSubmit}>
               <div className="header">
                 <h6>Career Info</h6>
               </div>
               <div className="basic-info">
                 <Input
-                  name="name"
-                  id="name"
+                  name="career_name"
+                  id="career_name"
                   round
                   fullWidth
                   placeholder="Enter Career title"
                   onChange={(e) => {
-                    form.setFieldValue("name", e.target.value);
+                    form.setFieldValue("career_name", e.target.value);
                   }}
-                  value={form.values.name}
-                  error={!!form.errors.name && form.touched.name}
-                  errorText={form.touched.name ? form.errors.name : undefined}
-                  onFocus={onInputFocus("name")}
+                  value={form.values.career_name}
+                  error={!!form.errors.career_name && form.touched.career_name}
+                  errorText={
+                    form.touched.career_name
+                      ? form.errors.career_name
+                      : undefined
+                  }
+                  onFocus={onInputFocus("career_name")}
                 />
               </div>
               <div className="basic-info">
@@ -99,11 +110,13 @@ export default () => {
               </div>
               <ImagesUploader
                 onChange={(values) => {
-                  console.log(values);
-                  form.setFieldValue("image", values);
+                  console.log(values[0]);
+                  form.setFieldValue("image", values[0]);
                 }}
               />
-              <Button type="submit">Submit</Button>
+              <Button type="submit" loading={actionLoading}>
+                Submit
+              </Button>
             </form>
           </CardBody>
         </Card>
