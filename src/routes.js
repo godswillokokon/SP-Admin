@@ -4,6 +4,8 @@ import ProfilePage from "views/profile";
 import UserPage from "views/users";
 import AgentPage from "views/agents";
 import CareerPage from "views/careers";
+import OnlineInspectionPage from "views/online_inspection";
+
 // import UpgradeToPro from "views/Upgrade.jsx";
 
 var routes = [
@@ -19,6 +21,13 @@ var routes = [
     name: "Property",
     icon: "nc-icon nc-bell-55",
     component: Property,
+    layout: "/admin",
+  },
+  {
+    path: "/online-inspection",
+    name: "Online Inspection",
+    icon: "nc-icon nc-bell-55",
+    component: OnlineInspectionPage,
     layout: "/admin",
   },
   {
