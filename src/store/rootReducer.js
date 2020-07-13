@@ -7,6 +7,7 @@ import categoryReducer from "./categories";
 import agentReducer from "./agent";
 import careerReducer from "./career";
 import onlineInspectionReducer from "./onlineInspection";
+import expertReducer from "./experts";
 
 export default combineReducers({
   auth: authReducer,
@@ -17,4 +18,5 @@ export default combineReducers({
   agent: agentReducer,
   career: careerReducer,
   onlineInspection: onlineInspectionReducer,
+  experts: expertReducer,
 });

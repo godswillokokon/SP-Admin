@@ -5,8 +5,7 @@ import UserPage from "views/users";
 import AgentPage from "views/agents";
 import CareerPage from "views/careers";
 import OnlineInspectionPage from "views/online_inspection";
-
-// import UpgradeToPro from "views/Upgrade.jsx";
+import ExpertPage from "views/experts";
 
 var routes = [
   {
@@ -49,6 +48,13 @@ var routes = [
     name: "Career",
     icon: "nc-icon nc-user-run",
     component: CareerPage,
+    layout: "/admin",
+  },
+  {
+    path: "/expert",
+    name: "Experts",
+    icon: "nc-icon nc-user-run",
+    component: ExpertPage,
     layout: "/admin",
   },
   {
