@@ -1,21 +1,30 @@
 import React from "react";
 import { CareerCard, ButtonGroupContainer } from "../styles";
 import Button from "components/Button";
+import { useSelector } from "react-redux";
 
-export default ({ onAction, value }) => {
+export default ({ onAction, onDetele, value }) => {
+  const { actionLoading } = useSelector((state) => state.career);
+  const [loading, setLoading] = React.useState(false);
   return (
     <CareerCard onClick={onAction}>
       <div className="content">
         <img src={value?.image} alt="" className="img" />
         <h5 className="title">{value?.name}</h5>
-        <p className="description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit Aliquam
-          gravida magna et fringilla convallis. Pellentesque habitant morb
-        </p>
+        <p className="description">{value.description}</p>
 
         <ButtonGroupContainer>
           <Button>Update</Button>
-          <Button danger>Delete</Button>
+          <Button
+            danger
+            loading={loading}
+            onClick={() => {
+              setLoading(true);
+              onDetele();
+            }}
+          >
+            Delete
+          </Button>
         </ButtonGroupContainer>
       </div>
     </CareerCard>

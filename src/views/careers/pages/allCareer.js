@@ -5,17 +5,27 @@ import { Card, CardBody } from "reactstrap";
 import { useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CareerContainer } from "./styles";
-import { fetchAllCareer } from "store/career/actions";
+import { fetchAllCareer, deleteCareer } from "store/career/actions";
 import Career from "./componets/career";
+import { toastSuccess } from "utils/Toast";
 
 export default () => {
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const careers = useSelector((state) => state.career.data);
+
   React.useEffect(() => {
     dispatch(fetchAllCareer());
-  }, [dispatch]);
-  console.log(careers);
+  }, [dispatch, careers]);
+
+  const handleDelete = (id) => {
+    dispatch(deleteCareer(id)).then(() => {
+      dispatch(fetchAllCareer());
+      console.log(careers);
+      toastSuccess("Successfully Deleted");
+    });
+  };
+
   return (
     <Content>
       <Content.TitleHeader>
@@ -34,9 +44,15 @@ export default () => {
       <Card className="card-user">
         <CardBody>
           <CareerContainer>
-            {careers != null
-              ? careers.careers.map((value, key) => (
-                  <Career key={key} value={value} />
+            {careers !== null
+              ? careers?.careers.map((value, key) => (
+                  <Career
+                    key={key}
+                    value={value}
+                    onDetele={() => {
+                      handleDelete(value?.id);
+                    }}
+                  />
                 ))
               : ""}
           </CareerContainer>

@@ -55,6 +55,29 @@ export const careerReducer = (state = initialState, action) => {
         error: parseError(action.payload),
       };
     }
+
+    //delete career
+    case careerActionTypes.DELETE_CAREER.pending: {
+      return {
+        ...state,
+        actionLoading: true,
+        error: false,
+      };
+    }
+    case careerActionTypes.DELETE_CAREER.fulfilled: {
+      return {
+        ...state,
+        actionLoading: false,
+        error: false,
+      };
+    }
+    case careerActionTypes.DELETE_CAREER.rejected: {
+      return {
+        ...state,
+        actionLoading: false,
+        error: parseError(action.payload),
+      };
+    }
     default:
       return state;
   }

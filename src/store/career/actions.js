@@ -13,3 +13,9 @@ export const fetchAllCareer = () => (dispatch) => {
   const payload = api.get("/api/careers");
   return dispatch({ type: careerActionTypes.FETCH_CAREER.default, payload });
 };
+export const updateCareer = ({ ...data }) => (dispatch) => {};
+
+export const deleteCareer = (id) => (dispatch) => {
+  const payload = api.delete(`/api/career/${id}`);
+  return dispatch({ type: careerActionTypes.DELETE_CAREER.default, payload });
+};
