@@ -2,7 +2,7 @@ import React from "react";
 import Content from "../../styles/Content";
 import Button from "components/Button";
 import { Card, CardBody } from "reactstrap";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CareerContainer } from "./styles";
 import { fetchAllCareer, deleteCareer } from "store/career/actions";
@@ -11,6 +11,7 @@ import { toastSuccess } from "utils/Toast";
 
 export default () => {
   const match = useRouteMatch();
+  const history = useHistory();
   const dispatch = useDispatch();
   const careers = useSelector((state) => state.career.data);
 
@@ -51,6 +52,12 @@ export default () => {
                     value={value}
                     onDetele={() => {
                       handleDelete(value?.id);
+                    }}
+                    onEdit={() => {
+                      history.push({
+                        pathname: `${match.path}/update`,
+                        state: { detail: value },
+                      });
                     }}
                   />
                 ))

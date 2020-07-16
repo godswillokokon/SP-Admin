@@ -9,12 +9,19 @@ export const createCareer = ({ ...data }) => (dispatch) => {
     payload,
   });
 };
+// FETCH CAREERS
 export const fetchAllCareer = () => (dispatch) => {
   const payload = api.get("/api/careers");
   return dispatch({ type: careerActionTypes.FETCH_CAREER.default, payload });
 };
-export const updateCareer = ({ ...data }) => (dispatch) => {};
-
+export const updateCareer = ({ id, data }) => (dispatch) => {
+  const payload = api.post(`/api/career/${id}`, { ...data });
+  return dispatch({
+    type: careerActionTypes.UPDATE_CAREER.default,
+    payload,
+  });
+};
+// CAREER
 export const deleteCareer = (id) => (dispatch) => {
   const payload = api.delete(`/api/career/${id}`);
   return dispatch({ type: careerActionTypes.DELETE_CAREER.default, payload });

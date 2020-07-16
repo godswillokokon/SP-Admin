@@ -78,6 +78,28 @@ export const careerReducer = (state = initialState, action) => {
         error: parseError(action.payload),
       };
     }
+    // update
+    case careerActionTypes.UPDATE_CAREER.pending: {
+      return {
+        ...state,
+        actionLoading: true,
+        error: false,
+      };
+    }
+    case careerActionTypes.UPDATE_CAREER.fulfilled: {
+      return {
+        ...state,
+        actionLoading: false,
+        error: false,
+      };
+    }
+    case careerActionTypes.UPDATE_CAREER.rejected: {
+      return {
+        ...state,
+        actionLoading: false,
+        error: parseError(action.payload),
+      };
+    }
     default:
       return state;
   }
