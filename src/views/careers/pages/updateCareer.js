@@ -35,6 +35,7 @@ export default (props) => {
     initialValues: {
       career_name: data?.name,
       description: data?.description,
+      image: data?.image,
     },
     onSubmit: (values) => {
       values._method = "PATCH";

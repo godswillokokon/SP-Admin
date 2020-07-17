@@ -21,6 +21,22 @@ var routes = [
     icon: "nc-icon nc-bell-55",
     component: Property,
     layout: "/admin",
+    subMenu: [
+      {
+        path: "/reserve-house",
+        name: "Reserved Houses",
+        icon: "nc-icon nc-bell-55",
+        component: Property,
+        layout: "/admin",
+      },
+      {
+        path: "/reserve-land",
+        name: "Reserved Land",
+        icon: "nc-icon nc-bell-55",
+        component: Property,
+        layout: "/admin",
+      },
+    ],
   },
   {
     path: "/online-inspection",

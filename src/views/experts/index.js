@@ -28,7 +28,7 @@ export default () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchAllExperts());
-  }, [dispatch, experts]);
+  }, [dispatch]);
 
   const handleApproveExpert = (id) => {
     dispatch(approveExpert(id)).then(() => {
@@ -42,6 +42,7 @@ export default () => {
       toastSuccess("Expert has Rejected Successfully");
     });
   };
+  console.log(experts?.experts);
   return (
     <>
       <div className="content">
@@ -65,8 +66,7 @@ export default () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {experts.experts.map(([key, value]) => {
-                    const cdate = new Date(value?.created_at).toDateString();
+                  {experts?.experts.map((value, key) => {
                     return (
                       <tr key={key}>
                         <td>{value?.user?.name}</td>
@@ -74,33 +74,39 @@ export default () => {
                         <td>{value?.user?.phone}</td>
                         <td>{value?.career?.name}</td>
                         <td>{value?.years_of_experience}</td>
-                        <td>
-                          {value?.approved === 0 ? "Not Approve" : "Approved"}
-                        </td>
+                        <td>{!value?.approved ? "Not Approve" : "Approved"}</td>
 
                         <td className="">
                           <ButtonGroupContainer>
                             <Button small primary>
                               View
                             </Button>
-                            <Button
-                              small
-                              success
-                              onClick={() => {
-                                handleApproveExpert(value?.id);
-                              }}
-                            >
-                              Approve
-                            </Button>
-                            <Button
-                              small
-                              danger
-                              onClick={() => {
-                                handleRejectExpert(value?.id);
-                              }}
-                            >
-                              Reject
-                            </Button>
+                            {!value?.approved ? (
+                              <Button
+                                small
+                                success
+                                onClick={() => {
+                                  handleApproveExpert(value?.users_id);
+                                }}
+                              >
+                                Approve
+                              </Button>
+                            ) : (
+                              ""
+                            )}
+                            {!value?.approved ? (
+                              <Button
+                                small
+                                danger
+                                onClick={() => {
+                                  handleRejectExpert(value?.users_id);
+                                }}
+                              >
+                                Reject
+                              </Button>
+                            ) : (
+                              ""
+                            )}
                           </ButtonGroupContainer>
                         </td>
                       </tr>

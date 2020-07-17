@@ -7,10 +7,10 @@ export const fetchAllExperts = () => (dispatch) => {
 };
 
 export const approveExpert = (id) => (dispatch) => {
-  const payload = api.get(`/expert/approve/${id}`);
-  return dispatch({ type: userActionTypes.DELETE_USER.default, payload });
+  const payload = api.get(`/api/expert/approve/${id}`);
+  return dispatch({ type: userActionTypes.APPROVE_EXPERTS.default, payload });
 };
 export const rejectExpert = (id) => (dispatch) => {
-  const payload = api.get(`/expert/reject/${id}`);
-  return dispatch({ type: userActionTypes.DELETE_USER.default, payload });
+  const payload = api.get(`/api/expert/reject/${id}`);
+  return dispatch({ type: userActionTypes.REJECTS_EXPERTS.default, payload });
 };
