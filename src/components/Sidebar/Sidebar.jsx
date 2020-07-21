@@ -45,6 +45,21 @@ const Sidebar = (props) => {
                 >
                   <i className={item.icon} />
                   <p>{item.name}</p>
+                  {item.subMenu &&
+                    item.subMenu.map((subItem, subKey) => {
+                      return (
+                        <li key={subKey}>
+                          <NavLink
+                            to={subItem.layout + subItem.path}
+                            className="nav-link"
+                            activeClassName="active"
+                          >
+                            <i className={subItem.icon} />
+                            <p>{subItem.name}</p>
+                          </NavLink>
+                        </li>
+                      );
+                    })}
                 </NavLink>
               </li>
             );

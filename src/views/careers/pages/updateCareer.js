@@ -6,13 +6,15 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import TextArea from "components/TextArea";
 import { AddCareerContainer } from "./styles";
-import ImagesUploader from "components/ImageUploader";
+
 import Button from "components/Button";
 import { useHistory } from "react-router-dom";
 import { toastSuccess } from "utils/Toast";
-import { createCareer } from "store/career/actions";
 
-export default () => {
+import { updateCareer } from "store/career/actions";
+
+export default (props) => {
+  const data = props.location.state.detail;
   const { actionLoading } = useSelector((state) => state.career);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -31,14 +33,15 @@ export default () => {
 
   const form = useFormik({
     initialValues: {
-      career_name: "",
-      description: "",
-      image: "",
+      career_name: data?.name,
+      description: data?.description,
+      image: data?.image,
     },
     onSubmit: (values) => {
-      dispatch(createCareer(values)).then((res) => {
+      values._method = "PATCH";
+      dispatch(updateCareer({ id: data.id, data: values })).then((res) => {
         if (res) {
-          toastSuccess(`${values.career_name} was created successfully`);
+          toastSuccess(`${values.career_name} was Updated successfully`);
           history.push({
             pathname: "/admin/career",
           });
@@ -105,17 +108,9 @@ export default () => {
                   onFocus={onInputFocus("description")}
                 />
               </div>
-              <div className="header">
-                <h6>Images Upload</h6>
-              </div>
-              <ImagesUploader
-                onChange={(values) => {
-                  console.log(values[0]);
-                  form.setFieldValue("image", values[0]);
-                }}
-              />
+
               <Button type="submit" loading={actionLoading}>
-                Submit
+                Update
               </Button>
             </form>
           </CardBody>
