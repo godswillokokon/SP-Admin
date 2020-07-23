@@ -20,615 +20,696 @@ import Autocomplete from "react-google-autocomplete";
 import { getCity, getState } from "utils/Helpers";
 
 const Properties = () => {
-	const [state, setState] = useState();
-	const [city, setCity] = useState();
-	const [addressArray, setAddressArray] = useState();
-	const [category, setCategory] = useState();
-	const [subCategory, setSubCategory] = useState();
-	const [ammenities, setAmmenities] = useState([]);
-	const [houseCategories, setHouseCategories] = useState([]);
-	const [propertyType, setPropertyType] = useState();
-	const { actionLoading } = useSelector((state) => state.properties);
-	const categories = useSelector((state) => state.categories.data);
-	const dispatch = useDispatch();
-	const [location, setLocation] = useState();
-	const [latlng, setLatLng] = useState();
+  const [state, setState] = useState();
+  const [city, setCity] = useState();
+  const [addressArray, setAddressArray] = useState();
+  const [category, setCategory] = useState();
+  const [subCategory, setSubCategory] = useState();
+  const [ammenities, setAmmenities] = useState([]);
+  const [houseCategories, setHouseCategories] = useState([]);
+  const [propertyType, setPropertyType] = useState();
+  const { actionLoading } = useSelector((state) => state.properties);
+  const categories = useSelector((state) => state.categories.data);
+  const dispatch = useDispatch();
+  const [location, setLocation] = useState();
+  const [latlng, setLatLng] = useState();
 
-	Geocode.setApiKey(process.env.REACT_APP_API_KEY);
-	Geocode.setRegion("ng");
-	Geocode.enableDebug();
+  Geocode.setApiKey(process.env.REACT_APP_API_KEY);
+  Geocode.setRegion("ng");
+  Geocode.enableDebug();
 
-	useEffect(() => {
-		if (addressArray) {
-			let city = getCity(addressArray);
-			let state = getState(addressArray);
-			setState(state);
-			setCity(city);
-		}
-	}, [addressArray]);
+  useEffect(() => {
+    if (addressArray) {
+      let city = getCity(addressArray);
+      let state = getState(addressArray);
+      setState(state);
+      setCity(city);
+    }
+  }, [addressArray]);
 
-	useEffect(() => {
-		Geocode.fromAddress(location).then(
-			(response) => {
-				const geoCode = response.results[0].geometry.location;
-				const addressArray = response.results[0].address_components;
-				setAddressArray(addressArray);
-				setLatLng(geoCode);
-			},
-			(error) => {
-				console.error(error);
-			}
-		);
-	}, [location]);
+  useEffect(() => {
+    Geocode.fromAddress(location).then(
+      (response) => {
+        const geoCode = response.results[0].geometry.location;
+        const addressArray = response.results[0].address_components;
+        setAddressArray(addressArray);
+        setLatLng(geoCode);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }, [location]);
 
-	useEffect(() => {
-		let newArr = [];
-		categories &&
-			categories.house_categories.map((item, index) => {
-				const newObj = {
-					name: item.house_category,
-					options: item.sub_category.map((item, index) => {
-						const newInnerObj = {
-							id: item.id,
-							name: item.subcategory_name,
-						};
-						return newInnerObj;
-					}),
-				};
-				newArr.push(newObj);
-				return newObj;
-			});
-		setHouseCategories(newArr);
-	}, [categories]);
+  useEffect(() => {
+    let newArr = [];
+    categories &&
+      categories.house_categories.map((item, index) => {
+        const newObj = {
+          name: item.house_category,
+          options: item.sub_category.map((item, index) => {
+            const newInnerObj = {
+              id: item.id,
+              name: item.subcategory_name,
+            };
+            return newInnerObj;
+          }),
+        };
+        newArr.push(newObj);
+        return newObj;
+      });
+    setHouseCategories(newArr);
+  }, [categories]);
 
-	useEffect(() => {
-		dispatch(getHouseCategories());
-	}, [dispatch]);
+  useEffect(() => {
+    dispatch(getHouseCategories());
+  }, [dispatch]);
 
-	useEffect(() => {
-		const select = document.getElementsByName("house_subcategory")[0];
-		const optgroups = select.getElementsByTagName("option");
-		for (var i = 0; i < optgroups.length; i++) {
-			if (optgroups[i]?.getAttribute("value")?.toString() === subCategory) {
-				var maincategory = optgroups[i].parentElement.getAttribute("label");
-				setCategory(maincategory?.toLowerCase());
-				return;
-			}
-		}
-	}, [subCategory]);
+  useEffect(() => {
+    const select = document.getElementsByName("house_subcategory")[0];
+    const optgroups = select.getElementsByTagName("option");
+    for (var i = 0; i < optgroups.length; i++) {
+      if (
+        optgroups[i]?.getAttribute("value")?.toString() ===
+        subCategory
+      ) {
+        var maincategory = optgroups[i].parentElement.getAttribute(
+          "label"
+        );
+        setCategory(maincategory?.toLowerCase());
+        return;
+      }
+    }
+  }, [subCategory]);
 
-	const validate = (values) => {
-		const errors = {};
+  const validate = (values) => {
+    const errors = {};
 
-		if (!values.name) {
-			errors.name = "Property name is required";
-		}
-		if (!values.location) {
-			errors.location = "Property location is required";
-		}
-		if (!values.price) {
-			errors.price = "Property price is required";
-		}
-		if (!values.contact) {
-			errors.contact = "Owners contact is required";
-		}
-		if (!values.payment_type) {
-			errors.payment_type = "Property payment type is required";
-		}
-		if (!values.transaction) {
-			errors.transaction = "Property transaction is required";
-		}
-		if (!values.status) {
-			errors.status = "Property Status is required";
-		}
-		if (!values.overview) {
-			errors.overview = "Property overview is required";
-		}
-		return errors;
-	};
+    if (!values.name) {
+      errors.name = "Property name is required";
+    }
+    if (!values.location) {
+      errors.location = "Property location is required";
+    }
+    if (!values.price) {
+      errors.price = "Property price is required";
+    }
+    if (!values.contact) {
+      errors.contact = "Owners contact is required";
+    }
+    if (!values.payment_type) {
+      errors.payment_type = "Property payment type is required";
+    }
+    if (!values.transaction) {
+      errors.transaction = "Property transaction is required";
+    }
+    if (!values.status) {
+      errors.status = "Property Status is required";
+    }
+    if (!values.overview) {
+      errors.overview = "Property overview is required";
+    }
+    return errors;
+  };
 
-	const form = useFormik({
-		initialValues: {
-			name: "",
-			house_category: "",
-			house_subcategory: "",
-			location: "",
-			lga: "",
-			state: "",
-			is_reserved: "",
-			payment_type: "",
-			price: "",
-			status: "",
-			year_built: "",
-			image_file: "",
-			overview: "",
-			lat: "",
-			lng: "",
-			contact: "",
-			dimension: "",
-			home_area: "",
-			material: "",
-			reference: "",
-			amenities: "",
-			transaction: "",
-			video_url: "",
-			car_park: "",
-			bathrooms: "",
-			rooms: "",
-		},
-		onSubmit: (values) => {
-			values.amenities = ammenities;
-			values.house_category = category;
-			values.lng = latlng.lng;
-			values.lat = latlng.lat;
-			values.state = state;
-			values.lga = city;
-			dispatch(createHouse(values)).then((res) => {
-				if (res) {
-					console.log(res);
-					toastSuccess("Property Created Successfully");
-				}
-			});
-		},
-		validate,
-		validateOnChange: true,
-	});
-	const onInputFocus = (name) => () => form.setFieldError(name, undefined);
+  const form = useFormik({
+    initialValues: {
+      name: "",
+      house_category: "",
+      house_subcategory: "",
+      location: "",
+      lga: "",
+      state: "",
+      is_reserved: "",
+      payment_type: "",
+      price: "",
+      status: "",
+      year_built: "",
+      image_file: "",
+      overview: "",
+      lat: "",
+      lng: "",
+      contact: "",
+      dimension: "",
+      home_area: "",
+      material: "",
+      reference: "",
+      amenities: "",
+      transaction: "",
+      video_url: "",
+      car_park: "",
+      bathrooms: "",
+      rooms: "",
+    },
+    onSubmit: (values) => {
+      values.amenities = ammenities;
+      values.house_category = category;
+      values.lng = latlng.lng;
+      values.lat = latlng.lat;
+      values.state = state;
+      values.lga = city;
+      dispatch(createHouse(values)).then((res) => {
+        if (res) {
+          console.log(res);
+          toastSuccess("Property Created Successfully");
+        }
+      });
+    },
+    validate,
+    validateOnChange: true,
+  });
+  const onInputFocus = (name) => () =>
+    form.setFieldError(name, undefined);
 
-	return (
-		<Content>
-			<Content.TitleHeader>
-				<div style={{ flex: "0 0 41.666667%", maxWidth: "41.666667%" }}>
-					<Content.Back to="/admin/properties">&larr; Back</Content.Back>
-					<Content.Title>Properties View</Content.Title>
-				</div>
-			</Content.TitleHeader>
-			<AddPropertyContainer>
-				<form onSubmit={form.handleSubmit}>
-					<div className="basic-info">
-						<Radio
-							label="House Property"
-							name="propertyType"
-							id="houseProperty"
-							value="House Property"
-							onClick={(e) => {
-								setPropertyType(e.target.value);
-							}}
-						/>
-						<Radio
-							label="Land Property"
-							value="Land Property"
-							name="propertyType"
-							id="landProperty"
-							onClick={(e) => {
-								setPropertyType(e.target.value);
-							}}
-						/>
-					</div>
-					<div className="header">
-						<h6>category Info</h6>
-					</div>
-					<div className="basic-info">
-						<Select
-							name="house_subcategory"
-							id="house_subcategory"
-							round
-							fullWidth
-							label="HOUSE CATEGORIES"
-							optgroup={houseCategories}
-							onChange={(e) => {
-								form.setFieldValue("house_subcategory", e.target.value);
-								setSubCategory(e.target.value);
-							}}
-							disabled={propertyType !== "House Property"}
-							value={form.values.house_category}
-							error={
-								!!form.errors.house_category && form.touched.house_category
-							}
-							errorText={
-								form.touched.house_category
-									? form.errors.house_category
-									: undefined
-							}
-							onFocus={onInputFocus("house_category")}
-						/>
-						<Select
-							name="land_category"
-							id="land_category"
-							round
-							fullWidth
-							label="LAND CATEGORIES"
-							options={LandCategories}
-							onChange={(e) => {}}
-							disabled={propertyType !== "Land Property"}
-							// value={form.values.rate}
-							// error={!!form.errors.rate && form.touched.rate}
-							// errorText={form.touched.rate ? form.errors.rate : undefined}
-							// onFocus={onInputFocus("rate")}
-						/>
-					</div>
-					<div className="header">
-						<h6>Property Information</h6>
-					</div>
-					<div className="basic-info">
-						<Input
-							name="name"
-							id="name"
-							round
-							fullWidth
-							placeholder="Property Name"
-							onChange={(e) => {
-								form.setFieldValue("name", e.target.value);
-							}}
-							value={form.values.name}
-							error={!!form.errors.name && form.touched.name}
-							errorText={form.touched.name ? form.errors.name : undefined}
-							onFocus={onInputFocus("name")}
-						/>
-					</div>
-					<div className="basic-info">
-						<Radio
-							id="1"
-							value="rent"
-							label="For Rent"
-							name="transaction"
-							onChange={(e) => {
-								form.setFieldValue("transaction", e.target.value);
-							}}
-							error={!!form.errors.transaction && form.touched.transaction}
-							errorText={
-								form.touched.transaction ? form.errors.transaction : undefined
-							}
-							onFocus={onInputFocus("transaction")}
-						/>
-						<Radio
-							id="2"
-							value="sale"
-							label="For Sale"
-							name="transaction"
-							onChange={(e) => {
-								form.setFieldValue("transaction", e.target.value);
-							}}
-							error={!!form.errors.transaction && form.touched.transaction}
-							errorText={
-								form.touched.transaction ? form.errors.transaction : undefined
-							}
-							onFocus={onInputFocus("transaction")}
-						/>
-					</div>
-					<CheckBox
-						label="Allow Reservations ?"
-						name="is_reserved"
-						onChange={(e) => {
-							form.setFieldValue("is_reserved", e.target.checked);
-						}}
-						value={form.values.is_reserved}
-						error={!!form.errors.is_reserved && form.touched.is_reserved}
-						errorText={
-							form.touched.is_reserved ? form.errors.is_reserved : undefined
-						}
-						onFocus={onInputFocus("is_reserved")}
-					/>
-					<div className="basic-info">
-						<Input
-							name="price"
-							id="price"
-							round
-							fullWidth
-							placeholder="Property Price"
-							onChange={(e) => {
-								form.setFieldValue("price", e.target.value);
-							}}
-							value={form.values.price}
-							error={!!form.errors.price && form.touched.price}
-							errorText={form.touched.price ? form.errors.price : undefined}
-							onFocus={onInputFocus("price")}
-						/>
-						<Input
-							name="year_built"
-							id="year_built"
-							round
-							fullWidth
-							placeholder="Year Built"
-							onChange={(e) => {
-								form.setFieldValue("year_built", e.target.value);
-							}}
-							value={form.values.year_built}
-							error={!!form.errors.year_built && form.touched.year_built}
-							errorText={
-								form.touched.year_built ? form.errors.year_built : undefined
-							}
-							onFocus={onInputFocus("year_built")}
-						/>
-						<Select
-							name="payment_type"
-							id="payment_type"
-							round
-							fullWidth
-							label="PAYMENT TYPE"
-							options={PaymentTypes}
-							onChange={(e) => {
-								form.setFieldValue("payment_type", e.target.value);
-							}}
-							value={form.values.payment_type}
-							error={!!form.errors.payment_type && form.touched.payment_type}
-							errorText={
-								form.touched.payment_type ? form.errors.payment_type : undefined
-							}
-							onFocus={onInputFocus("payment_type")}
-						/>
-					</div>
-					<div className="basic-info">
-						<Input
-							name="car_park"
-							id="car_park"
-							round
-							fullWidth
-							placeholder="Number of Car Parks"
-							onChange={(e) => {
-								form.setFieldValue("car_park", e.target.value);
-							}}
-							value={form.values.car_park}
-							error={!!form.errors.car_park && form.touched.car_park}
-							errorText={
-								form.touched.car_park ? form.errors.car_park : undefined
-							}
-							onFocus={onInputFocus("car_park")}
-						/>
-						<Input
-							name="bathrooms"
-							id="bathrooms"
-							round
-							fullWidth
-							placeholder="Number of Bathrooms"
-							onChange={(e) => {
-								form.setFieldValue("bathrooms", e.target.value);
-							}}
-							value={form.values.bathrooms}
-							error={!!form.errors.bathrooms && form.touched.bathrooms}
-							errorText={
-								form.touched.bathrooms ? form.errors.bathrooms : undefined
-							}
-							onFocus={onInputFocus("bathrooms")}
-						/>
-						<Input
-							name="rooms"
-							id="rooms"
-							round
-							fullWidth
-							placeholder="Number of Rooms"
-							onChange={(e) => {
-								form.setFieldValue("rooms", e.target.value);
-							}}
-							value={form.values.rooms}
-							error={!!form.errors.rooms && form.touched.rooms}
-							errorText={form.touched.rooms ? form.errors.rooms : undefined}
-							onFocus={onInputFocus("rooms")}
-						/>
-					</div>
-					<div className="basic-info">
-						<Input
-							name="dimension"
-							id="dimension"
-							round
-							fullWidth
-							placeholder="House Dimension"
-							onChange={(e) => {
-								form.setFieldValue("dimension", e.target.value);
-							}}
-							value={form.values.dimension}
-							error={!!form.errors.dimension && form.touched.dimension}
-							errorText={
-								form.touched.dimension ? form.errors.dimension : undefined
-							}
-							onFocus={onInputFocus("dimension")}
-						/>
-						<Input
-							name="home_area"
-							id="home_area"
-							round
-							fullWidth
-							placeholder="House Area"
-							onChange={(e) => {
-								form.setFieldValue("home_area", e.target.value);
-							}}
-							value={form.values.home_area}
-							error={!!form.errors.home_area && form.touched.home_area}
-							errorText={
-								form.touched.home_area ? form.errors.home_area : undefined
-							}
-							onFocus={onInputFocus("home_area")}
-						/>
-						<Input
-							name="material"
-							id="material"
-							round
-							fullWidth
-							placeholder="Material used in building"
-							onChange={(e) => {
-								form.setFieldValue("material", e.target.value);
-							}}
-							value={form.values.material}
-							error={!!form.errors.material && form.touched.material}
-							errorText={
-								form.touched.material ? form.errors.material : undefined
-							}
-							onFocus={onInputFocus("material")}
-						/>
-					</div>
-					<div className="basic-info">
-						<Autocomplete
-							name="location"
-							id="location"
-							placeholder="Property Location"
-							style={{
-								width: "100%",
-								fontFamily: "GT Walsheim",
-								fontWeight: "400",
-								background: "#ffffff",
-								border: "1px solid #dddddd",
-								boxSizing: "border-box",
-								padding: "16px",
-								maxWidth: "400px",
-								fontSize: "14px",
-								borderRadius: "30px",
-							}}
-							onBlur={(e) => {
-								form.setFieldValue("location", e.target.value);
-								setLocation(e.target.value);
-							}}
-							onPlaceSelected={(place) => {
-								setLocation(place.formatted_address);
-								form.setFieldValue("location", place.formatted_address);
-							}}
-							types={["geocode"]}
-							componentRestrictions={{ country: "ng" }}
-						/>
-					</div>
-					<div className="basic-info">
-						<Input
-							name="state"
-							id="state"
-							round
-							fullWidth
-							placeholder="State"
-							value={form.values.state || state}
-							error={!!form.errors.state && form.touched.state}
-							errorText={form.touched.state ? form.errors.state : undefined}
-							onFocus={onInputFocus("state")}
-							disabled
-						/>
-						<Input
-							name="lga"
-							id="lga"
-							round
-							fullWidth
-							placeholder="lga"
-							value={form.values.lga || city}
-							error={!!form.errors.lga && form.touched.lga}
-							errorText={form.touched.lga ? form.errors.lga : undefined}
-							onFocus={onInputFocus("lga")}
-							disabled
-						/>
-					</div>
-					<div className="basic-info">
-						<TextArea
-							name="status"
-							id="status"
-							fullWidth
-							noResize
-							description
-							placeholder="Property Status"
-							onChange={(e) => {
-								form.setFieldValue("status", e.target.value);
-							}}
-							value={form.values.status}
-							error={!!form.errors.status && form.touched.status}
-							errorText={form.touched.status ? form.errors.status : undefined}
-							onFocus={onInputFocus("status")}
-						/>
-						<TextArea
-							name="overview"
-							id="overview"
-							fullWidth
-							noResize
-							description
-							placeholder="Property Overview"
-							onChange={(e) => {
-								form.setFieldValue("overview", e.target.value);
-							}}
-							value={form.values.overview}
-							error={!!form.errors.overview && form.touched.overview}
-							errorText={
-								form.touched.overview ? form.errors.overview : undefined
-							}
-							onFocus={onInputFocus("overview")}
-						/>
-					</div>
-					<div className="ammenities">
-						{Ammenities.map((item, index) => (
-							<CheckBox
-								key={index}
-								label={item}
-								name={item}
-								onClick={(e) => {
-									setAmmenities(ammenities.concat(e.target.value));
-								}}
-								value={item}
-								error={!!form.errors.amenities && form.touched.amenities}
-								errorText={
-									form.touched.amenities ? form.errors.amenities : undefined
-								}
-								onFocus={onInputFocus("amenities")}
-							/>
-						))}
-					</div>
-					<VideoPicker
-						onChange={(value) => {
-							form.setFieldValue("video_url", value);
-						}}
-					/>
-					<ImagesUploader
-						onChange={(values) => {
-							form.setFieldValue("image_file", values);
-						}}
-					/>
-					<div className="header">
-						<h6>contact info</h6>
-					</div>
-					<div className="basic-info">
-						<Input
-							name="contact"
-							id="contact"
-							round
-							fullWidth
-							placeholder="Owners Contact"
-							onChange={(e) => {
-								form.setFieldValue("contact", e.target.value);
-							}}
-							value={form.values.contact}
-							error={!!form.errors.contact && form.touched.contact}
-							errorText={form.touched.contact ? form.errors.contact : undefined}
-							onFocus={onInputFocus("contact")}
-						/>
-						<Input
-							name="reference"
-							id="reference"
-							round
-							fullWidth
-							placeholder="Reference"
-							onChange={(e) => {
-								form.setFieldValue("reference", e.target.value);
-							}}
-							value={form.values.reference}
-							error={!!form.errors.reference && form.touched.reference}
-							errorText={
-								form.touched.reference ? form.errors.reference : undefined
-							}
-							onFocus={onInputFocus("reference")}
-						/>
-					</div>
-					<Button type="submit" loading={actionLoading}>
-						Submit
-					</Button>
-				</form>
-			</AddPropertyContainer>
-		</Content>
-	);
+  return (
+    <Content>
+      <Content.TitleHeader>
+        <div
+          style={{ flex: "0 0 41.666667%", maxWidth: "41.666667%" }}
+        >
+          <Content.Back to="/admin/properties">
+            &larr; Back
+          </Content.Back>
+          <Content.Title>Properties View</Content.Title>
+        </div>
+      </Content.TitleHeader>
+      <AddPropertyContainer>
+        <form onSubmit={form.handleSubmit}>
+          <div className="basic-info">
+            <Radio
+              label="House Property"
+              name="propertyType"
+              id="houseProperty"
+              value="House Property"
+              onClick={(e) => {
+                setPropertyType(e.target.value);
+              }}
+            />
+            <Radio
+              label="Land Property"
+              value="Land Property"
+              name="propertyType"
+              id="landProperty"
+              onClick={(e) => {
+                setPropertyType(e.target.value);
+              }}
+            />
+          </div>
+          <div className="header">
+            <h6>category Info</h6>
+          </div>
+          <div className="basic-info">
+            <Select
+              name="house_subcategory"
+              id="house_subcategory"
+              round
+              fullWidth
+              label="HOUSE CATEGORIES"
+              optgroup={houseCategories}
+              onChange={(e) => {
+                form.setFieldValue(
+                  "house_subcategory",
+                  e.target.value
+                );
+                setSubCategory(e.target.value);
+              }}
+              disabled={propertyType !== "House Property"}
+              value={form.values.house_category}
+              error={
+                !!form.errors.house_category &&
+                form.touched.house_category
+              }
+              errorText={
+                form.touched.house_category
+                  ? form.errors.house_category
+                  : undefined
+              }
+              onFocus={onInputFocus("house_category")}
+            />
+            <Select
+              name="land_category"
+              id="land_category"
+              round
+              fullWidth
+              label="LAND CATEGORIES"
+              options={LandCategories}
+              onChange={(e) => {}}
+              disabled={propertyType !== "Land Property"}
+              // value={form.values.rate}
+              // error={!!form.errors.rate && form.touched.rate}
+              // errorText={form.touched.rate ? form.errors.rate : undefined}
+              // onFocus={onInputFocus("rate")}
+            />
+          </div>
+          <div className="header">
+            <h6>Property Information</h6>
+          </div>
+          <div className="basic-info">
+            <Input
+              name="name"
+              id="name"
+              round
+              fullWidth
+              placeholder="Property Name"
+              onChange={(e) => {
+                form.setFieldValue("name", e.target.value);
+              }}
+              value={form.values.name}
+              error={!!form.errors.name && form.touched.name}
+              errorText={
+                form.touched.name ? form.errors.name : undefined
+              }
+              onFocus={onInputFocus("name")}
+            />
+          </div>
+          <div className="basic-info">
+            <Radio
+              id="1"
+              value="rent"
+              label="For Rent"
+              name="transaction"
+              onChange={(e) => {
+                form.setFieldValue("transaction", e.target.value);
+              }}
+              error={
+                !!form.errors.transaction && form.touched.transaction
+              }
+              errorText={
+                form.touched.transaction
+                  ? form.errors.transaction
+                  : undefined
+              }
+              onFocus={onInputFocus("transaction")}
+            />
+            <Radio
+              id="2"
+              value="sale"
+              label="For Sale"
+              name="transaction"
+              onChange={(e) => {
+                form.setFieldValue("transaction", e.target.value);
+              }}
+              error={
+                !!form.errors.transaction && form.touched.transaction
+              }
+              errorText={
+                form.touched.transaction
+                  ? form.errors.transaction
+                  : undefined
+              }
+              onFocus={onInputFocus("transaction")}
+            />
+          </div>
+          <CheckBox
+            label="Allow Reservations ?"
+            name="is_reserved"
+            onChange={(e) => {
+              form.setFieldValue("is_reserved", e.target.checked);
+            }}
+            value={form.values.is_reserved}
+            error={
+              !!form.errors.is_reserved && form.touched.is_reserved
+            }
+            errorText={
+              form.touched.is_reserved
+                ? form.errors.is_reserved
+                : undefined
+            }
+            onFocus={onInputFocus("is_reserved")}
+          />
+          <div className="basic-info">
+            <Input
+              name="price"
+              id="price"
+              round
+              fullWidth
+              placeholder="Property Price"
+              onChange={(e) => {
+                form.setFieldValue("price", e.target.value);
+              }}
+              value={form.values.price}
+              error={!!form.errors.price && form.touched.price}
+              errorText={
+                form.touched.price ? form.errors.price : undefined
+              }
+              onFocus={onInputFocus("price")}
+            />
+            <Input
+              name="year_built"
+              id="year_built"
+              round
+              fullWidth
+              placeholder="Year Built"
+              onChange={(e) => {
+                form.setFieldValue("year_built", e.target.value);
+              }}
+              value={form.values.year_built}
+              error={
+                !!form.errors.year_built && form.touched.year_built
+              }
+              errorText={
+                form.touched.year_built
+                  ? form.errors.year_built
+                  : undefined
+              }
+              onFocus={onInputFocus("year_built")}
+            />
+            <Select
+              name="payment_type"
+              id="payment_type"
+              round
+              fullWidth
+              label="PAYMENT TYPE"
+              options={PaymentTypes}
+              onChange={(e) => {
+                form.setFieldValue("payment_type", e.target.value);
+              }}
+              value={form.values.payment_type}
+              error={
+                !!form.errors.payment_type &&
+                form.touched.payment_type
+              }
+              errorText={
+                form.touched.payment_type
+                  ? form.errors.payment_type
+                  : undefined
+              }
+              onFocus={onInputFocus("payment_type")}
+            />
+          </div>
+          <div className="basic-info">
+            <Input
+              name="car_park"
+              id="car_park"
+              round
+              fullWidth
+              placeholder="Number of Car Parks"
+              onChange={(e) => {
+                form.setFieldValue("car_park", e.target.value);
+              }}
+              value={form.values.car_park}
+              error={!!form.errors.car_park && form.touched.car_park}
+              errorText={
+                form.touched.car_park
+                  ? form.errors.car_park
+                  : undefined
+              }
+              onFocus={onInputFocus("car_park")}
+            />
+            <Input
+              name="bathrooms"
+              id="bathrooms"
+              round
+              fullWidth
+              placeholder="Number of Bathrooms"
+              onChange={(e) => {
+                form.setFieldValue("bathrooms", e.target.value);
+              }}
+              value={form.values.bathrooms}
+              error={
+                !!form.errors.bathrooms && form.touched.bathrooms
+              }
+              errorText={
+                form.touched.bathrooms
+                  ? form.errors.bathrooms
+                  : undefined
+              }
+              onFocus={onInputFocus("bathrooms")}
+            />
+            <Input
+              name="rooms"
+              id="rooms"
+              round
+              fullWidth
+              placeholder="Number of Rooms"
+              onChange={(e) => {
+                form.setFieldValue("rooms", e.target.value);
+              }}
+              value={form.values.rooms}
+              error={!!form.errors.rooms && form.touched.rooms}
+              errorText={
+                form.touched.rooms ? form.errors.rooms : undefined
+              }
+              onFocus={onInputFocus("rooms")}
+            />
+          </div>
+          <div className="basic-info">
+            <Input
+              name="dimension"
+              id="dimension"
+              round
+              fullWidth
+              placeholder="House Dimension"
+              onChange={(e) => {
+                form.setFieldValue("dimension", e.target.value);
+              }}
+              value={form.values.dimension}
+              error={
+                !!form.errors.dimension && form.touched.dimension
+              }
+              errorText={
+                form.touched.dimension
+                  ? form.errors.dimension
+                  : undefined
+              }
+              onFocus={onInputFocus("dimension")}
+            />
+            <Input
+              name="home_area"
+              id="home_area"
+              round
+              fullWidth
+              placeholder="House Area"
+              onChange={(e) => {
+                form.setFieldValue("home_area", e.target.value);
+              }}
+              value={form.values.home_area}
+              error={
+                !!form.errors.home_area && form.touched.home_area
+              }
+              errorText={
+                form.touched.home_area
+                  ? form.errors.home_area
+                  : undefined
+              }
+              onFocus={onInputFocus("home_area")}
+            />
+            <Input
+              name="material"
+              id="material"
+              round
+              fullWidth
+              placeholder="Material used in building"
+              onChange={(e) => {
+                form.setFieldValue("material", e.target.value);
+              }}
+              value={form.values.material}
+              error={!!form.errors.material && form.touched.material}
+              errorText={
+                form.touched.material
+                  ? form.errors.material
+                  : undefined
+              }
+              onFocus={onInputFocus("material")}
+            />
+          </div>
+          <div className="basic-info">
+            <Autocomplete
+              name="location"
+              id="location"
+              placeholder="Property Location"
+              style={{
+                width: "100%",
+                fontFamily: "GT Walsheim",
+                fontWeight: "400",
+                background: "#ffffff",
+                border: "1px solid #dddddd",
+                boxSizing: "border-box",
+                padding: "16px",
+                maxWidth: "400px",
+                fontSize: "14px",
+                borderRadius: "30px",
+              }}
+              onBlur={(e) => {
+                form.setFieldValue("location", e.target.value);
+                setLocation(e.target.value);
+              }}
+              onPlaceSelected={(place) => {
+                setLocation(place.formatted_address);
+                form.setFieldValue(
+                  "location",
+                  place.formatted_address
+                );
+              }}
+              types={["geocode"]}
+              componentRestrictions={{ country: "ng" }}
+            />
+          </div>
+          <div className="basic-info">
+            <Input
+              name="state"
+              id="state"
+              round
+              fullWidth
+              placeholder="State"
+              value={form.values.state || state}
+              error={!!form.errors.state && form.touched.state}
+              errorText={
+                form.touched.state ? form.errors.state : undefined
+              }
+              onFocus={onInputFocus("state")}
+              disabled
+            />
+            <Input
+              name="lga"
+              id="lga"
+              round
+              fullWidth
+              placeholder="lga"
+              value={form.values.lga || city}
+              error={!!form.errors.lga && form.touched.lga}
+              errorText={
+                form.touched.lga ? form.errors.lga : undefined
+              }
+              onFocus={onInputFocus("lga")}
+              disabled
+            />
+          </div>
+          <div className="basic-info">
+            <TextArea
+              name="status"
+              id="status"
+              fullWidth
+              noResize
+              description
+              placeholder="Property Status"
+              onChange={(e) => {
+                form.setFieldValue("status", e.target.value);
+              }}
+              value={form.values.status}
+              error={!!form.errors.status && form.touched.status}
+              errorText={
+                form.touched.status ? form.errors.status : undefined
+              }
+              onFocus={onInputFocus("status")}
+            />
+            <TextArea
+              name="overview"
+              id="overview"
+              fullWidth
+              noResize
+              description
+              placeholder="Property Overview"
+              onChange={(e) => {
+                form.setFieldValue("overview", e.target.value);
+              }}
+              value={form.values.overview}
+              error={!!form.errors.overview && form.touched.overview}
+              errorText={
+                form.touched.overview
+                  ? form.errors.overview
+                  : undefined
+              }
+              onFocus={onInputFocus("overview")}
+            />
+          </div>
+          <div className="ammenities">
+            {Ammenities.map((item, index) => (
+              <CheckBox
+                key={index}
+                label={item}
+                name={item}
+                onClick={(e) => {
+                  setAmmenities(ammenities.concat(e.target.value));
+                }}
+                value={item}
+                error={
+                  !!form.errors.amenities && form.touched.amenities
+                }
+                errorText={
+                  form.touched.amenities
+                    ? form.errors.amenities
+                    : undefined
+                }
+                onFocus={onInputFocus("amenities")}
+              />
+            ))}
+          </div>
+          <VideoPicker
+            onChange={(value) => {
+              form.setFieldValue("video_url", value);
+            }}
+          />
+          <ImagesUploader
+            onChange={(values) => {
+              form.setFieldValue("image_file", values);
+            }}
+          />
+          <div className="header">
+            <h6>contact info</h6>
+          </div>
+          <div className="basic-info">
+            <Input
+              name="contact"
+              id="contact"
+              round
+              fullWidth
+              placeholder="Owners Contact"
+              onChange={(e) => {
+                form.setFieldValue("contact", e.target.value);
+              }}
+              value={form.values.contact}
+              error={!!form.errors.contact && form.touched.contact}
+              errorText={
+                form.touched.contact ? form.errors.contact : undefined
+              }
+              onFocus={onInputFocus("contact")}
+            />
+            <Input
+              name="reference"
+              id="reference"
+              round
+              fullWidth
+              placeholder="Reference"
+              onChange={(e) => {
+                form.setFieldValue("reference", e.target.value);
+              }}
+              value={form.values.reference}
+              error={
+                !!form.errors.reference && form.touched.reference
+              }
+              errorText={
+                form.touched.reference
+                  ? form.errors.reference
+                  : undefined
+              }
+              onFocus={onInputFocus("reference")}
+            />
+          </div>
+          <Button type="submit" loading={actionLoading}>
+            Submit
+          </Button>
+        </form>
+      </AddPropertyContainer>
+    </Content>
+  );
 };
 
 export default Properties;
 
 const Ammenities = [
-	"Swimming Pool",
-	"Terrace",
-	"Air Conditioning",
-	"Internet",
-	"Balcony",
-	"Cable TV",
-	"DishWasher",
-	"Washing Machine",
-	"Solar",
+  "Swimming Pool",
+  "Terrace",
+  "Air Conditioning",
+  "Internet",
+  "Balcony",
+  "Cable TV",
+  "DishWasher",
+  "Washing Machine",
+  "Solar",
 ];
 
-const PaymentTypes = [{ name: "save for property" }, { name: "outright" }];
+const PaymentTypes = [
+  { name: "save for property" },
+  { name: "outright" },
+];
