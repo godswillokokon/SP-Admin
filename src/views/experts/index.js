@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "components/Button";
 
@@ -20,9 +20,12 @@ import {
   approveExpert,
   rejectExpert,
 } from "store/experts/actions";
+import Modal from "components/Modal";
 
 export default () => {
   const experts = useSelector((state) => state.experts.data);
+  const [viewModal, setViewModal] = useState(false);
+  const [expertDetail, setExpertDetail] = useState({});
   // const loading = useSelector((state) => state.allUsers.loading);
   // const actionLoading = useSelector((state) => state.allUsers.actionLoading);
   const dispatch = useDispatch();
@@ -45,6 +48,37 @@ export default () => {
   console.log(experts?.experts);
   return (
     <>
+      <Modal
+        isOpen={viewModal}
+        onClose={() => setViewModal(!viewModal)}
+        children={
+          <>
+            <div
+              style={{
+                fontSize: 18,
+                lineHeight: "22px",
+                marginBottom: 7,
+                textTransform: "capitalize",
+                color: "red",
+              }}
+            >
+              <div style={{ display: "flex" }}>
+                <Card>
+                  <h3>ID Card</h3>
+
+                  {/* <img
+                    src={kycDetails.idCard}
+                    alt="ID Card"
+                    width="370"
+                    height="370"
+                  /> */}
+                </Card>
+              </div>
+            </div>
+          </>
+        }
+        width={500}
+      ></Modal>
       <div className="content">
         <Card className="card-user">
           <CardHeader>
@@ -78,7 +112,14 @@ export default () => {
 
                         <td className="">
                           <ButtonGroupContainer>
-                            <Button small primary>
+                            <Button
+                              small
+                              primary
+                              onClick={() => {
+                                setExpertDetail(value);
+                                setViewModal(!viewModal);
+                              }}
+                            >
                               View
                             </Button>
                             {!value?.approved ? (
