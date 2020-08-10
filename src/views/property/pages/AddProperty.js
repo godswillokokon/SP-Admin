@@ -12,7 +12,7 @@ import LandCategories from "data/landCategories.json";
 import VideoPicker from "components/VideoPicker";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { createHouse } from "store/property/actions";
+import { createHouse, createLand } from "store/property/actions";
 import { getHouseCategories } from "store/categories/actions";
 import { toastSuccess } from "utils/Toast";
 import Geocode from "react-geocode";
@@ -64,7 +64,7 @@ const Properties = () => {
   useEffect(() => {
     let newArr = [];
     categories &&
-      categories.house_categories.map((item, index) => {
+      categories.house_categories.map((item) => {
         const newObj = {
           name: item.house_category,
           options: item.sub_category.map((item, index) => {
@@ -123,10 +123,10 @@ const Properties = () => {
     if (!values.transaction) {
       errors.transaction = "Property transaction is required";
     }
-    if (!values.status) {
+    if (propertyType === "House Property" && !values.status) {
       errors.status = "Property Status is required";
     }
-    if (!values.overview) {
+    if (propertyType === "House Property" && !values.overview) {
       errors.overview = "Property overview is required";
     }
     return errors;
@@ -137,6 +137,8 @@ const Properties = () => {
       name: "",
       house_category: "",
       house_subcategory: "",
+      land_category: "",
+      topography: "",
       location: "",
       lga: "",
       state: "",
@@ -162,18 +164,49 @@ const Properties = () => {
       rooms: "",
     },
     onSubmit: (values) => {
-      values.amenities = ammenities;
-      values.house_category = category;
+      if (propertyType === "House Property") {
+        values.amenities = ammenities;
+        values.house_category = category;
+        delete values.land_category;
+        delete values.topography;
+      }
+      if (propertyType !== "House Property") {
+        delete values.house_subcategory;
+        delete values.is_reserved;
+        delete values.material;
+        delete values.amenities;
+        delete values.bathrooms;
+        delete values.rooms;
+        delete values.car_park;
+        delete values.home_area;
+        delete values.overview;
+        delete values.year_built;
+        delete values.reference;
+        delete values.dimension;
+        delete values.status;
+        delete values.house_category;
+        delete values.transaction;
+        delete values.video_url;
+        delete values.contact;
+        values.topography = "Awesome";
+      }
       values.lng = latlng.lng;
       values.lat = latlng.lat;
       values.state = state;
       values.lga = city;
-      dispatch(createHouse(values)).then((res) => {
-        if (res) {
-          console.log(res);
-          toastSuccess("Property Created Successfully");
-        }
-      });
+      propertyType === "House Property"
+        ? dispatch(createHouse(values)).then((res) => {
+            if (res) {
+              console.log(res);
+              toastSuccess("Property Created Successfully");
+            }
+          })
+        : dispatch(createLand(values)).then((res) => {
+            if (res) {
+              console.log(res);
+              toastSuccess("Property Created Successfully");
+            }
+          });
     },
     validate,
     validateOnChange: true,
@@ -234,14 +267,14 @@ const Properties = () => {
                 setSubCategory(e.target.value);
               }}
               disabled={propertyType !== "House Property"}
-              value={form.values.house_category}
+              value={form.values.house_subcategory}
               error={
-                !!form.errors.house_category &&
-                form.touched.house_category
+                !!form.errors.house_subcategory &&
+                form.touched.house_subcategory
               }
               errorText={
-                form.touched.house_category
-                  ? form.errors.house_category
+                form.touched.house_subcategory
+                  ? form.errors.house_subcategory
                   : undefined
               }
               onFocus={onInputFocus("house_category")}
@@ -253,12 +286,21 @@ const Properties = () => {
               fullWidth
               label="LAND CATEGORIES"
               options={LandCategories}
-              onChange={(e) => {}}
+              onChange={(e) => {
+                form.setFieldValue("land_category", e.target.value);
+              }}
               disabled={propertyType !== "Land Property"}
-              // value={form.values.rate}
-              // error={!!form.errors.rate && form.touched.rate}
-              // errorText={form.touched.rate ? form.errors.rate : undefined}
-              // onFocus={onInputFocus("rate")}
+              value={form.values.land_category}
+              error={
+                !!form.errors.land_category &&
+                form.touched.land_category
+              }
+              errorText={
+                form.touched.land_category
+                  ? form.errors.land_category
+                  : undefined
+              }
+              onFocus={onInputFocus("land_category")}
             />
           </div>
           <div className="header">
@@ -373,6 +415,7 @@ const Properties = () => {
                   : undefined
               }
               onFocus={onInputFocus("year_built")}
+              disabled={propertyType !== "House Property"}
             />
             <Select
               name="payment_type"
@@ -415,6 +458,7 @@ const Properties = () => {
                   : undefined
               }
               onFocus={onInputFocus("car_park")}
+              disabled={propertyType !== "House Property"}
             />
             <Input
               name="bathrooms"
@@ -435,6 +479,7 @@ const Properties = () => {
                   : undefined
               }
               onFocus={onInputFocus("bathrooms")}
+              disabled={propertyType !== "House Property"}
             />
             <Input
               name="rooms"
@@ -451,6 +496,7 @@ const Properties = () => {
                 form.touched.rooms ? form.errors.rooms : undefined
               }
               onFocus={onInputFocus("rooms")}
+              disabled={propertyType !== "House Property"}
             />
           </div>
           <div className="basic-info">
@@ -459,7 +505,11 @@ const Properties = () => {
               id="dimension"
               round
               fullWidth
-              placeholder="House Dimension"
+              placeholder={
+                propertyType !== "House Property"
+                  ? "Land Dimension"
+                  : "House Dimension"
+              }
               onChange={(e) => {
                 form.setFieldValue("dimension", e.target.value);
               }}
@@ -493,6 +543,7 @@ const Properties = () => {
                   : undefined
               }
               onFocus={onInputFocus("home_area")}
+              disabled={propertyType !== "House Property"}
             />
             <Input
               name="material"
@@ -511,6 +562,7 @@ const Properties = () => {
                   : undefined
               }
               onFocus={onInputFocus("material")}
+              disabled={propertyType !== "House Property"}
             />
           </div>
           <div className="basic-info">
@@ -592,6 +644,7 @@ const Properties = () => {
                 form.touched.status ? form.errors.status : undefined
               }
               onFocus={onInputFocus("status")}
+              disabled={propertyType !== "House Property"}
             />
             <TextArea
               name="overview"
@@ -611,6 +664,7 @@ const Properties = () => {
                   : undefined
               }
               onFocus={onInputFocus("overview")}
+              disabled={propertyType !== "House Property"}
             />
           </div>
           <div className="ammenities">
@@ -632,6 +686,7 @@ const Properties = () => {
                     : undefined
                 }
                 onFocus={onInputFocus("amenities")}
+                disabled={propertyType !== "House Property"}
               />
             ))}
           </div>
@@ -684,6 +739,7 @@ const Properties = () => {
                   : undefined
               }
               onFocus={onInputFocus("reference")}
+              disabled={propertyType !== "House Property"}
             />
           </div>
           <Button type="submit" loading={actionLoading}>

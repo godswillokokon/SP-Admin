@@ -13,28 +13,38 @@ const VideoPicker = ({ title, onChange = (files) => {} }) => {
     formData.append("upload_preset", "ngflnmyo");
     formData.append("file", files);
     setLoading(true);
-
     axios
-      .post("https://api.cloudinary.com/v1_1/tech-18/video/upload", formData)
+      .post(
+        "https://api.cloudinary.com/v1_1/tech-18/video/upload",
+        formData
+      )
       .then((res) => {
         setVideoInfo(res.data.secure_url);
         onChange(res.data.secure_url);
+        setLoading(false);
       })
-      .then(setLoading(false))
       .catch((err) => console.log(err));
   };
 
   return (
     <VideoPickerContainer>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <input type="file" name="file" onChange={uploadVideo} />
-          <VideoPickerContainer.PlaceHolder>
+      <input
+        type="file"
+        name="file"
+        onChange={uploadVideo}
+        disabled={loading}
+      />
+      <VideoPickerContainer.PlaceHolder>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
             {videoInfo && (
               <video controls width={"100%"} height={"100%"}>
-                <source src={videoInfo ? videoInfo : ""} type="video/mp4" />
+                <source
+                  src={videoInfo ? videoInfo : ""}
+                  type="video/mp4"
+                />
               </video>
             )}
             {!videoInfo ? (
@@ -45,9 +55,9 @@ const VideoPicker = ({ title, onChange = (files) => {} }) => {
             ) : (
               ""
             )}
-          </VideoPickerContainer.PlaceHolder>
-        </>
-      )}
+          </>
+        )}
+      </VideoPickerContainer.PlaceHolder>
     </VideoPickerContainer>
   );
 };

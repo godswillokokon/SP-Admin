@@ -19,7 +19,10 @@ const Select = ({
   ...rest
 }) => {
   return (
-    <InputBlock.Container fullWidth={fullWidth} className={containerClass}>
+    <InputBlock.Container
+      fullWidth={fullWidth}
+      className={containerClass}
+    >
       <InputBlock.Label htmlFor={name} hide={hideLabel}>
         {label}
       </InputBlock.Label>
@@ -49,7 +52,9 @@ const Select = ({
           </optgroup>
         ))}
       </InputBlock.Select>
-      {errorText && <InputBlock.ErrorText>{errorText}</InputBlock.ErrorText>}
+      {errorText && (
+        <InputBlock.ErrorText>{errorText}</InputBlock.ErrorText>
+      )}
     </InputBlock.Container>
   );
 };
