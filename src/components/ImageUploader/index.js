@@ -18,7 +18,10 @@ function Previews({ onChange = (image) => {} }) {
     formData.append("file", files);
 
     axios
-      .post("https://api.cloudinary.com/v1_1/tech-18/image/upload", formData)
+      .post(
+        "https://api.cloudinary.com/v1_1/tech-18/image/upload",
+        formData
+      )
       .then((res) => {
         setImages(images.concat(res.data.secure_url));
         onChange(images.concat(res.data.secure_url));
@@ -38,8 +41,15 @@ function Previews({ onChange = (image) => {} }) {
     <ImagePickerContainer>
       <section className="container">
         <div className="input-container">
-          <input type="file" name="file" multiple onChange={uploadImages} />
-          <p>Drag 'n' drop some files here, or click to select files</p>
+          <input
+            type="file"
+            name="file"
+            onChange={uploadImages}
+            multiple
+          />
+          <p>
+            Drag 'n' drop some files here, or click to select files
+          </p>
         </div>
         <ImagePickerContainer.ThumbsContainer>
           {thumbs}

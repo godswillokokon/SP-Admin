@@ -19,7 +19,9 @@ const Properties = () => {
   return (
     <Content>
       <Content.TitleHeader>
-        <div style={{ flex: "0 0 41.666667%", maxWidth: "41.666667%" }}>
+        <div
+          style={{ flex: "0 0 41.666667%", maxWidth: "41.666667%" }}
+        >
           <Content.Title>Properties View</Content.Title>
           <Content.Subtitle>
             All Properties available on spread pro
@@ -33,7 +35,7 @@ const Properties = () => {
       </Content.TitleHeader>
       <PropertiesContainer>
         {houses !== null
-          ? houses.houses.map((value, key) => (
+          ? houses.houses.data.map((value, key) => (
               <Property key={key} value={value} />
             ))
           : ""}

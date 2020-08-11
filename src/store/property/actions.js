@@ -9,9 +9,20 @@ export const createHouse = (data) => (dispatch) => {
   });
 };
 
+export const createLand = (data) => (dispatch) => {
+  const payload = api.post("/api/land/create", data);
+  return dispatch({
+    type: propertyActionTypes.CREATE_LAND_PROPERTY.default,
+    payload,
+  });
+};
+
 export const getHouses = () => (dispatch) => {
   const payload = api.get("/api/houses");
-  return dispatch({ type: propertyActionTypes.GET_HOUSE.default, payload });
+  return dispatch({
+    type: propertyActionTypes.GET_HOUSE.default,
+    payload,
+  });
 };
 
 export const getSingleHouse = (slug) => (dispatch) => {
