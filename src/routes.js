@@ -6,6 +6,7 @@ import AgentPage from "views/agents";
 import CareerPage from "views/careers";
 import OnlineInspectionPage from "views/online_inspection";
 import ExpertPage from "views/experts";
+import ReservedHouse from "views/reserved_house";
 
 var routes = [
   {
@@ -21,22 +22,20 @@ var routes = [
     icon: "nc-icon nc-bell-55",
     component: Property,
     layout: "/admin",
-    subMenu: [
-      {
-        path: "/reserve-house",
-        name: "Reserved Houses",
-        icon: "nc-icon nc-bell-55",
-        component: Property,
-        layout: "/admin",
-      },
-      {
-        path: "/reserve-land",
-        name: "Reserved Land",
-        icon: "nc-icon nc-bell-55",
-        component: Property,
-        layout: "/admin",
-      },
-    ],
+  },
+  {
+    path: "/reserve-house",
+    name: "Reserved Houses",
+    icon: "nc-icon nc-bell-55",
+    component: ReservedHouse,
+    layout: "/admin",
+  },
+  {
+    path: "/reserve-land",
+    name: "Reserved Land",
+    icon: "nc-icon nc-bell-55",
+    component: Property,
+    layout: "/admin",
   },
   {
     path: "/online-inspection",

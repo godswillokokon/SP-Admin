@@ -13,12 +13,12 @@ import "./assets/css/main.css";
 import { store, persistor } from "./store";
 
 const ToastConfig = {
-	className: "toast__container",
-	toastClassName: "toast__toast",
-	bodyClassName: "toast__body",
-	hideProgressBar: true,
-	closeButton: false,
-	position: toast.POSITION.TOP_CENTER,
+  className: "toast__container",
+  toastClassName: "toast__toast",
+  bodyClassName: "toast__body",
+  hideProgressBar: true,
+  closeButton: false,
+  position: toast.POSITION.TOP_CENTER,
 };
 
 // configure global toaster
@@ -27,21 +27,21 @@ const AdminLayout = lazy(() => import("layouts/Admin"));
 const LoginPage = lazy(() => import("views/auth"));
 
 ReactDOM.render(
-	<Suspense fallback={<LoaderBox />}>
-		<Provider store={store}>
-			<PersistGate persistor={persistor}>
-				<BrowserRouter>
-					<Switch>
-						<Route
-							path="/admin"
-							render={(props) => <AdminLayout {...props} />}
-						/>
-						<Route path="/" component={LoginPage} />
-						<Redirect to="/" />
-					</Switch>
-				</BrowserRouter>
-			</PersistGate>
-		</Provider>
-	</Suspense>,
-	document.getElementById("root")
+  <Suspense fallback={<LoaderBox />}>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <BrowserRouter>
+          <Switch>
+            <Route
+              path="/admin"
+              render={(props) => <AdminLayout {...props} />}
+            />
+            <Route path="/" component={LoginPage} />
+            <Redirect to="/" />
+          </Switch>
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  </Suspense>,
+  document.getElementById("root")
 );
