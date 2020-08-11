@@ -69,3 +69,10 @@ ImagePickerContainer.Img = styled.img`
   width: auto;
   height: 100%;
 `;
+
+ImagePickerContainer.Delete = styled.img`
+  display: ${({ showDelete }) => (showDelete ? "block" : "none")};
+  position: absolute;
+  height: 15px;
+  cursor: pointer;
+`;
