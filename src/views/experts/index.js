@@ -51,6 +51,7 @@ export default () => {
       <Modal
         isOpen={viewModal}
         onClose={() => setViewModal(!viewModal)}
+        width={500}
         children={
           <>
             <div
@@ -77,8 +78,7 @@ export default () => {
             </div>
           </>
         }
-        width={500}
-      ></Modal>
+      />
       <div className="content">
         <Card className="card-user">
           <CardHeader>
@@ -108,7 +108,11 @@ export default () => {
                         <td>{value?.user?.phone}</td>
                         <td>{value?.career?.name}</td>
                         <td>{value?.years_of_experience}</td>
-                        <td>{!value?.approved ? "Not Approve" : "Approved"}</td>
+                        <td>
+                          {!value?.approved
+                            ? "Not Approve"
+                            : "Approved"}
+                        </td>
 
                         <td className="">
                           <ButtonGroupContainer>
@@ -127,7 +131,9 @@ export default () => {
                                 small
                                 success
                                 onClick={() => {
-                                  handleApproveExpert(value?.users_id);
+                                  handleApproveExpert(
+                                    value?.users_id
+                                  );
                                 }}
                               >
                                 Approve
@@ -159,7 +165,10 @@ export default () => {
               <LoadingPage />
             )}
 
-            <Pagination size="sm" aria-label="Page navigation example">
+            <Pagination
+              size="sm"
+              aria-label="Page navigation example"
+            >
               <PaginationItem>
                 <PaginationLink first href="#" />
               </PaginationItem>

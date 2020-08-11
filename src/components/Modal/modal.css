@@ -1,4 +1,5 @@
 .modal {
+  display: block;
   position: relative;
   margin: auto;
   padding: 20px;
