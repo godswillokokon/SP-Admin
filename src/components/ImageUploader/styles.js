@@ -58,8 +58,8 @@ ImagePickerContainer.Thumb = styled.div`
   border: 1px solid #eaeaea;
   margin-bottom: 8px;
   margin-right: 8px;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   padding: 4px;
   box-sizing: border-box;
 `;
@@ -73,6 +73,6 @@ ImagePickerContainer.Img = styled.img`
 ImagePickerContainer.Delete = styled.img`
   display: ${({ showDelete }) => (showDelete ? "block" : "none")};
   position: absolute;
-  height: 15px;
+  height: 20px;
   cursor: pointer;
 `;

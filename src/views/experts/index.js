@@ -45,7 +45,7 @@ export default () => {
       toastSuccess("Expert has Rejected Successfully");
     });
   };
-  console.log(experts?.experts);
+  console.log(expertDetail);
   return (
     <>
       <Modal
