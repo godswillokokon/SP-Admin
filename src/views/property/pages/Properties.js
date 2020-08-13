@@ -6,15 +6,23 @@ import Property from "./components/property";
 import { useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getHouses } from "store/property/actions";
+import {
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+} from "reactstrap";
+import Loader from "./components/Loader";
 
 const Properties = () => {
   const dispatch = useDispatch();
   const houses = useSelector((state) => state.properties.data);
+  const loading = useSelector((state) => state.properties.loading);
   const match = useRouteMatch();
+  const [currentPage, setCurrentPage] = React.useState(0);
 
   React.useEffect(() => {
-    dispatch(getHouses());
-  }, [dispatch]);
+    dispatch(getHouses(currentPage + 1));
+  }, [dispatch, currentPage]);
 
   return (
     <Content>
@@ -33,13 +41,46 @@ const Properties = () => {
           </Button>
         </Content.HeaderButton>
       </Content.TitleHeader>
-      <PropertiesContainer>
-        {houses !== null
-          ? houses.houses.data.map((value, key) => (
-              <Property key={key} value={value} />
-            ))
-          : ""}
-      </PropertiesContainer>
+      {loading ? (
+        <Loader />
+      ) : (
+        <PropertiesContainer>
+          {houses?.houses?.data?.map((value, key) => (
+            <Property key={key} value={value} />
+          ))}
+          <Pagination aria-label="Page navigation example">
+            <PaginationItem disabled={currentPage <= 1}>
+              <PaginationLink
+                previous
+                onClick={() => setCurrentPage(currentPage - 1)}
+              />
+            </PaginationItem>
+
+            {[...Array(houses?.houses?.last_page)].map((_, index) => (
+              <PaginationItem
+                active={index === currentPage}
+                key={index}
+              >
+                <PaginationLink
+                  onClick={() => {
+                    setCurrentPage(index);
+                  }}
+                >
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem
+              disabled={currentPage + 1 === houses?.houses?.last_page}
+            >
+              <PaginationLink
+                next
+                onClick={() => setCurrentPage(currentPage + 1)}
+              />
+            </PaginationItem>
+          </Pagination>
+        </PropertiesContainer>
+      )}
     </Content>
   );
 };
