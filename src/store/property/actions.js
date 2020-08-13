@@ -17,8 +17,8 @@ export const createLand = (data) => (dispatch) => {
   });
 };
 
-export const getHouses = () => (dispatch) => {
-  const payload = api.get("/api/houses");
+export const getHouses = (page) => (dispatch) => {
+  const payload = api.get("/api/houses?page=" + page + "&limit=" + 6);
   return dispatch({
     type: propertyActionTypes.GET_HOUSE.default,
     payload,

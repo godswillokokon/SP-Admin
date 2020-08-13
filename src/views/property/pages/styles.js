@@ -8,6 +8,8 @@ export const PropertiesContainer = styled.div`
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
+  align-items: center;
+  justify-content: center;
   @media only screen and (max-width: 1280px) {
     margin-right: 0;
     margin-left: 0;
