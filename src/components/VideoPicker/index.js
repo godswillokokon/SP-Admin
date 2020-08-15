@@ -27,38 +27,41 @@ const VideoPicker = ({ title, onChange = (files) => {} }) => {
   };
 
   return (
-    <VideoPickerContainer>
-      <input
-        type="file"
-        name="file"
-        onChange={uploadVideo}
-        disabled={loading}
-      />
-      <VideoPickerContainer.PlaceHolder>
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            {videoInfo && (
-              <video controls width={"100%"} height={"100%"}>
-                <source
-                  src={videoInfo ? videoInfo : ""}
-                  type="video/mp4"
-                />
-              </video>
-            )}
-            {!videoInfo ? (
-              <div>
-                <h3>{title}</h3>
-                <p>Click to upload or drag and drop here</p>
-              </div>
-            ) : (
-              ""
-            )}
-          </>
-        )}
-      </VideoPickerContainer.PlaceHolder>
-    </VideoPickerContainer>
+    <>
+      <label>Video Uploader</label>
+      <VideoPickerContainer>
+        <input
+          type="file"
+          name="file"
+          onChange={uploadVideo}
+          disabled={loading}
+        />
+        <VideoPickerContainer.PlaceHolder>
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              {videoInfo && (
+                <video controls width={"100%"} height={"100%"}>
+                  <source
+                    src={videoInfo ? videoInfo : ""}
+                    type="video/mp4"
+                  />
+                </video>
+              )}
+              {!videoInfo ? (
+                <div>
+                  <h3>{title}</h3>
+                  <p>Click to upload or drag and drop here</p>
+                </div>
+              ) : (
+                ""
+              )}
+            </>
+          )}
+        </VideoPickerContainer.PlaceHolder>
+      </VideoPickerContainer>
+    </>
   );
 };
 
