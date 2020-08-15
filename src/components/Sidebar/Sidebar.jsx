@@ -13,7 +13,7 @@ const Sidebar = (props) => {
     <div className="sidebar">
       <div className="logo">
         <a
-          href="https://www.creative-tim.com"
+          href="https://spreadprolimited.com"
           className="simple-text logo-mini"
         >
           <div className="logo-img">
@@ -21,7 +21,7 @@ const Sidebar = (props) => {
           </div>
         </a>
         <a
-          href="https://www.creative-tim.com"
+          href="https://spreadprolimited.com"
           className="simple-text logo-normal"
         >
           SPREAD PROPERTIES

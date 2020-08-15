@@ -51,7 +51,7 @@ export default () => {
       <Modal
         isOpen={viewModal}
         onClose={() => setViewModal(!viewModal)}
-        width={500}
+        width={800}
         children={
           <>
             <div
@@ -63,17 +63,16 @@ export default () => {
                 color: "red",
               }}
             >
+              {console.log(expertDetail)}
               <div style={{ display: "flex" }}>
-                <Card>
-                  <h3>ID Card</h3>
+                <h3>{expertDetail?.user?.name}</h3>
 
-                  {/* <img
+                {/* <img
                     src={kycDetails.idCard}
                     alt="ID Card"
                     width="370"
                     height="370"
                   /> */}
-                </Card>
               </div>
             </div>
           </>
@@ -108,11 +107,7 @@ export default () => {
                         <td>{value?.user?.phone}</td>
                         <td>{value?.career?.name}</td>
                         <td>{value?.years_of_experience}</td>
-                        <td>
-                          {!value?.approved
-                            ? "Not Approve"
-                            : "Approved"}
-                        </td>
+                        <td>{!value?.approved ? "Not Approve" : "Approved"}</td>
 
                         <td className="">
                           <ButtonGroupContainer>
@@ -131,9 +126,7 @@ export default () => {
                                 small
                                 success
                                 onClick={() => {
-                                  handleApproveExpert(
-                                    value?.users_id
-                                  );
+                                  handleApproveExpert(value?.users_id);
                                 }}
                               >
                                 Approve
@@ -165,10 +158,7 @@ export default () => {
               <LoadingPage />
             )}
 
-            <Pagination
-              size="sm"
-              aria-label="Page navigation example"
-            >
+            <Pagination size="sm" aria-label="Page navigation example">
               <PaginationItem>
                 <PaginationLink first href="#" />
               </PaginationItem>
