@@ -13,6 +13,7 @@
   bottom: 0;
   right: 0;
   left: 0;
+  color: #000;
   background-color: #fff;
   animation: SlideUp 0.2s ease-in-out;
 }
