@@ -4,8 +4,10 @@ import Feat1 from "assets/img/f1.png";
 import Feat2 from "assets/img/f2.png";
 import Feat3 from "assets/img/f3.png";
 import Feat4 from "assets/img/f4.png";
+import { formatMoney } from "utils/formatter";
 
 const Property = ({ onAction, value }) => {
+  let price = formatMoney(value?.price);
   return (
     <PropertyCard onClick={onAction}>
       <div className="content">
@@ -19,12 +21,11 @@ const Property = ({ onAction, value }) => {
             }
             alt=""
           />
-          <h6 className="price">{value?.price}</h6>
+          <h6 className="price">{price}</h6>
           <h5 className="title">{value?.name}</h5>
           <p className="description">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit
-            Aliquam gravida magna et fringilla convallis. Pellentesque
-            habitant morb
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit Aliquam
+            gravida magna et fringilla convallis. Pellentesque habitant morb
           </p>
           <span className="location">{value?.location}</span>
           <div className="features">
