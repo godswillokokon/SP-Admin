@@ -3,26 +3,41 @@ import Content from "../../styles/Content";
 import Button from "components/Button";
 import { PropertiesContainer } from "./styles";
 import Property from "./components/property";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getHouses } from "store/property/actions";
-import {
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-} from "reactstrap";
+import { getHouses, getLands } from "store/property/actions";
 import Loader from "./components/Loader";
+import {
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 
 const Properties = () => {
   const dispatch = useDispatch();
+  const [sort, setSort] = React.useState("Houses");
+  const [properties, setProperties] = React.useState([]);
+  const [dropdownOpen, setOpen] = React.useState(false);
   const houses = useSelector((state) => state.properties.data);
+  const lands = useSelector((state) => state.properties.landData);
   const loading = useSelector((state) => state.properties.loading);
   const match = useRouteMatch();
-  const [currentPage, setCurrentPage] = React.useState(0);
+  const [currentPage, setCurrentPage] = React.useState(6);
+  const history = useHistory();
+  const toggle = () => setOpen(!dropdownOpen);
 
   React.useEffect(() => {
-    dispatch(getHouses(currentPage + 1));
-  }, [dispatch, currentPage]);
+    sort === "Houses"
+      ? dispatch(getHouses(currentPage))
+      : dispatch(getLands(currentPage));
+  }, [dispatch, currentPage, sort]);
+
+  React.useEffect(() => {
+    sort === "Houses"
+      ? setProperties(houses?.houses)
+      : setProperties(lands?.data);
+  }, [sort, houses, lands]);
 
   return (
     <Content>
@@ -41,45 +56,48 @@ const Properties = () => {
           </Button>
         </Content.HeaderButton>
       </Content.TitleHeader>
+      <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+        <DropdownToggle caret>Sort Properties</DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem header>Sort By</DropdownItem>
+          <DropdownItem onClick={() => setSort("Houses")}>
+            Houses
+          </DropdownItem>
+          <DropdownItem onClick={() => setSort("Lands")}>
+            Lands
+          </DropdownItem>
+        </DropdownMenu>
+      </ButtonDropdown>
       {loading ? (
         <Loader />
       ) : (
-        <PropertiesContainer>
-          {houses?.houses?.data?.map((value, key) => (
-            <Property key={key} value={value} />
-          ))}
-          <Pagination aria-label="Page navigation example">
-            <PaginationItem disabled={currentPage <= 1}>
-              <PaginationLink
-                previous
-                onClick={() => setCurrentPage(currentPage - 1)}
+        <>
+          <PropertiesContainer>
+            {properties?.map((value, key) => (
+              <Property
+                key={key}
+                value={value}
+                onAction={() =>
+                  history.push({
+                    pathname: "/admin/properties/edit",
+                    state: { details: value },
+                  })
+                }
               />
-            </PaginationItem>
-
-            {[...Array(houses?.houses?.last_page)].map((_, index) => (
-              <PaginationItem
-                active={index === currentPage}
-                key={index}
-              >
-                <PaginationLink
-                  onClick={() => {
-                    setCurrentPage(index);
-                  }}
-                >
-                  {index + 1}
-                </PaginationLink>
-              </PaginationItem>
             ))}
-            <PaginationItem
-              disabled={currentPage + 1 === houses?.houses?.last_page}
-            >
-              <PaginationLink
-                next
-                onClick={() => setCurrentPage(currentPage + 1)}
-              />
-            </PaginationItem>
-          </Pagination>
-        </PropertiesContainer>
+          </PropertiesContainer>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Button onClick={() => setCurrentPage(currentPage + 6)}>
+              Load More
+            </Button>
+          </div>
+        </>
       )}
     </Content>
   );

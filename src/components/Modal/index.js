@@ -38,10 +38,7 @@ function Modal({
     >
       {showCloseButton && (
         <CloseButton onClick={onClose} style={closeButtonStyle}>
-          <CloseIcon
-            width={closeButtonSize}
-            height={closeButtonSize}
-          />
+          <CloseIcon width={closeButtonSize} height={closeButtonSize} />
         </CloseButton>
       )}
       <Body>{children}</Body>

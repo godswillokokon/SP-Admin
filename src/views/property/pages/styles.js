@@ -64,6 +64,7 @@ export const PropertyCard = styled.div`
   max-width: 33.333333%;
   padding-right: 10px;
   padding-left: 10px;
+  cursor: pointer;
   .content {
     transition: all 0.5s;
     background: #fff;
