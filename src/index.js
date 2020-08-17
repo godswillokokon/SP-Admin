@@ -1,6 +1,11 @@
 import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import LoaderBox from "components/LoaderBox";
 import "bootstrap/dist/css/bootstrap.css";
 import "assets/scss/paper-dashboard.scss?v=1.1.0";
