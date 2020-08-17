@@ -3,6 +3,7 @@ import parseError from "utils/ParseError";
 
 const initialState = {
   data: null,
+  landData: null,
   actionLoading: false,
   loading: false,
   error: null,
@@ -50,6 +51,29 @@ export const propertyReducer = (state = initialState, action) => {
       };
     }
     case propertyActionTypes.GET_HOUSE.rejected: {
+      return {
+        ...state,
+        loading: false,
+        error: parseError(action.payload),
+      };
+    }
+
+    case propertyActionTypes.GET_LANDS.pending: {
+      return {
+        ...state,
+        loading: true,
+        error: false,
+      };
+    }
+    case propertyActionTypes.GET_LANDS.fulfilled: {
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        landData: { ...action.payload.data },
+      };
+    }
+    case propertyActionTypes.GET_LANDS.rejected: {
       return {
         ...state,
         loading: false,

@@ -18,6 +18,7 @@ import { toastSuccess } from "utils/Toast";
 import Geocode from "react-geocode";
 import Autocomplete from "react-google-autocomplete";
 import { getCity, getState } from "utils/Helpers";
+import { useHistory } from "react-router-dom";
 
 const Properties = () => {
   const [state, setState] = useState();
@@ -34,6 +35,8 @@ const Properties = () => {
   const [location, setLocation] = useState();
   const [latlng, setLatLng] = useState();
   const [images, setImages] = useState([]);
+
+  let history = useHistory();
 
   Geocode.setApiKey(process.env.REACT_APP_API_KEY);
   Geocode.setRegion("ng");
@@ -118,9 +121,6 @@ const Properties = () => {
     if (!values.contact) {
       errors.contact = "Owners contact is required";
     }
-    if (!values.payment_type) {
-      errors.payment_type = "Property payment type is required";
-    }
     if (!values.transaction) {
       errors.transaction = "Property transaction is required";
     }
@@ -129,6 +129,9 @@ const Properties = () => {
     }
     if (propertyType === "House Property" && !values.overview) {
       errors.overview = "Property overview is required";
+    }
+    if (propertyType !== "House Property" && !values.topography) {
+      errors.topography = "Land topography is required";
     }
     return errors;
   };
@@ -144,7 +147,7 @@ const Properties = () => {
       lga: "",
       state: "",
       is_reserved: "",
-      payment_type: "",
+      installment: "",
       price: "",
       status: "",
       year_built: "",
@@ -170,6 +173,7 @@ const Properties = () => {
         values.house_category = category;
         delete values.land_category;
         delete values.topography;
+        delete values.dimension;
       }
       if (propertyType !== "House Property") {
         delete values.house_subcategory;
@@ -183,11 +187,9 @@ const Properties = () => {
         delete values.overview;
         delete values.year_built;
         delete values.reference;
-        delete values.dimension;
         delete values.status;
         delete values.house_category;
         delete values.transaction;
-        values.topography = "Awesome";
       }
       values.lng = latlng.lng;
       values.lat = latlng.lat;
@@ -196,13 +198,13 @@ const Properties = () => {
       propertyType === "House Property"
         ? dispatch(createHouse(values)).then((res) => {
             if (res) {
-              console.log(res);
               toastSuccess("Property Created Successfully");
+              history.push("/admin/properties");
             }
           })
         : dispatch(createLand(values)).then((res) => {
             if (res) {
-              console.log(res);
+              history.push("/admin/properties");
               toastSuccess("Property Created Successfully");
             }
           });
@@ -394,20 +396,20 @@ const Properties = () => {
 
             <CheckBox
               label="Allow Installment Payment ?"
-              name="is_reserved"
+              name="installment"
               onChange={(e) => {
-                form.setFieldValue("is_reserved", e.target.checked);
+                form.setFieldValue("installment", e.target.checked);
               }}
-              value={form.values.is_reserved}
+              value={form.values.installment}
               error={
-                !!form.errors.is_reserved && form.touched.is_reserved
+                !!form.errors.installment && form.touched.installment
               }
               errorText={
-                form.touched.is_reserved
-                  ? form.errors.is_reserved
+                form.touched.installment
+                  ? form.errors.installment
                   : undefined
               }
-              onFocus={onInputFocus("is_reserved")}
+              onFocus={onInputFocus("installment")}
             />
           </div>
           <div className="basic-info">
@@ -448,28 +450,6 @@ const Properties = () => {
               onFocus={onInputFocus("year_built")}
               disabled={propertyType !== "House Property"}
             />
-            {/* <Select
-              name="payment_type"
-              id="payment_type"
-              round
-              fullWidth
-              label="PAYMENT TYPE"
-              options={PaymentTypes}
-              onChange={(e) => {
-                form.setFieldValue("payment_type", e.target.value);
-              }}
-              value={form.values.payment_type}
-              error={
-                !!form.errors.payment_type &&
-                form.touched.payment_type
-              }
-              errorText={
-                form.touched.payment_type
-                  ? form.errors.payment_type
-                  : undefined
-              }
-              onFocus={onInputFocus("payment_type")}
-            /> */}
           </div>
           <div className="basic-info">
             <Input
@@ -513,21 +493,53 @@ const Properties = () => {
               disabled={propertyType !== "House Property"}
             />
             <Input
-              name="rooms"
-              id="rooms"
+              name={
+                propertyType !== "Land Property"
+                  ? "rooms"
+                  : "topography"
+              }
+              id={
+                propertyType !== "Land Property"
+                  ? "rooms"
+                  : "topography"
+              }
               round
               fullWidth
-              placeholder="Number of Rooms"
-              onChange={(e) => {
-                form.setFieldValue("rooms", e.target.value);
-              }}
-              value={form.values.rooms}
-              error={!!form.errors.rooms && form.touched.rooms}
-              errorText={
-                form.touched.rooms ? form.errors.rooms : undefined
+              placeholder={
+                propertyType !== "Land Property"
+                  ? "Number of rooms"
+                  : "Land Topography"
               }
-              onFocus={onInputFocus("rooms")}
-              disabled={propertyType !== "House Property"}
+              onChange={(e) => {
+                propertyType !== "Land Property"
+                  ? form.setFieldValue("rooms", e.target.value)
+                  : form.setFieldValue("topography", e.target.value);
+              }}
+              value={
+                propertyType !== "Land Property"
+                  ? form.values.rooms
+                  : form.values.topography
+              }
+              error={
+                propertyType !== "Land Property"
+                  ? !!form.errors.rooms && form.touched.rooms
+                  : !!form.errors.topography &&
+                    form.touched.topography
+              }
+              errorText={
+                propertyType !== "Land Property"
+                  ? form.touched.rooms
+                    ? form.errors.rooms
+                    : undefined
+                  : form.touched.topography
+                  ? form.errors.topography
+                  : undefined
+              }
+              onFocus={
+                propertyType !== "Land Property"
+                  ? onInputFocus("rooms")
+                  : onInputFocus("topography")
+              }
             />
           </div>
           <div className="basic-info">

@@ -17,8 +17,8 @@ export const createLand = (data) => (dispatch) => {
   });
 };
 
-export const getHouses = (page) => (dispatch) => {
-  const payload = api.get("/api/houses?page=" + page + "&limit=" + 6);
+export const getHouses = (limit) => (dispatch) => {
+  const payload = api.get("/api/admin/houses?limit=" + limit);
   return dispatch({
     type: propertyActionTypes.GET_HOUSE.default,
     payload,
@@ -26,9 +26,17 @@ export const getHouses = (page) => (dispatch) => {
 };
 
 export const getSingleHouse = (slug) => (dispatch) => {
-  const payload = api.get(`/api/user/house/${slug}`);
+  const payload = api.get(`/api/house/${slug}`);
   return dispatch({
     type: propertyActionTypes.GET_SINGLE_HOUSE.default,
+    payload,
+  });
+};
+
+export const getLands = (limit) => (dispatch) => {
+  const payload = api.get("/api/admin/lands?limit=" + limit);
+  return dispatch({
+    type: propertyActionTypes.GET_LANDS.default,
     payload,
   });
 };

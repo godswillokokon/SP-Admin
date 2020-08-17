@@ -3,9 +3,19 @@ import { VideoPickerContainer } from "./styles";
 import axios from "axios";
 import Loader from "components/Loader";
 
-const VideoPicker = ({ title, onChange = (files) => {} }) => {
+const VideoPicker = ({
+  title,
+  onChange = (files) => {},
+  videoUrl,
+}) => {
   const [videoInfo, setVideoInfo] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  React.useEffect(() => {
+    if (videoUrl) {
+      setVideoInfo(videoUrl);
+    }
+  }, [videoUrl]);
 
   const uploadVideo = (e) => {
     const files = e.target.files[0];

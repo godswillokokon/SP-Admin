@@ -19,8 +19,6 @@ import LoadingPage from "views/components/LoadingPage";
 
 export default () => {
   const users = useSelector((state) => state.allUsers.data);
-  // const loading = useSelector((state) => state.allUsers.loading);
-  // const actionLoading = useSelector((state) => state.allUsers.actionLoading);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchAllUsers());
@@ -29,7 +27,6 @@ export default () => {
   const handleDeleteUser = (id) => {
     dispatch(deleteUser(id)).then(() => {
       dispatch(fetchAllUsers());
-      console.log(users);
       toastSuccess("User Activated Successfully");
     });
   };
@@ -39,7 +36,9 @@ export default () => {
         <Card className="card-user">
           <CardHeader>
             <CardTitle tag="h4">Users</CardTitle>
-            <p className="card-category">List of users using registered</p>
+            <p className="card-category">
+              List of users using registered
+            </p>
           </CardHeader>
           <CardBody>
             {users !== null ? (
@@ -56,13 +55,17 @@ export default () => {
                 </thead>
                 <tbody>
                   {Object.entries(users).map(([key, value]) => {
-                    const cdate = new Date(value?.created_at).toDateString();
+                    const cdate = new Date(
+                      value?.created_at
+                    ).toDateString();
                     return (
                       <tr key={key}>
                         <td>{value?.name}</td>
                         <td>{value?.email}</td>
                         <td>{value?.phone}</td>
-                        <td>{value?.verified === 0 ? "No" : "Yes"}</td>
+                        <td>
+                          {value?.verified === 0 ? "No" : "Yes"}
+                        </td>
                         <td>{cdate}</td>
                         <td className="">
                           <ButtonGroupContainer>
@@ -89,7 +92,10 @@ export default () => {
               <LoadingPage />
             )}
 
-            <Pagination size="sm" aria-label="Page navigation example">
+            <Pagination
+              size="sm"
+              aria-label="Page navigation example"
+            >
               <PaginationItem>
                 <PaginationLink first href="#" />
               </PaginationItem>

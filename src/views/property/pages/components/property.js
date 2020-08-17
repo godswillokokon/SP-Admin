@@ -12,14 +12,19 @@ const Property = ({ onAction, value }) => {
         <div className="body">
           <img
             className="img-thumbnail"
-            src={value?.take_two_images[0]?.img_url}
+            src={
+              value?.house_image
+                ? value?.house_image[0]?.img_url
+                : value?.land_image[0]?.img_url
+            }
             alt=""
           />
           <h6 className="price">{value?.price}</h6>
           <h5 className="title">{value?.name}</h5>
           <p className="description">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit Aliquam
-            gravida magna et fringilla convallis. Pellentesque habitant morb
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit
+            Aliquam gravida magna et fringilla convallis. Pellentesque
+            habitant morb
           </p>
           <span className="location">{value?.location}</span>
           <div className="features">

@@ -5,4 +5,5 @@ export default {
   CREATE_LAND_PROPERTY: actionTypes("CREATE_LAND_PROPERTY"),
   GET_HOUSE: actionTypes("GET_HOUSE"),
   GET_SINGLE_HOUSE: actionTypes("GET_SINGLE_HOUSE"),
+  GET_LANDS: actionTypes("GET_LANDS"),
 };

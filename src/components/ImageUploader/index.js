@@ -51,8 +51,17 @@ const Thumbs = ({ images, setImages }) => {
   );
 };
 
-function Previews({ onChange }) {
+function Previews({ onChange, oldImages }) {
   const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    if (oldImages) {
+      const img = oldImages.map((item) => {
+        return item.img_url;
+      });
+      setImages(img);
+    }
+  }, [oldImages]);
 
   useEffect(() => {
     onChange([...images]);
