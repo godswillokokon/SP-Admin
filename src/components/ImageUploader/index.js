@@ -71,12 +71,15 @@ function Previews({ onChange, oldImages }) {
     for (let i = 0; i < e.target.files.length; i++) {
       const files = e.target.files[i];
       const formData = new FormData();
-      formData.append("upload_preset", "ngflnmyo");
+      formData.append(
+        "upload_preset",
+        process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET
+      );
       formData.append("file", files);
 
       axios
         .post(
-          "https://api.cloudinary.com/v1_1/tech-18/image/upload",
+          process.env.REACT_APP_CLOUDINARY_BASE_URL + "/image/upload",
           formData
         )
         .then((res) => {

@@ -20,12 +20,15 @@ const VideoPicker = ({
   const uploadVideo = (e) => {
     const files = e.target.files[0];
     const formData = new FormData();
-    formData.append("upload_preset", "ngflnmyo");
+    formData.append(
+      "upload_preset",
+      process.env.REACT_APP_CLOUDINARY_VIDEOS_UPLOAD_PRESET
+    );
     formData.append("file", files);
     setLoading(true);
     axios
       .post(
-        "https://api.cloudinary.com/v1_1/tech-18/video/upload",
+        process.env.REACT_APP_CLOUDINARY_BASE_URL + "/video/upload",
         formData
       )
       .then((res) => {
