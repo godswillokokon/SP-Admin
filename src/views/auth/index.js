@@ -28,7 +28,7 @@ export default function () {
   const onSubmit = (values) => {
     dispatch(login(values)).then(() => {
       history.push({
-        pathname: "/admin/dashboard",
+        pathname: "/admin/properties",
       });
     });
   };

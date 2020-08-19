@@ -10,19 +10,29 @@ export default function CheckBox({
   checked,
   onClick,
   errorText,
+  disabled,
   ...rest
 }) {
   return (
     <Container {...rest}>
-      <span>{label}</span>
+      <span
+        style={{
+          color: disabled ? "rgb(170, 170, 170)" : "black",
+        }}
+      >
+        {label}
+      </span>
       <input
         type="checkbox"
         value={value}
         checked={checked}
         onClick={onClick}
+        disabled={disabled}
       />
       <span className="checkmark"></span>
-      {errorText && <InputBlock.ErrorText>{errorText}</InputBlock.ErrorText>}
+      {errorText && (
+        <InputBlock.ErrorText>{errorText}</InputBlock.ErrorText>
+      )}
     </Container>
   );
 }

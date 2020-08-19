@@ -29,15 +29,21 @@ export default () => {
           <Col md="4">
             <Card className="card-user">
               <div className="image">
-                <img alt="..." src={require("assets/img/damir-bosnjak.jpg")} />
+                <img
+                  alt="..."
+                  src={require("assets/img/damir-bosnjak.jpg")}
+                />
               </div>
               <CardBody>
                 <div className="author">
-                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                  <a
+                    href="#pablo"
+                    onClick={(e) => e.preventDefault()}
+                  >
                     <img
                       alt="..."
                       className="avatar border-gray"
-                      src={require("assets/img/mike.jpg")}
+                      src={user?.picture}
                     />
                     <h5 className="title">{user?.name}</h5>
                   </a>
@@ -71,7 +77,6 @@ export default () => {
                           defaultValue={user?.email}
                           placeholder="Last Name"
                           type="email"
-                          disabled
                         />
                       </FormGroup>
                     </Col>
@@ -84,7 +89,6 @@ export default () => {
                           defaultValue={user?.address}
                           placeholder="Home Address"
                           type="text"
-                          disabled
                         />
                       </FormGroup>
                     </Col>
@@ -107,7 +111,6 @@ export default () => {
                           defaultValue={user?.privileges}
                           placeholder="Country"
                           type="text"
-                          disabled
                         />
                       </FormGroup>
                     </Col>

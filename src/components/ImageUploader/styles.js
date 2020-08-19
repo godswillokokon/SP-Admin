@@ -6,6 +6,24 @@ export const ImagePickerContainer = styled.div`
   border-radius: 3px;
   display: inline-block;
   width: 100%;
+  input {
+    display: block;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+  }
+  .input-container {
+    text-align: center;
+    border: dashed;
+    background: whitesmoke;
+    position: relative;
+    padding: 20px 0;
+    p {
+      margin: 0;
+    }
+  }
   .container {
     display: flex;
     flex-direction: column;
@@ -40,8 +58,8 @@ ImagePickerContainer.Thumb = styled.div`
   border: 1px solid #eaeaea;
   margin-bottom: 8px;
   margin-right: 8px;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   padding: 4px;
   box-sizing: border-box;
 `;
@@ -50,4 +68,11 @@ ImagePickerContainer.Img = styled.img`
   display: block;
   width: auto;
   height: 100%;
+`;
+
+ImagePickerContainer.Delete = styled.img`
+  display: ${({ showDelete }) => (showDelete ? "block" : "none")};
+  position: absolute;
+  height: 20px;
+  cursor: pointer;
 `;

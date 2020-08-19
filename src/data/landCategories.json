@@ -1,5 +1,11 @@
 [
-	{ "name": "Serviced Plot" },
-	{ "name": "Resendential" },
-	{ "name": "Commercial" }
+	{
+		"name": "serviced plot"
+	},
+	{
+		"name": "resedential"
+	},
+	{
+		"name": "commercial"
+	}
 ]

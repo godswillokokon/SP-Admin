@@ -1,0 +1,48 @@
+.modal {
+  display: block;
+  position: relative;
+  margin: auto;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  height: fit-content;
+  min-height: 100px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  color: #000;
+  background-color: #fff;
+  animation: SlideUp 0.2s ease-in-out;
+}
+
+.modal--overlay {
+  background-color: #000000a6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+@media only screen and (max-width: 480px) {
+  .modal {
+    margin-bottom: 0;
+  }
+}
+
+@keyframes SlideUp {
+  from {
+    transform: translateY(500px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

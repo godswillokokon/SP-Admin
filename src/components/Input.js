@@ -31,6 +31,7 @@ const Input = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
+        autocomplete="off"
         error={!!errorText}
         {...rest}
       />
