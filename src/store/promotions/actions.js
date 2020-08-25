@@ -13,7 +13,9 @@ export const fetchAllPromo = () => (dispatch) => {
   const payload = api.get("/api/admin/promotions");
   return dispatch({ type: promoActionTypes.FETCH_PROMOTION.default, payload });
 };
-export const updatePromo = ({ id, data }) => (dispatch) => {
+export const updatePromo = (id, data) => (dispatch) => {
+  console.log(data);
+  console.log(id);
   const payload = api.patch(`/api/promotions/${id}`, { ...data });
   return dispatch({
     type: promoActionTypes.UPDATE_PROMOTION.default,
