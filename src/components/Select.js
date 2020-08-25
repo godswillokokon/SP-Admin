@@ -19,10 +19,7 @@ const Select = ({
   ...rest
 }) => {
   return (
-    <InputBlock.Container
-      fullWidth={fullWidth}
-      className={containerClass}
-    >
+    <InputBlock.Container fullWidth={fullWidth} className={containerClass}>
       <InputBlock.Label htmlFor={name} hide={hideLabel}>
         {label}
       </InputBlock.Label>
@@ -37,7 +34,10 @@ const Select = ({
       >
         {<option>SELECT {label}</option>}
         {options.map((option, index) => (
-          <option key={index} value={option.name}>
+          <option
+            key={index}
+            value={option?.key !== null ? option.key : option.name}
+          >
             {option.name}
           </option>
         ))}
@@ -52,9 +52,7 @@ const Select = ({
           </optgroup>
         ))}
       </InputBlock.Select>
-      {errorText && (
-        <InputBlock.ErrorText>{errorText}</InputBlock.ErrorText>
-      )}
+      {errorText && <InputBlock.ErrorText>{errorText}</InputBlock.ErrorText>}
     </InputBlock.Container>
   );
 };
