@@ -123,6 +123,28 @@ export const promotionReducer = (state = initialState, action) => {
         error: parseError(action.payload),
       };
     }
+    //deactive promotions
+    case promoActionTypes.DEACTIVATE_PROMOTION.pending: {
+      return {
+        ...state,
+        actionLoading: true,
+        error: false,
+      };
+    }
+    case promoActionTypes.DEACTIVATE_PROMOTION.fulfilled: {
+      return {
+        ...state,
+        actionLoading: false,
+        error: false,
+      };
+    }
+    case promoActionTypes.DEACTIVATE_PROMOTION.rejected: {
+      return {
+        ...state,
+        actionLoading: false,
+        error: parseError(action.payload),
+      };
+    }
     default:
       return state;
   }

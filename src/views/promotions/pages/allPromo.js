@@ -9,12 +9,14 @@ import { CareerContainer } from "./styles";
 import Promo from "./componets/promo";
 import { toastSuccess } from "utils/Toast";
 import { fetchAllPromo, activatePromo } from "store/promotions/actions";
+import { deactivatePromo } from "store/promotions/actions";
 
 export default () => {
   const match = useRouteMatch();
   const history = useHistory();
   const dispatch = useDispatch();
   const promo = useSelector((state) => state.promotions.data);
+  const [activateLoading, setActivateLoading] = React.useState(false);
 
   React.useEffect(() => {
     dispatch(fetchAllPromo());
@@ -27,9 +29,18 @@ export default () => {
     // });
   };
   const handleActivate = (id, name) => {
+    setActivateLoading(true);
     dispatch(activatePromo(id)).then(() => {
       dispatch(fetchAllPromo());
+      setActivateLoading(false);
       toastSuccess(`${name} Successfully Activated`);
+    });
+  };
+  const handleDeactivate = (id, name) => {
+    dispatch(deactivatePromo(id)).then(() => {
+      dispatch(fetchAllPromo());
+      setActivateLoading(false);
+      toastSuccess(`${name} Successfully Deactivated`);
     });
   };
 
@@ -55,8 +66,12 @@ export default () => {
                   <Promo
                     key={key}
                     value={value}
+                    activateLoading={activateLoading}
                     onDetele={() => {
                       handleDelete(value?.id);
+                    }}
+                    onDeactive={() => {
+                      handleDeactivate(value.id, value?.name);
                     }}
                     onEdit={() => {
                       history.push({
@@ -65,7 +80,7 @@ export default () => {
                       });
                     }}
                     onActivate={() => {
-                      handleActivate(value?.id);
+                      handleActivate(value?.id, value?.name);
                     }}
                   />
                 ))

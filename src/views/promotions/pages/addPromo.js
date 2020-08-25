@@ -107,7 +107,7 @@ export default () => {
         }
       });
     },
-    // validate,
+    validate,
     validateOnChange: true,
   });
   const onInputFocus = (name) => () => form.setFieldError(name, undefined);
