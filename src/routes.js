@@ -5,6 +5,7 @@ import AgentPage from "views/agents";
 import CareerPage from "views/careers";
 // import OnlineInspectionPage from "views/online_inspection";
 import ExpertPage from "views/experts";
+import Promotions from "views/promotions";
 // import ReservedHouse from "views/reserved_house";
 
 var routes = [
@@ -69,6 +70,13 @@ var routes = [
     name: "Experts",
     icon: "nc-icon nc-user-run",
     component: ExpertPage,
+    layout: "/admin",
+  },
+  {
+    path: "/promo",
+    name: "Promotions",
+    icon: "nc-icon nc-user-run",
+    component: Promotions,
     layout: "/admin",
   },
   {
