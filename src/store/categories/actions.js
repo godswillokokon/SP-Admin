@@ -52,3 +52,42 @@ export const deleteLandCategory = (data) => (dispatch) => {
     payload,
   });
 };
+
+export const createSubcategory = (categoryName, newSubCategory) => (
+  dispatch
+) => {
+  const payload = api.post(
+    "/api/subCategory/" + categoryName + "/create",
+    newSubCategory
+  );
+  return dispatch({
+    type: categoriesActionTypes.CREATE_HOUSE_SUBCATEGORY.default,
+    payload,
+  });
+};
+
+export const editLandCategory = (categoryName, editData) => (
+  dispatch
+) => {
+  const payload = api.patch(
+    "/api/land-categories/" + categoryName + "/update",
+    editData
+  );
+  return dispatch({
+    type: categoriesActionTypes.EDIT_LAND_CATEGORY.default,
+    payload,
+  });
+};
+
+export const editHouseCategory = (categoryName, editData) => (
+  dispatch
+) => {
+  const payload = api.patch(
+    "/api/house-categories/" + categoryName + "/update",
+    editData
+  );
+  return dispatch({
+    type: categoriesActionTypes.EDIT_HOUSE_CATEGORY.default,
+    payload,
+  });
+};
