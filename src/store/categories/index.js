@@ -56,9 +56,12 @@ export const categoriesReducer = (state = initialState, action) => {
       };
     }
     case categoriesActionTypes.CREATE_HOUSE_CATEGORY.pending:
+    case categoriesActionTypes.CREATE_HOUSE_SUBCATEGORY.pending:
     case categoriesActionTypes.CREATE_LAND_CATEGORY.pending:
     case categoriesActionTypes.DELETE_LAND_CATEGORY.pending:
-    case categoriesActionTypes.DELETE_HOUSE_CATEGORY.pending: {
+    case categoriesActionTypes.DELETE_HOUSE_CATEGORY.pending:
+    case categoriesActionTypes.EDIT_LAND_CATEGORY.pending:
+    case categoriesActionTypes.EDIT_HOUSE_CATEGORY.pending: {
       return {
         ...state,
         actionLoading: true,
@@ -66,9 +69,12 @@ export const categoriesReducer = (state = initialState, action) => {
       };
     }
     case categoriesActionTypes.CREATE_HOUSE_CATEGORY.fulfilled:
+    case categoriesActionTypes.CREATE_HOUSE_SUBCATEGORY.fulfilled:
     case categoriesActionTypes.CREATE_LAND_CATEGORY.fulfilled:
     case categoriesActionTypes.DELETE_LAND_CATEGORY.fulfilled:
-    case categoriesActionTypes.DELETE_HOUSE_CATEGORY.fulfilled: {
+    case categoriesActionTypes.EDIT_LAND_CATEGORY.fulfilled:
+    case categoriesActionTypes.DELETE_HOUSE_CATEGORY.fulfilled:
+    case categoriesActionTypes.EDIT_HOUSE_CATEGORY.fulfilled: {
       return {
         ...state,
         actionLoading: false,
@@ -76,8 +82,11 @@ export const categoriesReducer = (state = initialState, action) => {
       };
     }
     case categoriesActionTypes.CREATE_HOUSE_CATEGORY.rejected:
+    case categoriesActionTypes.CREATE_HOUSE_SUBCATEGORY.rejected:
     case categoriesActionTypes.CREATE_LAND_CATEGORY.rejected:
     case categoriesActionTypes.DELETE_LAND_CATEGORY.rejected:
+    case categoriesActionTypes.EDIT_LAND_CATEGORY.rejected:
+    case categoriesActionTypes.EDIT_HOUSE_CATEGORY.rejected:
     case categoriesActionTypes.DELETE_HOUSE_CATEGORY.rejected: {
       return {
         ...state,

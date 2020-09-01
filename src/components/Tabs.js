@@ -7,7 +7,6 @@ export default function Tabs({ tabs, loading }) {
   return (
     <>
       {loading && <Loader />}
-      <TabForm></TabForm>
       {tabs && tabs.length > 0 && (
         <TabsHeader>
           {tabs.map((tab, index) => (
@@ -53,8 +52,4 @@ padding-top: 25px;
 position: relative;
 box-sizing: border-box;
 text-align: center;
-`;
-
-const TabForm = Styled.div`
-
 `;
