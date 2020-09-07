@@ -26,7 +26,7 @@ export default () => {
   const [addressArray, setAddressArray] = useState();
   const [location, setLocation] = useState();
 
-  Geocode.setApiKey(process.env.REACT_APP_API_KEY);
+  Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
   Geocode.setRegion("ng");
   Geocode.enableDebug();
   const propertyType = [

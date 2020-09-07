@@ -8,7 +8,6 @@ import Select from "components/Select";
 import CheckBox from "components/CheckBox";
 import ImagesUploader from "components/ImageUploader";
 import Button from "components/Button";
-// import LandCategories from "data/landCategories.json";
 import VideoPicker from "components/VideoPicker";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,8 +52,6 @@ const Properties = () => {
     dispatch(getHouseCategories());
     dispatch(getLandCategories());
   }, [dispatch]);
-
-  console.log(landcategories);
 
   useEffect(() => {
     if (addressArray) {
@@ -116,13 +113,8 @@ const Properties = () => {
     const select = document.getElementsByName("house_subcategory")[0];
     const optgroups = select.getElementsByTagName("option");
     for (var i = 0; i < optgroups.length; i++) {
-      if (
-        optgroups[i]?.getAttribute("value")?.toString() ===
-        subCategory
-      ) {
-        var maincategory = optgroups[i].parentElement.getAttribute(
-          "label"
-        );
+      if (optgroups[i]?.getAttribute("value")?.toString() === subCategory) {
+        var maincategory = optgroups[i].parentElement.getAttribute("label");
         setCategory(maincategory?.toLowerCase());
         return;
       }
@@ -235,8 +227,7 @@ const Properties = () => {
     validate,
     validateOnChange: true,
   });
-  const onInputFocus = (name) => () =>
-    form.setFieldError(name, undefined);
+  const onInputFocus = (name) => () => form.setFieldError(name, undefined);
 
   const onChange = useCallback((values) => {
     setImages(values);
@@ -249,12 +240,8 @@ const Properties = () => {
   return (
     <Content>
       <Content.TitleHeader>
-        <div
-          style={{ flex: "0 0 41.666667%", maxWidth: "41.666667%" }}
-        >
-          <Content.Back to="/admin/properties">
-            &larr; Back
-          </Content.Back>
+        <div style={{ flex: "0 0 41.666667%", maxWidth: "41.666667%" }}>
+          <Content.Back to="/admin/properties">&larr; Back</Content.Back>
           <Content.Title>Properties View</Content.Title>
         </div>
       </Content.TitleHeader>
@@ -292,10 +279,7 @@ const Properties = () => {
               label="HOUSE CATEGORIES"
               optgroup={houseCategories}
               onChange={(e) => {
-                form.setFieldValue(
-                  "house_subcategory",
-                  e.target.value
-                );
+                form.setFieldValue("house_subcategory", e.target.value);
                 setSubCategory(e.target.value);
               }}
               disabled={propertyType !== "House Property"}
@@ -323,10 +307,7 @@ const Properties = () => {
               }}
               disabled={propertyType !== "Land Property"}
               value={form.values.land_category}
-              error={
-                !!form.errors.land_category &&
-                form.touched.land_category
-              }
+              error={!!form.errors.land_category && form.touched.land_category}
               errorText={
                 form.touched.land_category
                   ? form.errors.land_category
@@ -350,9 +331,7 @@ const Properties = () => {
               }}
               value={form.values.name}
               error={!!form.errors.name && form.touched.name}
-              errorText={
-                form.touched.name ? form.errors.name : undefined
-              }
+              errorText={form.touched.name ? form.errors.name : undefined}
               onFocus={onInputFocus("name")}
             />
           </div>
@@ -366,13 +345,9 @@ const Properties = () => {
               onChange={(e) => {
                 form.setFieldValue("transaction", e.target.value);
               }}
-              error={
-                !!form.errors.transaction && form.touched.transaction
-              }
+              error={!!form.errors.transaction && form.touched.transaction}
               errorText={
-                form.touched.transaction
-                  ? form.errors.transaction
-                  : undefined
+                form.touched.transaction ? form.errors.transaction : undefined
               }
               onFocus={onInputFocus("transaction")}
             />
@@ -384,13 +359,9 @@ const Properties = () => {
               onChange={(e) => {
                 form.setFieldValue("transaction", e.target.value);
               }}
-              error={
-                !!form.errors.transaction && form.touched.transaction
-              }
+              error={!!form.errors.transaction && form.touched.transaction}
               errorText={
-                form.touched.transaction
-                  ? form.errors.transaction
-                  : undefined
+                form.touched.transaction ? form.errors.transaction : undefined
               }
               onFocus={onInputFocus("transaction")}
             />
@@ -406,13 +377,9 @@ const Properties = () => {
                 form.setFieldValue("is_reserved", e.target.checked);
               }}
               value={form.values.is_reserved}
-              error={
-                !!form.errors.is_reserved && form.touched.is_reserved
-              }
+              error={!!form.errors.is_reserved && form.touched.is_reserved}
               errorText={
-                form.touched.is_reserved
-                  ? form.errors.is_reserved
-                  : undefined
+                form.touched.is_reserved ? form.errors.is_reserved : undefined
               }
               onFocus={onInputFocus("is_reserved")}
             />
@@ -424,13 +391,9 @@ const Properties = () => {
                 form.setFieldValue("installment", e.target.checked);
               }}
               value={form.values.installment}
-              error={
-                !!form.errors.installment && form.touched.installment
-              }
+              error={!!form.errors.installment && form.touched.installment}
               errorText={
-                form.touched.installment
-                  ? form.errors.installment
-                  : undefined
+                form.touched.installment ? form.errors.installment : undefined
               }
               onFocus={onInputFocus("installment")}
             />
@@ -447,9 +410,7 @@ const Properties = () => {
               }}
               value={form.values.price}
               error={!!form.errors.price && form.touched.price}
-              errorText={
-                form.touched.price ? form.errors.price : undefined
-              }
+              errorText={form.touched.price ? form.errors.price : undefined}
               onFocus={onInputFocus("price")}
             />
             <Input
@@ -462,13 +423,9 @@ const Properties = () => {
                 form.setFieldValue("year_built", e.target.value);
               }}
               value={form.values.year_built}
-              error={
-                !!form.errors.year_built && form.touched.year_built
-              }
+              error={!!form.errors.year_built && form.touched.year_built}
               errorText={
-                form.touched.year_built
-                  ? form.errors.year_built
-                  : undefined
+                form.touched.year_built ? form.errors.year_built : undefined
               }
               onFocus={onInputFocus("year_built")}
               disabled={propertyType !== "House Property"}
@@ -487,9 +444,7 @@ const Properties = () => {
               value={form.values.car_park}
               error={!!form.errors.car_park && form.touched.car_park}
               errorText={
-                form.touched.car_park
-                  ? form.errors.car_park
-                  : undefined
+                form.touched.car_park ? form.errors.car_park : undefined
               }
               onFocus={onInputFocus("car_park")}
               disabled={propertyType !== "House Property"}
@@ -504,28 +459,16 @@ const Properties = () => {
                 form.setFieldValue("bathrooms", e.target.value);
               }}
               value={form.values.bathrooms}
-              error={
-                !!form.errors.bathrooms && form.touched.bathrooms
-              }
+              error={!!form.errors.bathrooms && form.touched.bathrooms}
               errorText={
-                form.touched.bathrooms
-                  ? form.errors.bathrooms
-                  : undefined
+                form.touched.bathrooms ? form.errors.bathrooms : undefined
               }
               onFocus={onInputFocus("bathrooms")}
               disabled={propertyType !== "House Property"}
             />
             <Input
-              name={
-                propertyType !== "Land Property"
-                  ? "rooms"
-                  : "topography"
-              }
-              id={
-                propertyType !== "Land Property"
-                  ? "rooms"
-                  : "topography"
-              }
+              name={propertyType !== "Land Property" ? "rooms" : "topography"}
+              id={propertyType !== "Land Property" ? "rooms" : "topography"}
               round
               fullWidth
               placeholder={
@@ -546,8 +489,7 @@ const Properties = () => {
               error={
                 propertyType !== "Land Property"
                   ? !!form.errors.rooms && form.touched.rooms
-                  : !!form.errors.topography &&
-                    form.touched.topography
+                  : !!form.errors.topography && form.touched.topography
               }
               errorText={
                 propertyType !== "Land Property"
@@ -580,13 +522,9 @@ const Properties = () => {
                 form.setFieldValue("dimension", e.target.value);
               }}
               value={form.values.dimension}
-              error={
-                !!form.errors.dimension && form.touched.dimension
-              }
+              error={!!form.errors.dimension && form.touched.dimension}
               errorText={
-                form.touched.dimension
-                  ? form.errors.dimension
-                  : undefined
+                form.touched.dimension ? form.errors.dimension : undefined
               }
               onFocus={onInputFocus("dimension")}
             />
@@ -600,13 +538,9 @@ const Properties = () => {
                 form.setFieldValue("home_area", e.target.value);
               }}
               value={form.values.home_area}
-              error={
-                !!form.errors.home_area && form.touched.home_area
-              }
+              error={!!form.errors.home_area && form.touched.home_area}
               errorText={
-                form.touched.home_area
-                  ? form.errors.home_area
-                  : undefined
+                form.touched.home_area ? form.errors.home_area : undefined
               }
               onFocus={onInputFocus("home_area")}
               disabled={propertyType !== "House Property"}
@@ -623,9 +557,7 @@ const Properties = () => {
               value={form.values.material}
               error={!!form.errors.material && form.touched.material}
               errorText={
-                form.touched.material
-                  ? form.errors.material
-                  : undefined
+                form.touched.material ? form.errors.material : undefined
               }
               onFocus={onInputFocus("material")}
               disabled={propertyType !== "House Property"}
@@ -654,10 +586,7 @@ const Properties = () => {
               }}
               onPlaceSelected={(place) => {
                 setLocation(place.formatted_address);
-                form.setFieldValue(
-                  "location",
-                  place.formatted_address
-                );
+                form.setFieldValue("location", place.formatted_address);
               }}
               types={["geocode"]}
               componentRestrictions={{ country: "ng" }}
@@ -672,9 +601,7 @@ const Properties = () => {
               placeholder="State"
               value={form.values.state || state}
               error={!!form.errors.state && form.touched.state}
-              errorText={
-                form.touched.state ? form.errors.state : undefined
-              }
+              errorText={form.touched.state ? form.errors.state : undefined}
               onFocus={onInputFocus("state")}
               disabled
             />
@@ -686,9 +613,7 @@ const Properties = () => {
               placeholder="lga"
               value={form.values.lga || city}
               error={!!form.errors.lga && form.touched.lga}
-              errorText={
-                form.touched.lga ? form.errors.lga : undefined
-              }
+              errorText={form.touched.lga ? form.errors.lga : undefined}
               onFocus={onInputFocus("lga")}
               disabled
             />
@@ -706,9 +631,7 @@ const Properties = () => {
               }}
               value={form.values.status}
               error={!!form.errors.status && form.touched.status}
-              errorText={
-                form.touched.status ? form.errors.status : undefined
-              }
+              errorText={form.touched.status ? form.errors.status : undefined}
               onFocus={onInputFocus("status")}
               disabled={propertyType !== "House Property"}
             />
@@ -725,9 +648,7 @@ const Properties = () => {
               value={form.values.overview}
               error={!!form.errors.overview && form.touched.overview}
               errorText={
-                form.touched.overview
-                  ? form.errors.overview
-                  : undefined
+                form.touched.overview ? form.errors.overview : undefined
               }
               onFocus={onInputFocus("overview")}
               disabled={propertyType !== "House Property"}
@@ -743,13 +664,9 @@ const Properties = () => {
                   setAmmenities(ammenities.concat(e.target.value));
                 }}
                 value={item}
-                error={
-                  !!form.errors.amenities && form.touched.amenities
-                }
+                error={!!form.errors.amenities && form.touched.amenities}
                 errorText={
-                  form.touched.amenities
-                    ? form.errors.amenities
-                    : undefined
+                  form.touched.amenities ? form.errors.amenities : undefined
                 }
                 onFocus={onInputFocus("amenities")}
                 disabled={propertyType !== "House Property"}
@@ -777,9 +694,7 @@ const Properties = () => {
               }}
               value={form.values.contact}
               error={!!form.errors.contact && form.touched.contact}
-              errorText={
-                form.touched.contact ? form.errors.contact : undefined
-              }
+              errorText={form.touched.contact ? form.errors.contact : undefined}
               onFocus={onInputFocus("contact")}
             />
             <Input
@@ -792,13 +707,9 @@ const Properties = () => {
                 form.setFieldValue("reference", e.target.value);
               }}
               value={form.values.reference}
-              error={
-                !!form.errors.reference && form.touched.reference
-              }
+              error={!!form.errors.reference && form.touched.reference}
               errorText={
-                form.touched.reference
-                  ? form.errors.reference
-                  : undefined
+                form.touched.reference ? form.errors.reference : undefined
               }
               onFocus={onInputFocus("reference")}
               disabled={propertyType !== "House Property"}
