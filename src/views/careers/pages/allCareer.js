@@ -17,7 +17,7 @@ export default () => {
 
   React.useEffect(() => {
     dispatch(fetchAllCareer());
-  }, [dispatch, careers]);
+  }, [dispatch]);
 
   const handleDelete = (id) => {
     dispatch(deleteCareer(id)).then(() => {
