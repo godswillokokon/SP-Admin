@@ -14,6 +14,7 @@ import { createCareer } from "store/career/actions";
 
 export default () => {
   const { actionLoading } = useSelector((state) => state.career);
+  const [image, setImage] = React.useState("");
   const dispatch = useDispatch();
   const history = useHistory();
   const validate = (values) => {
@@ -38,7 +39,9 @@ export default () => {
     onSubmit: (values) => {
       dispatch(createCareer(values)).then((res) => {
         if (res) {
-          toastSuccess(`${values.career_name} was created successfully`);
+          toastSuccess(
+            `${values.career_name} was created successfully`
+          );
           history.push({
             pathname: "/admin/career",
           });
@@ -48,11 +51,22 @@ export default () => {
     validate,
     validateOnChange: true,
   });
-  const onInputFocus = (name) => () => form.setFieldError(name, undefined);
+  const onInputFocus = (name) => () =>
+    form.setFieldError(name, undefined);
+
+  const onChange = React.useCallback((values) => {
+    setImage(values[0]);
+  }, []);
+
+  React.useEffect(() => {
+    form.setFieldValue("image", image);
+  }, [image]);
   return (
     <Content>
       <Content.TitleHeader>
-        <div style={{ flex: "0 0 41.666667%", maxWidth: "41.666667%" }}>
+        <div
+          style={{ flex: "0 0 41.666667%", maxWidth: "41.666667%" }}
+        >
           <Content.Back to="/admin/career">&larr; Back</Content.Back>
           <Content.Title>Add Career</Content.Title>
         </div>
@@ -75,7 +89,10 @@ export default () => {
                     form.setFieldValue("career_name", e.target.value);
                   }}
                   value={form.values.career_name}
-                  error={!!form.errors.career_name && form.touched.career_name}
+                  error={
+                    !!form.errors.career_name &&
+                    form.touched.career_name
+                  }
                   errorText={
                     form.touched.career_name
                       ? form.errors.career_name
@@ -96,7 +113,10 @@ export default () => {
                     form.setFieldValue("description", e.target.value);
                   }}
                   value={form.values.description}
-                  error={!!form.errors.description && form.touched.description}
+                  error={
+                    !!form.errors.description &&
+                    form.touched.description
+                  }
                   errorText={
                     form.touched.description
                       ? form.errors.description
@@ -108,12 +128,7 @@ export default () => {
               <div className="header">
                 <h6>Images Upload</h6>
               </div>
-              <ImagesUploader
-                onChange={(values) => {
-                  console.log(values[0]);
-                  form.setFieldValue("image", values[0]);
-                }}
-              />
+              <ImagesUploader onChange={onChange} />
               <Button type="submit" loading={actionLoading}>
                 Submit
               </Button>

@@ -8,12 +8,15 @@ import Select from "components/Select";
 import CheckBox from "components/CheckBox";
 import ImagesUploader from "components/ImageUploader";
 import Button from "components/Button";
-import LandCategories from "data/landCategories.json";
+// import LandCategories from "data/landCategories.json";
 import VideoPicker from "components/VideoPicker";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { createHouse, createLand } from "store/property/actions";
-import { getHouseCategories } from "store/categories/actions";
+import {
+  getHouseCategories,
+  getLandCategories,
+} from "store/categories/actions";
 import { toastSuccess } from "utils/Toast";
 import Geocode from "react-geocode";
 import Autocomplete from "react-google-autocomplete";
@@ -31,16 +34,27 @@ const Properties = () => {
   const [propertyType, setPropertyType] = useState();
   const { actionLoading } = useSelector((state) => state.properties);
   const categories = useSelector((state) => state.categories.data);
+  const landcategories = useSelector(
+    (state) => state?.categories?.landCategories
+  );
   const dispatch = useDispatch();
   const [location, setLocation] = useState();
   const [latlng, setLatLng] = useState();
   const [images, setImages] = useState([]);
+  const [landCategories, setLandCategories] = useState([]);
 
   let history = useHistory();
 
-  Geocode.setApiKey(process.env.REACT_APP_API_KEY);
+  Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
   Geocode.setRegion("ng");
   Geocode.enableDebug();
+
+  useEffect(() => {
+    dispatch(getHouseCategories());
+    dispatch(getLandCategories());
+  }, [dispatch]);
+
+  console.log(landcategories);
 
   useEffect(() => {
     if (addressArray) {
@@ -67,6 +81,19 @@ const Properties = () => {
 
   useEffect(() => {
     let newArr = [];
+    landcategories !== null &&
+      landcategories.land_categories.map((item) => {
+        const newObj = {
+          name: item.land_category,
+        };
+        newArr.push(newObj);
+        return newObj;
+      });
+    setLandCategories(newArr);
+  }, [landcategories]);
+
+  useEffect(() => {
+    let newArr = [];
     categories &&
       categories.house_categories.map((item) => {
         const newObj = {
@@ -84,10 +111,6 @@ const Properties = () => {
       });
     setHouseCategories(newArr);
   }, [categories]);
-
-  useEffect(() => {
-    dispatch(getHouseCategories());
-  }, [dispatch]);
 
   useEffect(() => {
     const select = document.getElementsByName("house_subcategory")[0];
@@ -294,7 +317,7 @@ const Properties = () => {
               round
               fullWidth
               label="LAND CATEGORIES"
-              options={LandCategories}
+              options={landCategories}
               onChange={(e) => {
                 form.setFieldValue("land_category", e.target.value);
               }}

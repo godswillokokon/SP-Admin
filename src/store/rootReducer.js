@@ -9,6 +9,7 @@ import careerReducer from "./career";
 import onlineInspectionReducer from "./onlineInspection";
 import expertReducer from "./experts";
 import reservedHouseReducer from "./reservedHouse";
+import promotionReducer from "./promotions";
 
 export default combineReducers({
   auth: authReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
   onlineInspection: onlineInspectionReducer,
   experts: expertReducer,
   reservedHouse: reservedHouseReducer,
+  promotions: promotionReducer,
 });

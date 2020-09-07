@@ -7,9 +7,12 @@ import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, reset } from "store/auth/actions";
+import useAuth from "hooks/useAuth";
+import { Redirect } from "react-router-dom";
 
 export default function () {
   const { loading } = useSelector((state) => state.auth);
+  const isAuthenticated = useAuth();
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -52,44 +55,54 @@ export default function () {
   }, [dispatch]);
 
   return (
-    <Login>
-      <Login.Form>
-        <h2>Welcome Back</h2>
-        <h1>Login to your Account</h1>
-        <form onSubmit={form.handleSubmit}>
-          <Input
-            type="email"
-            placeholder="Email Address"
-            id="email"
-            name="email"
-            label="email"
-            fullWidth
-            value={form.values.email}
-            onChange={form.handleChange}
-            errorText={form.errors.email}
-            onFocus={onInputFocus("email")}
-          />
-          <Input
-            placeholder="Password"
-            name="password"
-            label="password"
-            id="password"
-            type="password"
-            passwordToggle
-            value={form.values.password}
-            onChange={form.handleChange}
-            errorText={form.errors.password}
-            onFocus={onInputFocus("password")}
-          />
-          <h3>Forgot password?</h3>
-          <Button className="button" type="submit" loading={loading}>
-            Sign In
-          </Button>
-        </form>
-      </Login.Form>
-      <div className="img">
-        <Image className="image" />
-      </div>
-    </Login>
+    <>
+      {isAuthenticated ? (
+        <Redirect to="/admin/properties" />
+      ) : (
+        <Login>
+          <Login.Form>
+            <h2>Welcome Back</h2>
+            <h1>Login to your Account</h1>
+            <form onSubmit={form.handleSubmit}>
+              <Input
+                type="email"
+                placeholder="Email Address"
+                id="email"
+                name="email"
+                label="email"
+                fullWidth
+                value={form.values.email}
+                onChange={form.handleChange}
+                errorText={form.errors.email}
+                onFocus={onInputFocus("email")}
+              />
+              <Input
+                placeholder="Password"
+                name="password"
+                label="password"
+                id="password"
+                type="password"
+                passwordToggle
+                value={form.values.password}
+                onChange={form.handleChange}
+                errorText={form.errors.password}
+                onFocus={onInputFocus("password")}
+              />
+              <h3>Forgot password?</h3>
+              <Button
+                className="button"
+                type="submit"
+                loading={loading}
+              >
+                Sign In
+              </Button>
+            </form>
+          </Login.Form>
+          <div className="img">
+            <Image className="image" />
+          </div>
+        </Login>
+      )}
+    </>
   );
 }
