@@ -22,7 +22,6 @@ export default () => {
   const handleDelete = (id) => {
     dispatch(deleteCareer(id)).then(() => {
       dispatch(fetchAllCareer());
-      console.log(careers);
       toastSuccess("Successfully Deleted");
     });
   };
@@ -30,7 +29,9 @@ export default () => {
   return (
     <Content>
       <Content.TitleHeader>
-        <div style={{ flex: "0 0 41.666667%", maxWidth: "41.666667%" }}>
+        <div
+          style={{ flex: "0 0 41.666667%", maxWidth: "41.666667%" }}
+        >
           <Content.Title>All Careers </Content.Title>
           <Content.Subtitle>
             All Careers registered on spread pro
