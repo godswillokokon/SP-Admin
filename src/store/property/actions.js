@@ -40,3 +40,19 @@ export const getLands = (limit) => (dispatch) => {
     payload,
   });
 };
+
+export const deleteHouse = (slug) => (dispatch) => {
+  const payload = api.delete("/api/house/" + slug);
+  return dispatch({
+    type: propertyActionTypes.DELETE_HOUSE.default,
+    payload,
+  })
+}
+
+export const editHouse = (slug, data) => (dispatch) => {
+  const payload = api.patch("/api/house/update/" + slug, data);
+  return dispatch({
+    type: propertyActionTypes.EDIT_HOUSE.default,
+    payload
+  })
+}

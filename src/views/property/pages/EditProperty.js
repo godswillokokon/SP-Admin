@@ -12,7 +12,7 @@ import LandCategories from "data/landCategories.json";
 import VideoPicker from "components/VideoPicker";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { createHouse, createLand } from "store/property/actions";
+import { editHouse, createLand } from "store/property/actions";
 import { getHouseCategories } from "store/categories/actions";
 import { toastSuccess } from "utils/Toast";
 import Geocode from "react-geocode";
@@ -38,6 +38,8 @@ const Properties = (props) => {
   const [images, setImages] = useState([]);
 
   let history = useHistory();
+
+  console.log(propertyType)
 
   useEffect(() => {
     setFormData({ ...props?.location?.state?.details });
@@ -204,23 +206,23 @@ const Properties = (props) => {
         delete values.house_category;
         delete values.transaction;
       }
-      values.lng = latlng.lng;
-      values.lat = latlng.lat;
+      values.lng = latlng?.lng || props?.location?.state?.details?.lng;
+      values.lat = latlng?.lat || props?.location?.state?.details?.lat;
       values.state = state;
       values.lga = city;
       propertyType === "House Property"
-        ? dispatch(createHouse(values)).then((res) => {
-            if (res) {
-              toastSuccess("Property Created Successfully");
-              history.push("/admin/properties");
-            }
-          })
+        ? dispatch(editHouse(props?.location?.state?.details?.slug, values)).then((res) => {
+          if (res) {
+            toastSuccess("Property Created Successfully");
+            history.push("/admin/properties");
+          }
+        })
         : dispatch(createLand(values)).then((res) => {
-            if (res) {
-              history.push("/admin/properties");
-              toastSuccess("Property Created Successfully");
-            }
-          });
+          if (res) {
+            history.push("/admin/properties");
+            toastSuccess("Property Created Successfully");
+          }
+        });
     },
     validate,
     validateOnChange: true,
@@ -561,7 +563,7 @@ const Properties = (props) => {
                 propertyType !== "Land Property"
                   ? !!form.errors.rooms && form.touched.rooms
                   : !!form.errors.topography &&
-                    form.touched.topography
+                  form.touched.topography
               }
               errorText={
                 propertyType !== "Land Property"
@@ -569,8 +571,8 @@ const Properties = (props) => {
                     ? form.errors.rooms
                     : undefined
                   : form.touched.topography
-                  ? form.errors.topography
-                  : undefined
+                    ? form.errors.topography
+                    : undefined
               }
               onFocus={
                 propertyType !== "Land Property"

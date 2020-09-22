@@ -6,4 +6,6 @@ export default {
   GET_HOUSE: actionTypes("GET_HOUSE"),
   GET_SINGLE_HOUSE: actionTypes("GET_SINGLE_HOUSE"),
   GET_LANDS: actionTypes("GET_LANDS"),
+  DELETE_HOUSE: actionTypes("DELETE_HOUSE"),
+  EDIT_HOUSE: actionTypes("EDIT_HOUSE")
 };

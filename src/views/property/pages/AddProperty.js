@@ -26,6 +26,7 @@ const Properties = () => {
   const [state, setState] = useState();
   const [city, setCity] = useState();
   const [addressArray, setAddressArray] = useState();
+  const [installmentPlans, setInstallmemntPlans] = useState([])
   const [category, setCategory] = useState();
   const [subCategory, setSubCategory] = useState();
   const [ammenities, setAmmenities] = useState([]);
@@ -43,6 +44,8 @@ const Properties = () => {
   const [landCategories, setLandCategories] = useState([]);
 
   let history = useHistory();
+
+  console.log(installmentPlans)
 
   Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
   Geocode.setRegion("ng");
@@ -210,19 +213,22 @@ const Properties = () => {
       values.lat = latlng.lat;
       values.state = state;
       values.lga = city;
+      if (values.installment) {
+        values.plan_types = installmentPlans
+      }
       propertyType === "House Property"
         ? dispatch(createHouse(values)).then((res) => {
-            if (res) {
-              toastSuccess("Property Created Successfully");
-              history.push("/admin/properties");
-            }
-          })
+          if (res) {
+            toastSuccess("Property Created Successfully");
+            history.push("/admin/properties");
+          }
+        })
         : dispatch(createLand(values)).then((res) => {
-            if (res) {
-              history.push("/admin/properties");
-              toastSuccess("Property Created Successfully");
-            }
-          });
+          if (res) {
+            history.push("/admin/properties");
+            toastSuccess("Property Created Successfully");
+          }
+        });
     },
     validate,
     validateOnChange: true,
@@ -399,6 +405,73 @@ const Properties = () => {
             />
           </div>
           <div className="basic-info">
+            <CheckBox
+              label="1"
+              name="plan_types"
+              id="1"
+              value="1"
+              disabled={!form.values.installment}
+              onChange={(e) => {
+                e.target.checked ?
+                  setInstallmemntPlans(oldArray => [...oldArray, 1])
+                  :
+                  setInstallmemntPlans(installmentPlans.filter((item) => item !== 1))
+              }}
+            />
+            <CheckBox
+              label="2"
+              value="2"
+              name="plan_types"
+              id="2"
+              disabled={!form.values.installment}
+              onChange={(e) => {
+                e.target.checked ?
+                  setInstallmemntPlans(oldArray => [...oldArray, 2])
+                  :
+                  setInstallmemntPlans(installmentPlans.filter((item) => item !== 2))
+              }}
+            />
+            <CheckBox
+              label="3"
+              value="3"
+              name="plan_types"
+              id="3"
+              disabled={!form.values.installment}
+              onChange={(e) => {
+                e.target.checked ?
+                  setInstallmemntPlans(oldArray => [...oldArray, 3])
+                  :
+                  setInstallmemntPlans(installmentPlans.filter((item) => item !== 3))
+              }}
+            />
+            <CheckBox
+              label="4"
+              value="4"
+              name="plan_types"
+              id="4"
+              disabled={!form.values.installment}
+              onChange={(e) => {
+                e.target.checked ?
+                  setInstallmemntPlans(oldArray => [...oldArray, 4])
+                  :
+                  setInstallmemntPlans(installmentPlans.filter((item) => item !== 4))
+              }}
+            />
+            <CheckBox
+              label="5"
+              value="5"
+              name="plan_types"
+              id="5"
+              disabled={!form.values.installment}
+              onChange={(e) => {
+                e.target.checked ?
+                  setInstallmemntPlans(oldArray => [...oldArray, 5])
+                  :
+                  setInstallmemntPlans(installmentPlans.filter((item) => item !== 5))
+              }}
+            />
+          </div>
+          <div className="basic-info">
             <Input
               name="price"
               id="price"
@@ -497,8 +570,8 @@ const Properties = () => {
                     ? form.errors.rooms
                     : undefined
                   : form.touched.topography
-                  ? form.errors.topography
-                  : undefined
+                    ? form.errors.topography
+                    : undefined
               }
               onFocus={
                 propertyType !== "Land Property"
