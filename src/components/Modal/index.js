@@ -1,6 +1,6 @@
 import React from "react";
 import ReactModal from "react-modal";
-import { ReactComponent as CloseIcon } from "assets/img/close-icon-dark.svg";
+import { ReactComponent as CloseIcon } from "assets/img/delete.svg";
 import styled from "styled-components";
 import "./modal.css";
 

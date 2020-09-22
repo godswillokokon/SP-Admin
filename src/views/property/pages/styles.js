@@ -61,7 +61,6 @@ export const AddPropertyContainer = styled.div`
 
 export const PropertyCard = styled.div`
   flex: 0 0 33.333333%;
-  max-width: 33.333333%;
   padding-right: 10px;
   padding-left: 10px;
   cursor: pointer;
@@ -127,4 +126,12 @@ export const PropertyCard = styled.div`
     flex: 0 0 100%;
     max-width: 100%;
   }
+`;
+
+PropertyCard.Delete = styled.img`
+  display: ${({ showDelete }) => (showDelete ? "block" : "none")};
+  position: absolute;
+  height: 30px;
+  cursor: pointer;
+  z-index: 1;
 `;
